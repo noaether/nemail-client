@@ -28,7 +28,7 @@ public class ConsoleUI {
       columnWidths[i] = columnNames[i].length();
     }
     for (String[] row : data) {
-      for (int i = 0; i < row.length; i++) {
+      for (int i = 0; i < columnNames.length; i++) {
         if (row[i].length() > columnWidths[i]) {
           columnWidths[i] = row[i].length();
         }
@@ -49,7 +49,7 @@ public class ConsoleUI {
     System.out.println(separator);
     for (String[] row : data) {
       System.out.print("| ");
-      for (int i = 0; i < row.length; i++) {
+      for (int i = 0; i < columnNames.length; i++) {
         System.out.printf("%-" + columnWidths[i] + "s | ", row[i]);
       }
       System.out.println();

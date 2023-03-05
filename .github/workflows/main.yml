@@ -1,0 +1,19 @@
+# .github/workflows/netlify.yml
+name: Build and Deploy to Netlify
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://cdn.noae.ca/.netlify/functions/gitComment'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{ "commitId": ${{ github.sha }}, "GITHUB_REPOSITORY": "noaether/nemail-client, "GITHUB_TOKEN": ${{ secrets.GH_TOKEN }} "API_KEY": ${{ secrets.API_KEY }} }'
+      

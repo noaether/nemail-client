@@ -47,12 +47,14 @@ public class ConsoleUI {
     }
     System.out.println();
     System.out.println(separator);
+    int rowNumber = 1;
     for (String[] row : data) {
-      System.out.print("| ");
+      System.out.print(rowNumber + "| ");
       for (int i = 0; i < columnNames.length; i++) {
         System.out.printf("%-" + columnWidths[i] + "s | ", row[i]);
       }
       System.out.println();
+      rowNumber++;
     }
     System.out.println(separator);
   }

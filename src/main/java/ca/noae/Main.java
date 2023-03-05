@@ -61,10 +61,10 @@ public class Main {
                 List<String> latestBodies = Mailbox.getBodies();
 
                 boolean cleanQuit = false;
-                ConsoleUI.clearScreen();
-                ConsoleUI.createTable(new String[] { "Subject", "From", "Dates" }, latestMessages.toArray(new String[0][0]));
 
                 while (!cleanQuit) {
+                    ConsoleUI.clearScreen();
+                    ConsoleUI.createTable(new String[] { "Subject", "From", "Dates" }, latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
                     System.out.println("Select an option:");
                     System.out.println("1. Read");
@@ -76,12 +76,12 @@ public class Main {
 
                     switch (rrqOption) {
                         case 1:
-                            System.out.print("Enter the number of the message you want to read. Send q to quit: ");
-                            String read_messageOption = scanner.nextLine();
-                            if (read_messageOption.equals("q")) {
-                                System.exit(0);
+                            System.out.print("Enter the number of the message you want to read. Send -1 to quit: ");
+                            int read_messageOption = scanner.nextInt();
+                            if (read_messageOption  == -1) {
+                                cleanQuit = true;
                             }
-                            int read_messageSelection = Integer.parseInt(read_messageOption);
+                            int read_messageSelection = read_messageOption;
                             displayMessage(read_messageSelection, latestMessages);
 
                             // Go back to list of emails, reply, or quit
@@ -119,12 +119,12 @@ public class Main {
                             }
                             break;
                         case 2:
-                            System.out.print("Enter the number of the message you want to reply to. Send q to quit: ");
-                            String reply_messageOption = scanner.nextLine();
-                            if (reply_messageOption.equals("q")) {
+                            System.out.print("Enter the number of the message you want to reply to. Send -1 to quit: ");
+                            int reply_messageOption = scanner.nextInt();
+                            if (reply_messageOption  == -1) {
                                 cleanQuit = true;
                             }
-                            int reply_messageSelection = Integer.parseInt(reply_messageOption);
+                            int reply_messageSelection = reply_messageOption;
                             String reply_Reply = null;
                             System.out.println("Enter your reply: ");
                             while (true) {

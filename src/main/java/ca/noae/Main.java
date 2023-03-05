@@ -17,7 +17,7 @@ public class Main {
             String mailbox = "inbox";
 
             String smtpServerAddress;
-            String smtpServerPort = "465";
+            String smtpServerPort = "587";
             String imapServerAddress;
             String imapServerPort = "993";
             String popServerAddress;

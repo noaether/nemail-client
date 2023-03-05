@@ -38,6 +38,8 @@ public class Main {
                 case 3:
                     mailbox = "trash";
                     break;
+                case -1:
+                    System.exit(0);
                 default:
                     System.out.println("Invalid selection. Defaulting to inbox.");
                     mailbox = "inbox";
@@ -64,21 +66,20 @@ public class Main {
 
                 while (!cleanQuit) {
                     ConsoleUI.clearScreen();
-                    ConsoleUI.createTable(new String[] { "Subject", "From", "Dates" }, latestMessages.toArray(new String[0][0]));
+                    ConsoleUI.createTable(new String[] { "#", "Subject", "From", "Dates" },
+                            latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
                     System.out.println("Select an option:");
                     System.out.println("1. Read");
                     System.out.println("2. Reply");
-                    System.out.println("3. Quit");
-                    System.out.print("Enter your selection: ");
+                    System.out.print("Enter your selection. Enter -1 to quit at any time: ");
 
                     int rrqOption = scanner.nextInt();
-
                     switch (rrqOption) {
                         case 1:
-                            System.out.print("Enter the number of the message you want to read. Send -1 to quit: ");
+                            System.out.print("Enter the number of the message you want to read: ");
                             int read_messageOption = scanner.nextInt();
-                            if (read_messageOption  == -1) {
+                            if (read_messageOption == -1) {
                                 cleanQuit = true;
                             }
                             int read_messageSelection = read_messageOption;
@@ -88,7 +89,6 @@ public class Main {
                             System.out.println("Select an option:");
                             System.out.println("1. Go back to list of emails");
                             System.out.println("2. Reply");
-                            System.out.println("3. Quit");
                             System.out.print("Enter your selection: ");
                             int read_grpOption = scanner.nextInt();
 
@@ -109,7 +109,7 @@ public class Main {
                                             "RE: " + latestSubjects.get(read_messageSelection - 1), read_reply_Reply);
                                     break;
 
-                                case 3:
+                                case -1:
                                     // Quit
                                     cleanQuit = true;
                                     break;
@@ -119,9 +119,9 @@ public class Main {
                             }
                             break;
                         case 2:
-                            System.out.print("Enter the number of the message you want to reply to. Send -1 to quit: ");
+                            System.out.print("Enter the number of the message you want to reply to: ");
                             int reply_messageOption = scanner.nextInt();
-                            if (reply_messageOption  == -1) {
+                            if (reply_messageOption == -1) {
                                 cleanQuit = true;
                             }
                             int reply_messageSelection = reply_messageOption;
@@ -137,7 +137,7 @@ public class Main {
                             EmailClient.sendEmail(latestSenders.get(reply_messageSelection - 1), emailAddress,
                                     "RE: " + latestSubjects.get(reply_messageSelection - 1), reply_Reply);
                             break;
-                        case 3:
+                        case -1:
                             // Quit
                             cleanQuit = true;
                             break;
@@ -155,24 +155,13 @@ public class Main {
         }
     }
 
-    public static void displayLatestMessages(List<String[]> latestMessages) {
-        System.out.println("------------------------------------------------");
-        for (int i = 0; i < latestMessages.size(); i++) {
-            System.out.println("Message: " + (i + 1));
-            System.out.println("Subject: " + latestMessages.get(i)[0]);
-            System.out.println("From: " + latestMessages.get(i)[1]);
-            System.out.println("Date: " + latestMessages.get(i)[2]);
-            System.out.println("------------------------------------------------");
-        }
-    }
-
     public static void displayMessage(int messageSelection, List<String[]> latestMessages) throws MessagingException {
         System.out.println("------------------------------------------------");
         System.out.println("Message: " + messageSelection);
-        System.out.println("Subject: " + latestMessages.get(messageSelection - 1)[0]);
-        System.out.println("From: " + latestMessages.get(messageSelection - 1)[1]);
-        System.out.println("Date: " + latestMessages.get(messageSelection - 1)[2]);
-        System.out.println("Body: " + latestMessages.get(messageSelection - 1)[3]);
+        System.out.println("Subject: " + latestMessages.get(messageSelection - 1)[1]);
+        System.out.println("From: " + latestMessages.get(messageSelection - 1)[2]);
+        System.out.println("Date: " + latestMessages.get(messageSelection - 1)[3]);
+        System.out.println("Body: " + latestMessages.get(messageSelection - 1)[4]);
         System.out.println("------------------------------------------------");
     }
 }

@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.Connections;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;

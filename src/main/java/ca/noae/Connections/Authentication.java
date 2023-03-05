@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.Connections;
 
 import java.io.IOException;
 import java.util.Properties;

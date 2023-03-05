@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.Actions;
 
 import java.util.ArrayList;
 import java.util.List;

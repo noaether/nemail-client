@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.User;
 
 public class Utils {
   

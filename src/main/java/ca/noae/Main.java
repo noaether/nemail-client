@@ -9,6 +9,12 @@ import javax.mail.MessagingException;
 import javax.mail.Store;
 import javax.mail.Transport;
 
+import ca.noae.Actions.EmailClient;
+import ca.noae.Actions.Mailbox;
+import ca.noae.Connections.Authentication;
+import ca.noae.Connections.EmailServerFinder;
+import ca.noae.User.ConsoleUI;
+
 public class Main {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {

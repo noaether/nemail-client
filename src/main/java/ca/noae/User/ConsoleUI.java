@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.User;
 
 import java.io.IOException;
 import java.util.List;

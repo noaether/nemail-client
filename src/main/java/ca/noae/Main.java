@@ -1,5 +1,6 @@
 package ca.noae;
 
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,11 +16,43 @@ public class Main {
             String emailAddress = null;
             String mailbox = "inbox";
 
+            String smtpServerAddress;
+            String smtpServerPort = "465";
+            String imapServerAddress;
+            String imapServerPort = "993";
+            String popServerAddress;
+            String popServerPort = "995";
+
             // Prompt the user for their email credentials
             System.out.print("Enter your email address: ");
             emailAddress = scanner.nextLine();
             System.out.print("Enter your password: ");
             password = scanner.nextLine();
+
+            try {
+                String[] servers = EmailServerFinder.check(emailAddress);
+                smtpServerAddress = servers[0];
+                imapServerAddress = servers[1];
+                popServerAddress = servers[2];
+            } catch(UnknownHostException e) {
+                System.out.println("Enter SMTP server address and port [smtp.yourdomain.com:587]: ");
+                String smtpServer = scanner.nextLine();
+                String[] smtpServerSplit = smtpServer.split(":");
+                smtpServerAddress = smtpServerSplit[0];
+                smtpServerPort = smtpServerSplit[1];
+
+                System.out.println("Enter IMAP server address and port [imap.yourdomain.com:993]: ");
+                String imapServer = scanner.nextLine();
+                String[] imapServerSplit = imapServer.split(":");
+                imapServerAddress = imapServerSplit[0];
+                imapServerPort = imapServerSplit[1];
+
+                System.out.println("Enter POP3 server address and port [pop.yourdomain.com:995]: ");
+                String popServer = scanner.nextLine();
+                String[] popServerSplit = popServer.split(":");
+                popServerAddress = popServerSplit[0];
+                popServerPort = popServerSplit[1];
+            }
 
             // Prompt the user for the mailbox they want to access
             System.out.println("Select a mailbox:");
@@ -45,16 +78,26 @@ public class Main {
                     mailbox = "inbox";
                     break;
             }
-            new Authentication("smtp.migadu.com", "465", "pop.migadu.com", "995", "imap.migadu.com", "993",
+            new Authentication(smtpServerAddress, smtpServerPort, popServerAddress, popServerPort, imapServerAddress, imapServerPort,
                     emailAddress, password);
 
             // Authenticate the user's credentials
             try {
                 Transport smtpTransport = Authentication.getSMTPTransport();
                 System.out.println(smtpTransport);
-                Store imapStore = Authentication.getIMAPStore();
-                System.out.println(imapStore);
-                new Mailbox(imapStore);
+                Store finalStore = null;
+                try {
+                    finalStore = Authentication.getIMAPStore();
+                } catch (Exception e) {
+                    try {
+                        finalStore = Authentication.getPOP3Store();
+                    } catch (Exception e1) {
+                        System.out.println("Unable to connect to the server. Please try again later.");
+                        System.exit(0);
+                    }
+                };
+                System.out.println(finalStore);
+                new Mailbox(finalStore);
                 new EmailClient(smtpTransport);
                 List<String[]> latestMessages = Mailbox.getLatestMessages(mailbox);
                 List<String> latestSubjects = Mailbox.getSubjects();
@@ -147,7 +190,7 @@ public class Main {
                     }
                 }
 
-                imapStore.close();
+                finalStore.close();
             } catch (Exception e) {
                 System.out.println("Authentication failed.");
                 e.printStackTrace();

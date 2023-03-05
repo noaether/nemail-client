@@ -14,9 +14,9 @@ public class EmailServerFinder {
 
   static {
     EMAIL_PROVIDERS.put("gmail.com", new String[] { "smtp.gmail.com", "imap.gmail.com" });
-    EMAIL_PROVIDERS.put("outlook.com", new String[] { "smtp-mail.outlook.com", "imap-mail.outlook.com" });
+    EMAIL_PROVIDERS.put("outlook.com", new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
     EMAIL_PROVIDERS.put("yahoo.com", new String[] { "smtp.mail.yahoo.com", "imap.mail.yahoo.com" });
-    EMAIL_PROVIDERS.put("hotmail.com", new String[] { "smtp.live.com", "imap-mail.outlook.com" });
+    EMAIL_PROVIDERS.put("hotmail.com", new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
     EMAIL_PROVIDERS.put("noae.ca", new String[] { "smtp.migadu.com", "imap.migadu.com" });
   }
 

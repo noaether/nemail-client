@@ -14,7 +14,6 @@ public class Main {
             String password = null;
             String emailAddress = null;
             String mailbox = "inbox";
-            String reply = null;
 
             // Prompt the user for their email credentials
             System.out.print("Enter your email address: ");
@@ -61,50 +60,94 @@ public class Main {
                 List<String> latestDates = Mailbox.getDates();
                 List<String> latestBodies = Mailbox.getBodies();
 
-                // Display the latest messages
-                displayLatestMessages(latestMessages);
-                // Prompt the user for the message they want to read
-                System.out.print("Enter the number of the message you want to read: ");
-                int messageSelection = scanner.nextInt();
-                displayMessage(messageSelection, latestMessages);
+                boolean cleanQuit = false;
+                ConsoleUI.clearScreen();
+                ConsoleUI.createTable(new String[] { "Subject", "From", "Dates" }, latestMessages.toArray(new String[0][0]));
 
-                // Go back to list of emails, reply, or quit
-                System.out.println("Select an option:");
-                System.out.println("1. Go back to list of emails");
-                System.out.println("2. Reply");
-                System.out.println("3. Quit");
-                System.out.print("Enter your selection: ");
-                int optionSelection = scanner.nextInt();
+                while (!cleanQuit) {
+                    // Ask for read, reply or quit
+                    System.out.println("Select an option:");
+                    System.out.println("1. Read");
+                    System.out.println("2. Reply");
+                    System.out.println("3. Quit");
+                    System.out.print("Enter your selection: ");
 
-                switch (optionSelection) {
-                    case 1:
-                        // Go back to list of emails
-                        break;
-                    case 2:
-                        System.out.println("Enter your reply: ");
-                        while (true) {
-                            reply = scanner.nextLine();
-                            if (!reply.isEmpty()) {
-                                break;
+                    int rrqOption = scanner.nextInt();
+
+                    switch (rrqOption) {
+                        case 1:
+                            System.out.print("Enter the number of the message you want to read. Send q to quit: ");
+                            String read_messageOption = scanner.nextLine();
+                            if (read_messageOption.equals("q")) {
+                                System.exit(0);
                             }
-                        }
+                            int read_messageSelection = Integer.parseInt(read_messageOption);
+                            displayMessage(read_messageSelection, latestMessages);
 
-                        // Send the email
-                        EmailClient.sendEmail(latestSenders.get(messageSelection - 1), emailAddress,
-                                "RE: " + latestSubjects.get(messageSelection - 1), reply);
-                        break;
+                            // Go back to list of emails, reply, or quit
+                            System.out.println("Select an option:");
+                            System.out.println("1. Go back to list of emails");
+                            System.out.println("2. Reply");
+                            System.out.println("3. Quit");
+                            System.out.print("Enter your selection: ");
+                            int read_grpOption = scanner.nextInt();
 
-                    case 3:
-                        // Quit
-                        System.exit(0);
-                        break;
-                    default:
-                        System.out.println("Invalid selection. Defaulting to inbox.");
-                        break;
+                            switch (read_grpOption) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    String read_reply_Reply = null;
+                                    System.out.println("Enter your reply: ");
+                                    while (true) {
+                                        read_reply_Reply = scanner.nextLine();
+                                        if (!read_reply_Reply.isEmpty()) {
+                                            break;
+                                        }
+                                    }
+                                    // Send the email
+                                    EmailClient.sendEmail(latestSenders.get(read_messageSelection - 1), emailAddress,
+                                            "RE: " + latestSubjects.get(read_messageSelection - 1), read_reply_Reply);
+                                    break;
+
+                                case 3:
+                                    // Quit
+                                    cleanQuit = true;
+                                    break;
+                                default:
+                                    System.out.println("Invalid selection. Defaulting to inbox.");
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            System.out.print("Enter the number of the message you want to reply to. Send q to quit: ");
+                            String reply_messageOption = scanner.nextLine();
+                            if (reply_messageOption.equals("q")) {
+                                cleanQuit = true;
+                            }
+                            int reply_messageSelection = Integer.parseInt(reply_messageOption);
+                            String reply_Reply = null;
+                            System.out.println("Enter your reply: ");
+                            while (true) {
+                                reply_Reply = scanner.nextLine();
+                                if (!reply_Reply.isEmpty()) {
+                                    break;
+                                }
+                            }
+                            // Send the email
+                            EmailClient.sendEmail(latestSenders.get(reply_messageSelection - 1), emailAddress,
+                                    "RE: " + latestSubjects.get(reply_messageSelection - 1), reply_Reply);
+                            break;
+                        case 3:
+                            // Quit
+                            cleanQuit = true;
+                            break;
+                        default:
+                            System.out.println("Invalid selection. Defaulting to inbox.");
+                            break;
+                    }
                 }
 
                 imapStore.close();
-                System.out.println("Authentication successful!");
             } catch (Exception e) {
                 System.out.println("Authentication failed.");
                 e.printStackTrace();

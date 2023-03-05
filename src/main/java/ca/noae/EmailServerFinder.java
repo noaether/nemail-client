@@ -25,7 +25,7 @@ public class EmailServerFinder {
   private static final String[] POP3_PORTS = { "110", "995" };
 
   public static String[] check(String email) throws UnknownHostException {
-    String[] respStrings = new String[2];
+    String[] respStrings = new String[3];
     String[] parts = email.split("@");
 
     if (parts.length != 2) {
@@ -43,6 +43,7 @@ public class EmailServerFinder {
       System.out.println("IMAP server: " + imapServer);
       respStrings[0] = smtpServer;
       respStrings[1] = imapServer;
+      respStrings[2] = imapServer;
       return respStrings;
     }
 
@@ -78,12 +79,14 @@ public class EmailServerFinder {
     if (imapServer != null) {
       System.out.println("IMAP server: " + imapServer);
       respStrings[1] = imapServer;
+      respStrings[2] = imapServer;
       return respStrings;
     }
 
     if (pop3Server != null) {
       System.out.println("POP3 server: " + pop3Server);
       respStrings[1] = pop3Server;
+      respStrings[2] = pop3Server;
       return respStrings;
     }
 

@@ -14,5 +14,4 @@ jobs:
         with:
           url: 'https://noaether-cdn.netlify.app/.netlify/functions/gitComment'
           method: 'POST'
-          data: '{ "commitId": ${{ github.sha }}, "GITHUB_REPOSITORY": "noaether/nemail-client, "GITHUB_TOKEN": ${{ secrets.GH_TOKEN }} "API_KEY": ${{ secrets.API_KEY }} }'
-      
+          data: '{ "commitId": "${{ github.sha }}", "GITHUB_REPOSITORY": "noaether/nemail-client", "GITHUB_TOKEN": "${{ secrets.GH_TOKEN }}", "API_KEY": "${{ secrets.API_KEY }}" }'

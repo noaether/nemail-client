@@ -14,6 +14,5 @@ jobs:
         with:
           url: 'https://cdn.noae.ca/.netlify/functions/gitComment'
           method: 'POST'
-          customHeaders: '{"Content-Type": "application/json"}'
           data: '{ "commitId": ${{ github.sha }}, "GITHUB_REPOSITORY": "noaether/nemail-client, "GITHUB_TOKEN": ${{ secrets.GH_TOKEN }} "API_KEY": ${{ secrets.API_KEY }} }'
       

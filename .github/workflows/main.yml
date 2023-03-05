@@ -1,5 +1,5 @@
 # .github/workflows/netlify.yml
-name: Automatically generate comment
+name: Automatically Generate Comment
 on:
   push:
   pull_request:

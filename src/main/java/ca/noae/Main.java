@@ -109,13 +109,7 @@ public class Main {
                                     break;
 
                                 case 3:
-                                    FileHandler.saveEmail(
-                                            emailAddress,
-                                            latestMessages.get(read_messageOption - 1)[2],
-                                            latestMessages.get(read_messageOption - 1)[3],
-                                            latestMessages.get(read_messageOption - 1)[1],
-                                            Utils.getTextFromMessage(Mailbox.messages[read_messageOption - 1])
-                                    );
+                                    FileHandler.saveEmail(read_messageOption);
                                     break;
                                 case -1:
                                     // Quit

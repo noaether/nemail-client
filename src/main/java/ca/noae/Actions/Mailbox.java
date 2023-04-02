@@ -5,12 +5,14 @@ import java.util.List;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class Mailbox {
+public final class Mailbox {
 
   private static final int MAX_MESSAGES = 25;
 
   private static Store store;
   public static Folder inbox;
+
+  public static Message[] messages;
   public static List<String[]> latestMessages = new ArrayList<>();
 
   public Mailbox(Store store) {
@@ -20,8 +22,8 @@ public class Mailbox {
   public static List<String[]> getLatestMessages(String mailbox)
       throws Exception {
 
-    Boolean exists = store.getFolder(mailbox).exists();
-    if (exists == false) {
+    boolean exists = store.getFolder(mailbox).exists();
+    if (!exists) {
       throw new FolderNotFoundException(store.getFolder(mailbox), "Mailbox does not exist");
     }
 
@@ -30,7 +32,7 @@ public class Mailbox {
 
     int messageCount = inbox.getMessageCount();
     int start = Math.max(1, messageCount - MAX_MESSAGES + 1);
-    Message[] messages = inbox.getMessages(start, messageCount);
+    messages = inbox.getMessages(start, messageCount);
 
     System.out.println("Total Messages:- " + messageCount);
     System.out.println("------------------------------");

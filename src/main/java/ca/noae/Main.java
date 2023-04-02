@@ -116,6 +116,7 @@ public class Main {
                                             latestMessages.get(read_messageOption - 1)[1],
                                             Utils.getTextFromMessage(Mailbox.messages[read_messageOption - 1])
                                     );
+                                    break;
                                 case -1:
                                     // Quit
                                     cleanQuit = true;

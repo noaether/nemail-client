@@ -6,7 +6,7 @@ import java.io.IOException;  // Import the IOException class to handle errors
 public class FileHandler {
     public static void saveEmail(String to, String from, String date, String subject, String body) {
         try {
-            FileWriter emailFile = new FileWriter(subject + ".txt");
+            FileWriter emailFile = new FileWriter(subject + ".save");
 
             emailFile.write("To: " + to + "\n");
             emailFile.write("From: " + from + "\n");

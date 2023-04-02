@@ -42,4 +42,4 @@ hs_err_pid*
 replay_pid*
 /app.config
 
-*.save
+*.eml

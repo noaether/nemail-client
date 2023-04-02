@@ -13,6 +13,7 @@ import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
 
 import ca.noae.Actions.EmailClient;
+import ca.noae.Actions.FileHandler;
 import ca.noae.Actions.Login;
 import ca.noae.Actions.Mailbox;
 import ca.noae.Connections.Authentication;
@@ -90,6 +91,7 @@ public class Main {
                             System.out.println("Select an option:");
                             System.out.println("1. Go back to list of emails");
                             System.out.println("2. Reply");
+                            System.out.println("3. Save to file");
                             System.out.print("Enter your selection: ");
                             int read_grpOption = scanner.nextInt();
                             switch (read_grpOption) {
@@ -106,6 +108,14 @@ public class Main {
                                             "RE: " + latestSubjects.get(read_messageOption - 1), read_reply_Reply);
                                     break;
 
+                                case 3:
+                                    FileHandler.saveEmail(
+                                            emailAddress,
+                                            latestMessages.get(read_messageOption - 1)[2],
+                                            latestMessages.get(read_messageOption - 1)[3],
+                                            latestMessages.get(read_messageOption - 1)[1],
+                                            Utils.getTextFromMessage(Mailbox.messages[read_messageOption - 1])
+                                    );
                                 case -1:
                                     // Quit
                                     cleanQuit = true;

@@ -34,7 +34,7 @@ public final class Mailbox {
     int start = Math.max(1, messageCount - MAX_MESSAGES + 1);
     messages = inbox.getMessages(start, messageCount);
 
-    System.out.println("Total Messages:- " + messageCount);
+    System.out.println("Total Messages: " + messageCount);
     System.out.println("------------------------------");
     System.out.println("Showing messages " + start + " to " + messageCount);
     int messageNo = 1;

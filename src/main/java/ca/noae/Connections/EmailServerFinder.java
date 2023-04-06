@@ -1,28 +1,33 @@
 package ca.noae.Connections;
 
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 public class EmailServerFinder {
   private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
 
   static {
-    EMAIL_PROVIDERS.put("gmail.com", new String[] { "smtp.gmail.com", "imap.gmail.com" });
-    EMAIL_PROVIDERS.put("outlook.com", new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
-    EMAIL_PROVIDERS.put("yahoo.com", new String[] { "smtp.mail.yahoo.com", "imap.mail.yahoo.com" });
-    EMAIL_PROVIDERS.put("hotmail.com", new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
-    EMAIL_PROVIDERS.put("noae.ca", new String[] { "smtp.migadu.com", "imap.migadu.com" });
+    EMAIL_PROVIDERS.put(
+        "gmail.com", new String[] {"smtp.gmail.com", "imap.gmail.com"});
+    EMAIL_PROVIDERS.put("outlook.com",
+        new String[] {"smtp-mail.outlook.com", "outlook.office365.com"});
+    EMAIL_PROVIDERS.put("yahoo.com",
+        new String[] {"smtp.mail.yahoo.com", "imap.mail.yahoo.com"});
+    EMAIL_PROVIDERS.put("hotmail.com",
+        new String[] {"smtp-mail.outlook.com", "outlook.office365.com"});
+    EMAIL_PROVIDERS.put(
+        "noae.ca", new String[] {"smtp.migadu.com", "imap.migadu.com"});
   }
 
-  private static final String[] SMTP_PORTS = { "25", "465", "587" };
-  private static final String[] IMAP_PORTS = { "143", "993" };
-  private static final String[] POP3_PORTS = { "110", "995" };
+  private static final String[] SMTP_PORTS = {"25", "465", "587"};
+  private static final String[] IMAP_PORTS = {"143", "993"};
+  private static final String[] POP3_PORTS = {"110", "995"};
 
   public static String[] check(String email) throws UnknownHostException {
     String[] respStrings = new String[3];
@@ -48,8 +53,9 @@ public class EmailServerFinder {
     }
 
     // Guess hostnames
-    String[] possibleSMTPHosts = { "smtp." + domain, "mail." + domain };
-    String[] possibleIMAPHosts = { "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain };
+    String[] possibleSMTPHosts = {"smtp." + domain, "mail." + domain};
+    String[] possibleIMAPHosts = {
+        "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain};
 
     // Probe known ports
     String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS);
@@ -91,7 +97,6 @@ public class EmailServerFinder {
     }
 
     throw new UnknownHostException("IMAP and POP3 servers not found.");
-
   }
 
   public static String probePorts(String[] possibleHosts, String[] ports) {
@@ -99,7 +104,8 @@ public class EmailServerFinder {
       for (String port : ports) {
         try {
           Socket socket = new Socket();
-          socket.connect(new InetSocketAddress(host, Integer.parseInt(port)), 1000);
+          socket.connect(
+              new InetSocketAddress(host, Integer.parseInt(port)), 1000);
           socket.close();
           return host;
         } catch (IOException ignored) {
@@ -110,46 +116,54 @@ public class EmailServerFinder {
     return null;
   }
 
-  public static String probeCapabilities(String[] possibleHosts, String[] ports, String protocol) {
+  public static String probeCapabilities(
+      String[] possibleHosts, String[] ports, String protocol) {
     for (String host : possibleHosts) {
       for (String port : ports) {
         try {
           Socket socket = new Socket();
-          socket.connect(new InetSocketAddress(host, Integer.parseInt(port)), 1000);
-
-          if (protocol.equals("IMAP")) {
-            socket.getOutputStream().write("a001 CAPABILITY\r\n".getBytes());
-          } else if (protocol.equals("SMTP")) {
-            socket.getOutputStream().write("EHLO localhost\r\n".getBytes());
-          } else if (protocol.equals("POP3")) {
-            socket.getOutputStream().write("CAPA\r\n".getBytes());
-          }
-
-          byte[] buffer = new byte[1048];
-          int length = socket.getInputStream().read(buffer);
-          String response = new String(buffer, 0, length);
-
+          socket.connect(
+              new InetSocketAddress(host, Integer.parseInt(port)), 1000);
+          String command = getCommand(protocol);
+          if (command != null) {
+            socket.getOutputStream().write(command.getBytes());
+            byte[] buffer = new byte[1048];
+            int length = socket.getInputStream().read(buffer);
+            String response = new String(buffer, 0, length);
             socket.close();
-
-            if (protocol.equals("IMAP")) {
-              if (response.contains("IMAP4rev1") || response.contains("IMAP4") || response.contains("IMAP") || response.contains("OK")) {
-                return host;
-              }
-            } else if (protocol.equals("SMTP")) {
-              if (response.contains("250-STARTTLS") || response.contains("250 STARTTLS") || response.contains("220") || response.contains("ESMTP MAIL")) {
-                return host;
-              }
-            } else if (protocol.equals("POP3")) {
-              if (response.contains("STLS") || response.contains("OK")) {
-                return host;
-              }
+            if (checkResponse(protocol, response)) {
+              return host;
             }
+          }
         } catch (IOException ignored) {
         }
       }
     }
-
     return null;
   }
 
+  private static String getCommand(String protocol) {
+    if (protocol.equals("IMAP")) {
+      return "a001 CAPABILITY\r\n";
+    } else if (protocol.equals("SMTP")) {
+      return "EHLO localhost\r\n";
+    } else if (protocol.equals("POP3")) {
+      return "CAPA\r\n";
+    }
+    return null;
+  }
+
+  private static boolean checkResponse(String protocol, String response) {
+    if (protocol.equals("IMAP")) {
+      return response.contains("IMAP4rev1") || response.contains("IMAP4")
+          || response.contains("IMAP") || response.contains("OK");
+    } else if (protocol.equals("SMTP")) {
+      return response.contains("250-STARTTLS")
+          || response.contains("250 STARTTLS") || response.contains("220")
+          || response.contains("ESMTP MAIL");
+    } else if (protocol.equals("POP3")) {
+      return response.contains("STLS") || response.contains("OK");
+    }
+    return false;
+  }
 }

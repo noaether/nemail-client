@@ -47,19 +47,10 @@ public class Main {
             // Authenticate the user's credentials
             try {
                 Transport smtpTransport = Authentication.getSMTPTransport();
-                System.out.println(smtpTransport);
-                Store finalStore = null;
-                try {
-                    finalStore = Authentication.getIMAPStore();
-                } catch (Exception e) {
-                    try {
-                        finalStore = Authentication.getPOP3Store();
-                    } catch (Exception e1) {
-                        System.out.println("Unable to connect to the server. Please try again later.");
-                        System.exit(0);
-                    }
-                }
-                System.out.println(finalStore);
+                // System.out.println(smtpTransport); TODO : Implement verbose mode
+                
+                Store finalStore = getStore()
+                    
                 new Mailbox(finalStore);
                 new EmailClient(smtpTransport);
                 List<String[]> latestMessages = Mailbox.getLatestMessages(mailbox);
@@ -68,34 +59,32 @@ public class Main {
                 // List<String> latestDates = Mailbox.getDates();
                 // List<String> latestBodies = Mailbox.getBodies();
 
-                boolean cleanQuit = false;
+                int cleanQuit = false;
 
-                while (!cleanQuit) {
+                while (cleanQuit != -1) {
                     ConsoleUI.clearScreen();
                     ConsoleUI.createTable(new String[] { "#", "Subject", "From", "Dates" },
                             latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
-                    System.out.println("Select an option:");
-                    System.out.println("1. Read");
-                    System.out.println("2. Reply");
-                    System.out.print("Enter your selection. Enter -1 to quit at any time: ");
+                    System.out.print("Select an option: " + \n + 
+                            "1. Read" + \n + "2. Reply" + \n + 
+                            "Enter your selection. Enter -1 to quit at any time: ");
 
                     int rrqOption = scanner.nextInt();
                     switch (rrqOption) {
                         case 1 -> {
                             System.out.print("Enter the number of the message you want to read: ");
-                            int read_messageOption = scanner.nextInt();
-                            if (read_messageOption == -1) {
-                                cleanQuit = true;
-                            }
+                            int read_messageOption = scanner.nextInt() - 1;
+                            cleanQuit = read_messageOption + 1;
                             Utils.displayMessage(read_messageOption, latestMessages);
 
                             // Go back to list of emails, reply, or quit
-                            System.out.println("Select an option:");
-                            System.out.println("1. Go back to list of emails");
-                            System.out.println("2. Reply");
-                            System.out.println("3. Save to file");
-                            System.out.print("Enter your selection: ");
+                            System.out.print("Select an option:" + \n
+                                    "1. Go back to list of emails" + \n
+                                    "2. Reply" + \n
+                                    "3. Save to file" + \n
+                                    "Enter your selection: "
+                                    );
                             int read_grpOption = scanner.nextInt();
                             switch (read_grpOption) {
                                 case 1:
@@ -107,12 +96,12 @@ public class Main {
                                         read_reply_Reply = scanner.nextLine();
                                     } while (read_reply_Reply.isEmpty());
                                     // Send the email
-                                    EmailClient.sendEmail(latestSenders.get(read_messageOption - 1), emailAddress,
-                                            "RE: " + latestSubjects.get(read_messageOption - 1), read_reply_Reply);
+                                    EmailClient.sendEmail(latestSenders.get(read_messageOption), emailAddress,
+                                            "RE: " + latestSubjects.get(read_messageOption), read_reply_Reply);
                                     break;
 
                                 case 3:
-                                    FileHandler.saveEmail(read_messageOption);
+                                    FileHandler.saveEmail(read_messageOption + 1);
                                     break;
                                 case -1:
                                     // Quit

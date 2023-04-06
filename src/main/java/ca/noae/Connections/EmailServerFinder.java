@@ -90,14 +90,11 @@ public class EmailServerFinder {
       return respStrings;
     }
 
-    if(imapServer == null && pop3Server == null){
-      throw new UnknownHostException("IMAP and POP3 servers not found.");
-    }
+    throw new UnknownHostException("IMAP and POP3 servers not found.");
 
-    return respStrings;
   }
 
-  private static String probePorts(String[] possibleHosts, String[] ports) {
+  public static String probePorts(String[] possibleHosts, String[] ports) {
     for (String host : possibleHosts) {
       for (String port : ports) {
         try {
@@ -113,7 +110,7 @@ public class EmailServerFinder {
     return null;
   }
 
-  private static String probeCapabilities(String[] possibleHosts, String[] ports, String protocol) {
+  public static String probeCapabilities(String[] possibleHosts, String[] ports, String protocol) {
     for (String host : possibleHosts) {
       for (String port : ports) {
         try {
@@ -128,16 +125,25 @@ public class EmailServerFinder {
             socket.getOutputStream().write("CAPA\r\n".getBytes());
           }
 
-          byte[] buffer = new byte[1024];
+          byte[] buffer = new byte[1048];
           int length = socket.getInputStream().read(buffer);
           String response = new String(buffer, 0, length);
 
-          if (response.contains("STARTTLS") || response.contains("AUTH")) {
             socket.close();
-            return host;
-          }
 
-          socket.close();
+            if (protocol.equals("IMAP")) {
+              if (response.contains("IMAP4rev1") || response.contains("IMAP4") || response.contains("IMAP") || response.contains("OK")) {
+                return host;
+              }
+            } else if (protocol.equals("SMTP")) {
+              if (response.contains("250-STARTTLS") || response.contains("250 STARTTLS") || response.contains("220") || response.contains("ESMTP MAIL")) {
+                return host;
+              }
+            } else if (protocol.equals("POP3")) {
+              if (response.contains("STLS") || response.contains("OK")) {
+                return host;
+              }
+            }
         } catch (IOException ignored) {
         }
       }

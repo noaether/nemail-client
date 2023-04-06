@@ -22,6 +22,9 @@ import ca.noae.User.ConsoleUI;
 import ca.noae.User.Utils;
 
 public class Main {
+
+//  TODO : Isolate different parts into methods
+    
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             String[] loginDetails = Login.startAuthentication(scanner);

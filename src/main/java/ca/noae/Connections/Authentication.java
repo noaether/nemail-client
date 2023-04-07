@@ -124,4 +124,19 @@ public class Authentication {
       }
     }
   }
+
+  public static Store getStore() throws Exception { /* TODO : Implement error throwing */
+    Store finalStore = null;
+    try {
+      finalStore = getIMAPStore();
+    } catch (Exception noImap) {
+      try {
+        finalStore = getPOP3Store();
+      } catch (Exception e) {
+        System.out.println("Unable to connect to server. Please try again later.");
+        System.exit(0);
+      }
+    }
+    return finalStore;
+  }
 }

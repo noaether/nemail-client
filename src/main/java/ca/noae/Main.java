@@ -49,7 +49,7 @@ public class Main {
                 Transport smtpTransport = Authentication.getSMTPTransport();
                 // System.out.println(smtpTransport); TODO : Implement verbose mode
                 
-                Store finalStore = getStore()
+                Store finalStore = Authentication.getStore()
                     
                 new Mailbox(finalStore);
                 new EmailClient(smtpTransport);

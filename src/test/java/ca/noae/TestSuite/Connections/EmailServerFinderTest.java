@@ -1,4 +1,4 @@
-package ca.noae;
+package ca.noae.TestSuite.Connections;
 
 import ca.noae.Connections.EmailServerFinder;
 import org.junit.Test;
@@ -6,10 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
-class EmailServerFinderTest {
+public class EmailServerFinderTest {
 
     @Test
-    void testCheckValidEmail() throws Exception {
+    public void testCheckValidEmail() throws Exception {
         String email = "john.doe@gmail.com";
         String[] servers = EmailServerFinder.check(email);
         assertNotNull(servers[0]);
@@ -18,7 +18,7 @@ class EmailServerFinderTest {
     }
 
     @Test
-    void testCheckInvalidEmail() {
+    public void testCheckInvalidEmail() {
         String email = "invalid-email";
         assertThrows(IllegalArgumentException.class, () -> {
             EmailServerFinder.check(email);
@@ -26,7 +26,7 @@ class EmailServerFinderTest {
     }
 
     @Test
-    void testProbePorts() {
+    public void testProbePorts() {
         String[] possibleHosts = {"mail.migadu.com", "smtp.migadu.com"};
         String[] ports = {"25", "465", "587"};
         String result = EmailServerFinder.probePorts(possibleHosts, ports);
@@ -34,7 +34,7 @@ class EmailServerFinderTest {
     }
 
     @Test
-    void testProbeCapabilitiesSMTP() {
+    public void testProbeCapabilitiesSMTP() {
         String[] possibleHosts = {"smtp-mail.outlook.com"};
         String[] ports = {"25", "465", "587" };
         String protocol = "SMTP";
@@ -44,7 +44,7 @@ class EmailServerFinderTest {
     }
 
     @Test
-    void testProbeCapabilitiesIMAP() {
+    public void testProbeCapabilitiesIMAP() {
         String[] possibleHosts = {"imap-mail.outlook.com"};
         String[] ports = {"143", "993"};
         String protocol = "IMAP";
@@ -54,7 +54,7 @@ class EmailServerFinderTest {
     }
 
     @Test
-    void testProbeCapabilitiesPOP3() {
+    public void testProbeCapabilitiesPOP3() {
         String[] possibleHosts = {"pop-mail.outlook.com"};
         String[] ports = {"110", "995"};
         String protocol = "POP3";

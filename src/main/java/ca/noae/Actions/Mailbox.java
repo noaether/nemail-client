@@ -2,23 +2,55 @@ package ca.noae.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.mail.*;
+
+import javax.mail.Folder;
+import javax.mail.FolderNotFoundException;
+import javax.mail.Message;
+import javax.mail.Store;
 
 public final class Mailbox {
-
-  private static final int MAX_MESSAGES = 25;
-
-  private static Store store;
-  public static Folder inbox;
-
-  public static Message[] messages;
-  public static List<String[]> latestMessages = new ArrayList<>();
-
-  public Mailbox(Store store) {
-    Mailbox.store = store;
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private Mailbox() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }
 
-  public static List<String[]> getLatestMessages(String mailbox)
+  /**
+   * The maximum number of messages to retrieve from the mail server.
+   */
+  private static final int MAX_MESSAGES = 25;
+
+  /**
+   *
+   * The inbox folder for the currently authenticated email account.
+   */
+  private static Folder inbox;
+
+  /**
+   * The messages retrieved from the mail server.
+   */
+  private static Message[] messages;
+
+  /**
+   * The latest messages retrieved from the mail server.
+   */
+  private static List<String[]> latestMessages = new ArrayList<>();
+
+  /**
+   * Retrieves the latest messages from the specified mailbox and returns them as
+   * a List of String arrays.
+   *
+   * @param mailbox the name of the mailbox to retrieve messages from
+   * @param store   the Store object to use to retrieve messages
+   * @return a List of String arrays containing message information, including
+   *         message number, subject, sender, date, and content
+   * @throws Exception if the specified mailbox does not exist or there is an
+   *                   error while retrieving messages
+   */
+  public static List<String[]> getLatestMessages(final String mailbox, final Store store)
       throws Exception {
 
     boolean exists = store.getFolder(mailbox).exists();
@@ -38,14 +70,22 @@ public final class Mailbox {
     System.out.println("Showing messages " + start + " to " + messageCount);
     int messageNo = 1;
     for (Message message : messages) {
-      latestMessages.add(new String[] { String.valueOf(messageNo), message.getSubject(),
-          message.getFrom()[0].toString(), message.getSentDate().toString(), message.getContent().toString() });
+      latestMessages.add(new String[] {
+          String.valueOf(messageNo), message.getSubject(),
+          message.getFrom()[0].toString(), message.getSentDate().toString(), message.getContent().toString()
+      });
       messageNo++;
     }
 
     return latestMessages;
   }
 
+  /**
+   * Retrieves the subjects of the latest messages and returns them as a List of
+   * Strings.
+   *
+   * @return a List of Strings containing the subjects of the latest messages
+   */
   public static List<String> getSubjects() {
     List<String> subjects = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
@@ -54,6 +94,12 @@ public final class Mailbox {
     return subjects;
   }
 
+  /**
+   * Retrieves the senders of the latest messages and returns them as a List of
+   * Strings.
+   *
+   * @return a List of Strings containing the senders of the latest messages
+   */
   public static List<String> getFroms() {
     List<String> froms = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
@@ -62,19 +108,32 @@ public final class Mailbox {
     return froms;
   }
 
-  public static List<String> getDates() {
-    List<String> dates = new ArrayList<>();
-    for (String[] latestMessage : latestMessages) {
-      dates.add(latestMessage[3]);
-    }
-    return dates;
-  }
+  /*
+   * public static List<String> getDates() {
+   * List<String> dates = new ArrayList<>();
+   * for (String[] latestMessage : latestMessages) {
+   * dates.add(latestMessage[3]); // 3 is the index of the date in the String[]
+   * }
+   * return dates;
+   * }
+   */
 
-  public static List<String> getBodies() {
-    List<String> bodies = new ArrayList<>();
-    for (String[] latestMessage : latestMessages) {
-      bodies.add(latestMessage[4]);
-    }
-    return bodies;
+  /*
+   * public static List<String> getBodies() {
+   * List<String> bodies = new ArrayList<>();
+   * for (String[] latestMessage : latestMessages) {
+   * bodies.add(latestMessage[4]);
+   * }
+   * return bodies;
+   * }
+   */
+
+  /**
+   * Returns the messages retrieved from the mail server.
+   *
+   * @return the messages retrieved from the mail server
+   */
+  public static Message[] getMessages() {
+    return messages;
   }
 }

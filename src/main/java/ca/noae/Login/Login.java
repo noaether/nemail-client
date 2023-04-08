@@ -4,13 +4,26 @@ import java.util.Scanner;
 
 import ca.noae.Objects.UserInfo;
 
-public class Login {
-  public static UserInfo startAuthentication(Scanner scanner) {
-    // ROADMAP
-    // -> config/query email
-    // -> config/query password
-    // -> config/query mailbox
+public final class Login {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private Login() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
+  /**
+   * Prompts the user to enter their email address, password, and select a mailbox
+   * to connect to.
+   * Uses the ConfigManager to retrieve properties or prompt the user for input.
+   *
+   * @param scanner the Scanner object to use for input
+   * @return a UserInfo object containing the user's email, password, selected
+   *         mailbox, and server information
+   */
+  public static UserInfo startAuthentication(final Scanner scanner) {
     String email = ConfigManager.getPropOrQuery("email");
     String password = ConfigManager.getPropOrQuery("password");
     String mailboxInt = ConfigManager.getPropOrQuery("mailbox",

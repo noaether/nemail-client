@@ -7,27 +7,71 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmailServerFinder {
+public final class EmailServerFinder {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private EmailServerFinder() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /**
+   *
+   * A mapping of email provider names to arrays of their associated email server
+   * hosts and ports.
+   */
   private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
 
   static {
     EMAIL_PROVIDERS.put(
-        "gmail.com", new String[] { "smtp.gmail.com", "imap.gmail.com" });
+        "gmail.com", new String[] {
+            "smtp.gmail.com", "imap.gmail.com"
+        });
     EMAIL_PROVIDERS.put("outlook.com",
-        new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
+        new String[] {
+            "smtp-mail.outlook.com", "outlook.office365.com"
+        });
     EMAIL_PROVIDERS.put("yahoo.com",
-        new String[] { "smtp.mail.yahoo.com", "imap.mail.yahoo.com" });
+        new String[] {
+            "smtp.mail.yahoo.com", "imap.mail.yahoo.com"
+        });
     EMAIL_PROVIDERS.put("hotmail.com",
-        new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
+        new String[] {
+            "smtp-mail.outlook.com", "outlook.office365.com"
+        });
     EMAIL_PROVIDERS.put(
-        "noae.ca", new String[] { "smtp.migadu.com", "imap.migadu.com" });
+        "noae.ca", new String[] {
+            "smtp.migadu.com", "imap.migadu.com"
+        });
   }
 
-  private static final String[] SMTP_PORTS = { "25", "465", "587" };
-  private static final String[] IMAP_PORTS = { "143", "993" };
-  private static final String[] POP3_PORTS = { "110", "995" };
+  /** The SMTP ports to check. */
+  private static final String[] SMTP_PORTS = {
+      "25", "465", "587" };
 
-  public static String[] check(String email) throws UnknownHostException {
+  /** The IMAP ports to check. */
+  private static final String[] IMAP_PORTS = {
+      "143", "993" };
+
+  /** The POP3 ports to check. */
+  private static final String[] POP3_PORTS = {
+      "110", "995" };
+
+  /**
+   *
+   * Checks the email server connectivity and identifies the appropriate SMTP and
+   * IMAP servers for a given email address.
+   *
+   * @param email the email address to check the servers for.
+   * @return an array of string containing the SMTP server name, IMAP server name
+   *         and POP3 server name (in this order).
+   * @throws UnknownHostException     if the SMTP or IMAP/POP3 servers are not
+   *                                  found for the given email address.
+   * @throws IllegalArgumentException if the email address is invalid.
+   */
+  public static String[] check(final String email) throws UnknownHostException {
     String[] respStrings = new String[3];
     String[] parts = email.split("@");
 
@@ -51,7 +95,8 @@ public class EmailServerFinder {
     }
 
     // Guess hostnames
-    String[] possibleSMTPHosts = { "smtp." + domain, "mail." + domain };
+    String[] possibleSMTPHosts = {
+        "smtp." + domain, "mail." + domain };
     String[] possibleIMAPHosts = {
         "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain };
 
@@ -97,7 +142,16 @@ public class EmailServerFinder {
     throw new UnknownHostException("IMAP and POP3 servers not found.");
   }
 
-  public static String probePorts(String[] possibleHosts, String[] ports) {
+  /**
+   *
+   * Probes a list of possible hosts and ports to check if any of them are
+   * reachable.
+   *
+   * @param possibleHosts an array of possible hostnames
+   * @param ports         an array of port numbers to check
+   * @return the first reachable hostname or null if none are reachable
+   */
+  public static String probePorts(final String[] possibleHosts, final String[] ports) {
     for (String host : possibleHosts) {
       for (String port : ports) {
         try {
@@ -114,8 +168,22 @@ public class EmailServerFinder {
     return null;
   }
 
+  /**
+   *
+   * Tries to connect to the specified hosts and ports using the given protocol,
+   * and checks their
+   * capabilities by sending a command and analyzing the response. Returns the
+   * first host that responds
+   * positively or null if none do.
+   *
+   * @param possibleHosts an array of possible hostnames to connect to
+   * @param ports         an array of ports to try
+   * @param protocol      the protocol to probe, e.g. "SMTP" or "IMAP"
+   * @return the hostname of the first server that responds positively or null if
+   *         none do
+   */
   public static String probeCapabilities(
-      String[] possibleHosts, String[] ports, String protocol) {
+      final String[] possibleHosts, final String[] ports, final String protocol) {
     for (String host : possibleHosts) {
       for (String port : ports) {
         try {
@@ -140,7 +208,16 @@ public class EmailServerFinder {
     return null;
   }
 
-  private static String getCommand(String protocol) {
+  /**
+   *
+   * Returns the command to be sent over the socket to check for protocol
+   * capabilities.
+   *
+   * @param protocol the protocol to check capabilities for (IMAP, SMTP, or POP3)
+   * @return the command to be sent over the socket, or null if protocol is
+   *         invalid
+   */
+  private static String getCommand(final String protocol) {
     if (protocol.equals("IMAP")) {
       return "a001 CAPABILITY\r\n";
     } else if (protocol.equals("SMTP")) {
@@ -151,7 +228,18 @@ public class EmailServerFinder {
     return null;
   }
 
-  private static boolean checkResponse(String protocol, String response) {
+  /**
+   *
+   * Checks if the response received from the server contains the expected
+   * capabilities for the given protocol.
+   *
+   * @param protocol a string indicating the protocol being checked (IMAP, SMTP,
+   *                 POP3)
+   * @param response the response string received from the server
+   * @return {@code true} if the response contains the expected capabilities for
+   *         the given protocol, {@code false} otherwise
+   */
+  private static boolean checkResponse(final String protocol, final String response) {
     if (protocol.equals("IMAP")) {
       return response.contains("IMAP4rev1") || response.contains("IMAP4")
           || response.contains("IMAP") || response.contains("OK");

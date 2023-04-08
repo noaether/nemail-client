@@ -22,27 +22,32 @@ public class ConfigManager {
   }
 
   public static String getPropOrQuery(String prop) { // TODO : Implement this method
-    String configOrQuery = props.getProperty(prop);
-    System.out.print(
-      configOrQuery == null ? "Enter your " + prop + " :" : "Loading " + prop + " from config file... \n");
-    if (configOrQuery == null) {
-      configOrQuery = scanner.nextLine();
+    if (props == null) {
+      System.out.print("Enter your " + prop + " :");
+      return scanner.nextLine();
+    } else {
+      String configOrQuery = props.getProperty(prop);
+      System.out.print(
+        configOrQuery == null ? "Enter your " + prop + " :" : "Loading " + prop + " from config file... \n");
+      if (configOrQuery == null) {
+        return scanner.nextLine();
+      }
+      return configOrQuery;
     }
-
-    return configOrQuery;
   }
 
   public static String getPropOrQuery(String prop, String message) { // TODO : Implement this method
-    String configOrQuery = props.getProperty(prop);
-    System.out.print(
-      configOrQuery == null ? message : "Loading " + prop + " from config file... \n");
-    if (configOrQuery == null) {
-      configOrQuery = scanner.nextLine();
-      if (configOrQuery.equals("-1")) {
-        System.exit(0);
+    if (props == null) {
+      System.out.print("Enter your " + prop + " :");
+      return scanner.nextLine();
+    } else {
+      String configOrQuery = props.getProperty(prop);
+      System.out.print(
+        configOrQuery == null ? "Enter your " + prop + " :" : message + "\n");
+      if (configOrQuery == null) {
+        return scanner.nextLine();
       }
+      return configOrQuery;
     }
-
-    return configOrQuery;
   }
 }

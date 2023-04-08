@@ -36,7 +36,7 @@ public class Utils {
         System.out.println("Subject: " + latestMessages.get(messageSelection - 1)[1]);
         System.out.println("From: " + latestMessages.get(messageSelection - 1)[2]);
         System.out.println("Date: " + latestMessages.get(messageSelection - 1)[3]);
-        System.out.println("Body: " + getTextFromMessage(Mailbox.messages[messageSelection - 1]));
+        System.out.println("Body: " + getTextFromMessage(Mailbox.getMessages()[messageSelection - 1]));
         System.out.println("------------------------------------------------");
     }
 

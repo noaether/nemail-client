@@ -27,39 +27,39 @@ public class UserInfo {
     UserInfo.imapServerPort = imapServerPort;
   }
 
-  public static String getEmailAddress() {
+  public final String getEmailAddress() {
     return emailAddress;
   }
 
-  public static String getPassword() {
+  public final String getPassword() {
     return password;
   }
 
-  public static String getMailbox() {
+  public final String getMailbox() {
     return mailbox;
   }
 
-  public static String getSmtpServerAddress() {
+  public final String getSmtpServerAddress() {
     return smtpServerAddress;
   }
 
-  public static String getPopServerAddress() {
+  public final String getPopServerAddress() {
     return popServerAddress;
   }
 
-  public static String getImapServerAddress() {
+  public final String getImapServerAddress() {
     return imapServerAddress;
   }
 
-  public static String getSmtpServerPort() {
+  public final String getSmtpServerPort() {
     return smtpServerPort;
   }
 
-  public static String getPopServerPort() {
+  public final String getPopServerPort() {
     return popServerPort;
   }
 
-  public static String getImapServerPort() {
+  public final String getImapServerPort() {
     return imapServerPort;
   }
 }

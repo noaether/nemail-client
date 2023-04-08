@@ -1,17 +1,37 @@
+/**
+ * This class provides methods for sending and receiving email messages.
+*/
 package ca.noae.Actions;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Properties;
 
 public class EmailClient {
 
+  /**
+   * The SMTP transport used to send email messages. This field is initialized
+   * when the user logs in to their email account using SMTP authentication.
+   * Once the transport is obtained, it can be reused to send multiple messages
+   * without requiring authentication each time.
+   */
   private static Transport transport;
 
-  public EmailClient(Transport transport) {
-    EmailClient.transport = transport;
+  /**
+   * Initializes the EmailClient class with the specified transport.
+   *
+   * @param initTransport the SMTP transport to use for sending email messages
+   */
+  public EmailClient(final Transport initTransport) {
+    EmailClient.transport = initTransport;
   }
 
   /**
@@ -23,7 +43,8 @@ public class EmailClient {
    * @param body    the body of the email
    * @throws MessagingException if there is an error sending the email
    */
-  public static void sendEmail(String to, String from, String subject, String body) throws MessagingException {
+  public static void sendEmail(final String to, final String from, final String subject, final String body)
+      throws MessagingException {
     Message message = new MimeMessage(Session.getDefaultInstance(new Properties()));
     message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
     message.setFrom(new InternetAddress(from));
@@ -41,7 +62,7 @@ public class EmailClient {
    * @throws IOException        if there is an error reading the body part
    */
   private String getTextFromMimeMultipart(
-      MimeMultipart mimeMultipart) throws MessagingException, IOException {
+      final MimeMultipart mimeMultipart) throws MessagingException, IOException {
     String result = "";
     for (int i = 0; i < mimeMultipart.getCount(); i++) {
       BodyPart bodyPart = mimeMultipart.getBodyPart(i);
@@ -62,7 +83,7 @@ public class EmailClient {
    * @throws IOException        if there is an error reading the content of the
    *                            BodyPart
    */
-  private String parseBodyPart(BodyPart bodyPart) throws MessagingException, IOException {
+  private String parseBodyPart(final BodyPart bodyPart) throws MessagingException, IOException {
     if (bodyPart.isMimeType("text/html")) {
       return "\n" + org.jsoup.Jsoup
           .parse(bodyPart.getContent().toString())

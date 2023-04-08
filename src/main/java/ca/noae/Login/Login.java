@@ -16,7 +16,7 @@ public class Login {
     String email = ConfigManager.getPropOrQuery("email");
     String password = ConfigManager.getPropOrQuery("password");
     String mailboxInt = ConfigManager.getPropOrQuery("mailbox",
-        "Select a mailbox:\n1. Inbox\n2. Sent\n3. Trash\nEnter your selection.");
+        "Select a mailbox:\n1. Inbox\n2. Sent\n3. Trash\nEnter your selection: ");
     String mailbox = mailboxInt.equals("1") ? "inbox"
         : mailboxInt.equals("2") ? "sent" : mailboxInt.equals("3") ? "trash" : "inbox";
 

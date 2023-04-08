@@ -24,12 +24,12 @@ public class ConfigManager {
 
   public static String getPropOrQuery(String prop) { // TODO : Implement this method
     if (props == null) {
-      System.out.print("Enter your " + prop + " : ");
+      System.out.print("Enter your " + prop + ": ");
       return scanner.nextLine();
     } else {
       String configOrQuery = props.getProperty(prop);
       System.out.print(
-        configOrQuery == null ? "Enter your " + prop + " : " : "Loading " + prop + " from config file... \n");
+        configOrQuery == null ? "Enter your " + prop + ": " : "Loading " + prop + " from config file... \n");
       if (configOrQuery == null) {
         return scanner.nextLine();
       }

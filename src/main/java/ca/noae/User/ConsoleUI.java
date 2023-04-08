@@ -1,10 +1,7 @@
 package ca.noae.User;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Arrays;
-
-import javax.swing.*;
 
 public class ConsoleUI {
   // Clears the console screen

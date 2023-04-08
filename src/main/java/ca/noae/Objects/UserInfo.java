@@ -1,19 +1,21 @@
 package ca.noae.Objects;
 
 public class UserInfo {
-  public static String emailAddress;
-  public static String password;
-  public static String mailbox;
+  private static String emailAddress;
+  private static String password;
+  private static String mailbox;
 
-  public static String smtpServerAddress;
-  public static String popServerAddress;
-  public static String imapServerAddress;
+  private static String smtpServerAddress;
+  private static String popServerAddress;
+  private static String imapServerAddress;
 
-  public static String smtpServerPort = "587";
-  public static String popServerPort = "995";
-  public static String imapServerPort = "993";
+  private static String smtpServerPort = "587";
+  private static String popServerPort = "995";
+  private static String imapServerPort = "993";
 
-  public UserInfo(String emailAddress, String password, String mailbox, String smtpServerAddress, String popServerAddress, String imapServerAddress, String smtpServerPort, String popServerPort, String imapServerPort) {
+  public UserInfo(String emailAddress, String password, String mailbox, String smtpServerAddress,
+      String popServerAddress, String imapServerAddress, String smtpServerPort, String popServerPort,
+      String imapServerPort) {
     UserInfo.emailAddress = emailAddress;
     UserInfo.password = password;
     UserInfo.mailbox = mailbox;
@@ -23,5 +25,41 @@ public class UserInfo {
     UserInfo.smtpServerPort = smtpServerPort;
     UserInfo.popServerPort = popServerPort;
     UserInfo.imapServerPort = imapServerPort;
+  }
+
+  public static String getEmailAddress() {
+    return emailAddress;
+  }
+
+  public static String getPassword() {
+    return password;
+  }
+
+  public static String getMailbox() {
+    return mailbox;
+  }
+
+  public static String getSmtpServerAddress() {
+    return smtpServerAddress;
+  }
+
+  public static String getPopServerAddress() {
+    return popServerAddress;
+  }
+
+  public static String getImapServerAddress() {
+    return imapServerAddress;
+  }
+
+  public static String getSmtpServerPort() {
+    return smtpServerPort;
+  }
+
+  public static String getPopServerPort() {
+    return popServerPort;
+  }
+
+  public static String getImapServerPort() {
+    return imapServerPort;
   }
 }

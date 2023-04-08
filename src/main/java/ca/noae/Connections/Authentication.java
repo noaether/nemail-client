@@ -1,17 +1,8 @@
 package ca.noae.Connections;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.Properties;
-
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import com.sun.mail.imap.IMAPStore;
-import com.sun.mail.pop3.POP3Store;
 
 import ca.noae.Objects.UserInfo;
 
@@ -25,15 +16,15 @@ public class Authentication {
   private static String emailAddress;
   private static String password;
 
-  public Authentication() {
-    Authentication.smtpHost = UserInfo.smtpServerAddress;
-    Authentication.smtpPort = UserInfo.smtpServerPort;
-    Authentication.pop3Host = UserInfo.popServerAddress;
-    Authentication.pop3Port = UserInfo.popServerPort;
-    Authentication.imapHost = UserInfo.imapServerAddress;
-    Authentication.imapPort = UserInfo.imapServerPort;
-    Authentication.emailAddress = UserInfo.emailAddress;
-    Authentication.password = UserInfo.password;
+  public Authentication(UserInfo user) {
+    Authentication.smtpHost = user.getSmtpServerAddress();
+    Authentication.smtpPort = user.getSmtpServerPort();
+    Authentication.pop3Host = user.getPopServerAddress();
+    Authentication.pop3Port = user.getPopServerPort();
+    Authentication.imapHost = user.getImapServerAddress();
+    Authentication.imapPort = user.getImapServerPort();
+    Authentication.emailAddress = user.getEmailAddress();
+    Authentication.password = user.getPassword();
   }
 
   // Authenticate the user's credentials against the SMTP server

@@ -1,9 +1,8 @@
 package ca.noae.Actions;
+
 import javax.mail.MessagingException;
-import java.io.File;  // Import the File class
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.IOException; // Import the IOException class to handle errors
 
 public class FileHandler {
     public static void saveEmail(int messageSelection) {

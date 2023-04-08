@@ -9,12 +9,10 @@ public class ConfigManager {
 
   private static Scanner scanner;
   private static Properties props;
-  private static String fileName;
 
   public ConfigManager(Scanner scanner, String fileName) {
     ConfigManager.scanner = scanner;
     ConfigManager.props = new Properties();
-    ConfigManager.fileName = fileName;
     try (FileInputStream fis = new FileInputStream(fileName)) {
       props.load(fis);
     } catch (IOException e) {
@@ -29,7 +27,7 @@ public class ConfigManager {
     } else {
       String configOrQuery = props.getProperty(prop);
       System.out.print(
-        configOrQuery == null ? "Enter your " + prop + ": " : "Loading " + prop + " from config file... \n");
+          configOrQuery == null ? "Enter your " + prop + ": " : "Loading " + prop + " from config file... \n");
       if (configOrQuery == null) {
         return scanner.nextLine();
       }
@@ -44,7 +42,7 @@ public class ConfigManager {
     } else {
       String configOrQuery = props.getProperty(prop);
       System.out.print(
-        configOrQuery == null ? message : "Loading " + prop + " from config file... \n");
+          configOrQuery == null ? message : "Loading " + prop + " from config file... \n");
       if (configOrQuery == null) {
         return scanner.nextLine();
       }

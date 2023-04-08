@@ -3,7 +3,6 @@ package ca.noae.Actions;
 import java.util.ArrayList;
 import java.util.List;
 import javax.mail.*;
-import javax.mail.internet.*;
 
 public final class Mailbox {
 
@@ -39,7 +38,8 @@ public final class Mailbox {
     System.out.println("Showing messages " + start + " to " + messageCount);
     int messageNo = 1;
     for (Message message : messages) {
-      latestMessages.add(new String[] {String.valueOf(messageNo), message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString(), message.getContent().toString()});
+      latestMessages.add(new String[] { String.valueOf(messageNo), message.getSubject(),
+          message.getFrom()[0].toString(), message.getSentDate().toString(), message.getContent().toString() });
       messageNo++;
     }
 
@@ -48,7 +48,7 @@ public final class Mailbox {
 
   public static List<String> getSubjects() {
     List<String> subjects = new ArrayList<>();
-    for(String[] latestMessage : latestMessages) {
+    for (String[] latestMessage : latestMessages) {
       subjects.add(latestMessage[1]);
     }
     return subjects;
@@ -56,7 +56,7 @@ public final class Mailbox {
 
   public static List<String> getFroms() {
     List<String> froms = new ArrayList<>();
-    for(String[] latestMessage : latestMessages) {
+    for (String[] latestMessage : latestMessages) {
       froms.add(latestMessage[2]);
     }
     return froms;
@@ -64,7 +64,7 @@ public final class Mailbox {
 
   public static List<String> getDates() {
     List<String> dates = new ArrayList<>();
-    for(String[] latestMessage : latestMessages) {
+    for (String[] latestMessage : latestMessages) {
       dates.add(latestMessage[3]);
     }
     return dates;
@@ -72,7 +72,7 @@ public final class Mailbox {
 
   public static List<String> getBodies() {
     List<String> bodies = new ArrayList<>();
-    for(String[] latestMessage : latestMessages) {
+    for (String[] latestMessage : latestMessages) {
       bodies.add(latestMessage[4]);
     }
     return bodies;

@@ -6,28 +6,26 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 public class EmailServerFinder {
   private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
 
   static {
     EMAIL_PROVIDERS.put(
-        "gmail.com", new String[] {"smtp.gmail.com", "imap.gmail.com"});
+        "gmail.com", new String[] { "smtp.gmail.com", "imap.gmail.com" });
     EMAIL_PROVIDERS.put("outlook.com",
-        new String[] {"smtp-mail.outlook.com", "outlook.office365.com"});
+        new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
     EMAIL_PROVIDERS.put("yahoo.com",
-        new String[] {"smtp.mail.yahoo.com", "imap.mail.yahoo.com"});
+        new String[] { "smtp.mail.yahoo.com", "imap.mail.yahoo.com" });
     EMAIL_PROVIDERS.put("hotmail.com",
-        new String[] {"smtp-mail.outlook.com", "outlook.office365.com"});
+        new String[] { "smtp-mail.outlook.com", "outlook.office365.com" });
     EMAIL_PROVIDERS.put(
-        "noae.ca", new String[] {"smtp.migadu.com", "imap.migadu.com"});
+        "noae.ca", new String[] { "smtp.migadu.com", "imap.migadu.com" });
   }
 
-  private static final String[] SMTP_PORTS = {"25", "465", "587"};
-  private static final String[] IMAP_PORTS = {"143", "993"};
-  private static final String[] POP3_PORTS = {"110", "995"};
+  private static final String[] SMTP_PORTS = { "25", "465", "587" };
+  private static final String[] IMAP_PORTS = { "143", "993" };
+  private static final String[] POP3_PORTS = { "110", "995" };
 
   public static String[] check(String email) throws UnknownHostException {
     String[] respStrings = new String[3];
@@ -53,9 +51,9 @@ public class EmailServerFinder {
     }
 
     // Guess hostnames
-    String[] possibleSMTPHosts = {"smtp." + domain, "mail." + domain};
+    String[] possibleSMTPHosts = { "smtp." + domain, "mail." + domain };
     String[] possibleIMAPHosts = {
-        "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain};
+        "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain };
 
     // Probe known ports
     String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS);

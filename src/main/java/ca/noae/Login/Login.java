@@ -1,7 +1,5 @@
 package ca.noae.Login;
 
-import java.io.IOException;
-import java.util.Properties;
 import java.util.Scanner;
 
 import ca.noae.Objects.UserInfo;

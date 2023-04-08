@@ -12,7 +12,7 @@ public class ConfigManager {
   private static String fileName;
 
   public ConfigManager(Scanner scanner, String fileName) {
-    
+    ConfigManager.scanner = scanner;
     ConfigManager.props = new Properties();
     ConfigManager.fileName = fileName;
     try (FileInputStream fis = new FileInputStream(fileName)) {

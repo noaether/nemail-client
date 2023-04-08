@@ -108,33 +108,21 @@ public final class Mailbox {
     return froms;
   }
 
-  /**
-   * Retrieves the senders of the latest messages and returns them as a List of
-   * Strings.
-   *
-   * @return a List of Strings containing the senders of the latest messages
-   */
-  public static List<String> getDates() {
+  /* public static List<String> getDates() {
     List<String> dates = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
       dates.add(latestMessage[3]); // 3 is the index of the date in the String[]
     }
     return dates;
-  }
+  } */
 
-  /**
-   * Retrieves the bodies of the latest messages and returns them as a List of
-   * Strings.
-   *
-   * @return a List of Strings containing the bodies of the latest messages
-   */
-  public static List<String> getBodies() {
+  /* public static List<String> getBodies() {
     List<String> bodies = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
       bodies.add(latestMessage[4]);
     }
     return bodies;
-  }
+  } */
 
   /**
    * Returns the messages retrieved from the mail server.

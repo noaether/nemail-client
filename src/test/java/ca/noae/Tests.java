@@ -1,3 +1,5 @@
+package ca.noae;
+
 import ca.noae.Connections.EmailServerFinder;
 import org.junit.Test;
 

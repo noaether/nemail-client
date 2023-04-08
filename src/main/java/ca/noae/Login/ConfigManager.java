@@ -36,6 +36,9 @@ public class ConfigManager {
       configOrQuery == null ? message : "Loading " + prop + " from config file... \n");
     if (configOrQuery == null) {
       configOrQuery = scanner.nextLine();
+      if (configOrQuery.equals("-1")) {
+        System.exit(0);
+      }
     }
 
     return configOrQuery;

@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         try (Scanner scanner = new Scanner(System.in)) {
             // Initialize
-            new ConfigManager(scanner, "app.properties");
+            ConfigManager.initConfigManager(scanner, "app.properties");
             UserInfo user = Login.startAuthentication(scanner);
             Authentication.init(user);
 

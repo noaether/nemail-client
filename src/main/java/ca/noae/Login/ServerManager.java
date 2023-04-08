@@ -4,8 +4,29 @@ import java.net.UnknownHostException;
 
 import ca.noae.Connections.EmailServerFinder;
 
-public class ServerManager {
-  public static String[] getServerArray(String email) { // TODO : Use ConfigManager to implement this method
+public final class ServerManager {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private ServerManager() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /**
+   * Attempts to automatically find the email server information for the given
+   * email address.
+   * If successful, returns an array of six strings containing the SMTP, POP, and
+   * IMAP servers and ports.
+   * If unsuccessful, checks the config or prompts the user for the server
+   * information and returns an array with six empty strings.
+   *
+   * @param email the email address to find server information for
+   * @return an array of six strings containing the SMTP, POP, and IMAP servers
+   *         and ports
+   */
+  public static String[] getServerArray(final String email) {
     String[] serverArray = new String[6];
 
     try {

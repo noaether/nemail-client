@@ -5,13 +5,32 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
-public class ConfigManager {
+public final class ConfigManager {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private ConfigManager() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
+  /** The Scanner object to use for input. */
   private static Scanner scanner;
+
+  /** The Properties object to use for loading properties. */
   private static Properties props;
 
-  public ConfigManager(Scanner scanner, String fileName) {
-    ConfigManager.scanner = scanner;
+  /**
+   * Initializes the ConfigManager by setting the scanner to be used for input and
+   * loading properties from the specified file.
+   *
+   * @param initScanner the Scanner object to use for input
+   * @param fileName    the name of the file to load properties from
+   * @throws IOException if an I/O error occurs while loading the properties
+   */
+  public static void initConfigManager(final Scanner initScanner, final String fileName) {
+    ConfigManager.scanner = initScanner;
     ConfigManager.props = new Properties();
     try (FileInputStream fis = new FileInputStream(fileName)) {
       props.load(fis);
@@ -20,7 +39,14 @@ public class ConfigManager {
     }
   }
 
-  public static String getPropOrQuery(String prop) { // TODO : Implement this method
+  /**
+   * Retrieves a property or a query value either from the loaded properties or by
+   * prompting the user to enter a value for the specified property.
+   *
+   * @param prop the name of the property or query value to retrieve
+   * @return the value of the specified property or query
+   */
+  public static String getPropOrQuery(final String prop) {
     if (props == null) {
       System.out.print("Enter your " + prop + ": ");
       return scanner.nextLine();
@@ -35,7 +61,16 @@ public class ConfigManager {
     }
   }
 
-  public static String getPropOrQuery(String prop, String message) { // TODO : Implement this method
+  /**
+   * Retrieves a property or a query value either from the loaded properties or by
+   * prompting the user to enter a value for the specified property.
+   *
+   * @param prop    the name of the property or query value to retrieve
+   * @param message the message to display to the user when prompting for the
+   *                property value
+   * @return the value of the specified property or query
+   */
+  public static String getPropOrQuery(final String prop, final String message) { // TODO : Implement this method
     if (props == null) {
       System.out.print(message);
       return scanner.nextLine();

@@ -23,17 +23,6 @@ public class EmailClient {
     transport.sendMessage(message, message.getAllRecipients());
   }
 
-  private String getTextFromMessage(Message message) throws MessagingException, IOException {
-    if (message.isMimeType("text/plain")) {
-      return message.getContent().toString();
-    }
-    if (message.isMimeType("multipart/*")) {
-      MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-      return getTextFromMimeMultipart(mimeMultipart);
-    }
-    return "";
-  }
-
   private String getTextFromMimeMultipart(
       MimeMultipart mimeMultipart) throws MessagingException, IOException {
     String result = "";

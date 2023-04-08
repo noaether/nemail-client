@@ -43,3 +43,7 @@ replay_pid*
 /app.config
 
 *.eml
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
+.gitignore
+.settings/org.eclipse.jdt.apt.core.prefs

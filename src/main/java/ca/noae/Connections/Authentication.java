@@ -79,52 +79,6 @@ public class Authentication {
     return store;
   }
 
-  public static Store authenticate() throws MessagingException {
-    // Test SMTP + POP3
-    Properties props = new Properties();
-    props.setProperty("mail.smtp.host", smtpHost);
-    props.setProperty("mail.smtp.port", smtpPort);
-    props.put("mail.smtp.socketFactory.class",
-        "javax.net.ssl.SSLSocketFactory"); // SSL Factory Class
-    props.setProperty("mail.smtp.auth", "true");
-    props.setProperty("mail.pop3s.host", smtpHost);
-    props.setProperty("mail.pop3s.port", "995");
-    props.setProperty("mail.pop3s.auth", "true");
-
-    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-      protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(emailAddress, password);
-      }
-    });
-
-    try {
-      Store store = session.getStore("pop3s");
-      System.out.println("POP3S store: " + store);
-      store.connect();
-      return store;
-    } catch (MessagingException e) {
-      // If POP3 fails, test SMTP + IMAP
-      props.setProperty("mail.imap.host", smtpHost);
-      props.setProperty("mail.imap.port", "993");
-      props.setProperty("mail.imap.auth", "true");
-      props.setProperty("mail.imap.starttls.enable", "false");
-
-      session = Session.getInstance(props, new javax.mail.Authenticator() {
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication(emailAddress, password);
-        }
-      });
-
-      try {
-        Store store = session.getStore("imaps");
-        store.connect();
-        return store;
-      } catch (MessagingException ex) {
-        throw new MessagingException("Authentication failed for both POP3 and IMAP");
-      }
-    }
-  }
-
   public static Store getStore() throws Exception { /* TODO : Implement error throwing */
     Store finalStore = null;
     try {

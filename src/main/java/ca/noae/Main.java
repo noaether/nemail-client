@@ -14,17 +14,17 @@ import javax.mail.internet.MimeMultipart;
 
 import ca.noae.Actions.EmailClient;
 import ca.noae.Actions.FileHandler;
-import ca.noae.Actions.Login;
 import ca.noae.Actions.Mailbox;
 import ca.noae.Connections.Authentication;
 import ca.noae.Connections.EmailServerFinder;
+import ca.noae.Login.Login;
 import ca.noae.User.ConsoleUI;
 import ca.noae.User.Utils;
 
 public class Main {
 
-    //  TODO : Actually do the work in this branch
-    
+    // TODO : Actually do the work in this branch
+
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             String[] loginDetails = Login.startAuthentication(scanner);
@@ -41,16 +41,17 @@ public class Main {
             String popServerPort = loginDetails[8];
 
             // Prompt the user for the mailbox they want to access
-            new Authentication(smtpServerAddress, smtpServerPort, popServerAddress, popServerPort, imapServerAddress, imapServerPort,
+            new Authentication(smtpServerAddress, smtpServerPort, popServerAddress, popServerPort, imapServerAddress,
+                    imapServerPort,
                     emailAddress, password);
 
             // Authenticate the user's credentials
             try {
                 Transport smtpTransport = Authentication.getSMTPTransport();
                 // System.out.println(smtpTransport); TODO : Implement verbose mode
-                
-                Store finalStore = Authentication.getStore()
-                    
+
+                Store finalStore = Authentication.getStore();
+
                 new Mailbox(finalStore);
                 new EmailClient(smtpTransport);
                 List<String[]> latestMessages = Mailbox.getLatestMessages(mailbox);
@@ -59,15 +60,15 @@ public class Main {
                 // List<String> latestDates = Mailbox.getDates();
                 // List<String> latestBodies = Mailbox.getBodies();
 
-                int cleanQuit = false;
+                int cleanQuit = 69;
 
                 while (cleanQuit != -1) {
                     ConsoleUI.clearScreen();
                     ConsoleUI.createTable(new String[] { "#", "Subject", "From", "Dates" },
                             latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
-                    System.out.print("Select an option: " + \n + 
-                            "1. Read" + \n + "2. Reply" + \n + 
+                    System.out.print("Select an option: " + "\n" +
+                            "1. Read" + "\n" + "2. Reply" + "\n" +
                             "Enter your selection. Enter -1 to quit at any time: ");
 
                     int rrqOption = scanner.nextInt();
@@ -79,12 +80,11 @@ public class Main {
                             Utils.displayMessage(read_messageOption, latestMessages);
 
                             // Go back to list of emails, reply, or quit
-                            System.out.print("Select an option:" + \n
-                                    "1. Go back to list of emails" + \n
-                                    "2. Reply" + \n
-                                    "3. Save to file" + \n
-                                    "Enter your selection: "
-                                    );
+                            System.out.print("Select an option:" + "\n" +
+                                    "1. Go back to list of emails" + "\n" +
+                                    "2. Reply" + "\n" +
+                                    "3. Save to file" + "\n" +
+                                    "Enter your selection: ");
                             int read_grpOption = scanner.nextInt();
                             switch (read_grpOption) {
                                 case 1:
@@ -105,7 +105,7 @@ public class Main {
                                     break;
                                 case -1:
                                     // Quit
-                                    cleanQuit = true;
+                                    cleanQuit = -1;
                                     break;
                                 default:
                                     System.out.println("Invalid selection. Defaulting to inbox.");
@@ -115,9 +115,7 @@ public class Main {
                         case 2 -> {
                             System.out.print("Enter the number of the message you want to reply to: ");
                             int reply_messageOption = scanner.nextInt();
-                            if (reply_messageOption == -1) {
-                                cleanQuit = true;
-                            }
+                            cleanQuit = reply_messageOption;
                             String reply_Reply;
                             System.out.println("Enter your reply: ");
                             do {
@@ -129,7 +127,7 @@ public class Main {
                         }
                         case -1 ->
                             // Quit
-                                cleanQuit = true;
+                            cleanQuit = -1;
                         default -> System.out.println("Invalid selection. Defaulting to inbox.");
                     }
                 }

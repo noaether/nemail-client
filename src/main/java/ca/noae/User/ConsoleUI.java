@@ -3,8 +3,24 @@ package ca.noae.User;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ConsoleUI {
-  // Clears the console screen
+public final class ConsoleUI {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private ConsoleUI() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /**
+   *
+   * Clears the console screen using platform-specific commands. On Windows, the
+   * "cls" command is used,
+   * while on other platforms, an escape sequence is used to clear the screen. If
+   * an error occurs while
+   * attempting to clear the screen, an error message is printed to the console.
+   */
   public static void clearScreen() {
     try {
       if (System.getProperty("os.name").contains("Windows")) {
@@ -18,8 +34,16 @@ public class ConsoleUI {
     }
   }
 
-  // Function to create and display a scrollable table
-  public static void createTable(String[] columnNames, String[][] data) {
+  /**
+   *
+   * Creates a formatted table based on the given column names and data.
+   *
+   * @param columnNames an array of Strings representing the column names of the
+   *                    table
+   * @param data        a two-dimensional array of Strings representing the data
+   *                    to be displayed in the table
+   */
+  public static void createTable(final String[] columnNames, final String[][] data) {
     int[] columnWidths = new int[columnNames.length];
     for (int i = 0; i < columnNames.length; i++) {
       columnWidths[i] = columnNames[i].length();

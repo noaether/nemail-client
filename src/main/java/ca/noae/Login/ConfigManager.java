@@ -9,14 +9,16 @@ public class ConfigManager {
 
   private static Scanner scanner;
   private static Properties props;
-  private static String fileName = "app.config";
+  private static String fileName;
 
-  public ConfigManager(Scanner scanner, Properties props, String fileName) throws IOException {
-    ConfigManager.scanner = scanner;
-    ConfigManager.props = props;
+  public ConfigManager(Scanner scanner, String fileName) {
+    ConfigManager.props = new Properties();
     ConfigManager.fileName = fileName;
-    FileInputStream fis = new FileInputStream(fileName);
-    props.load(fis);
+    try (FileInputStream fis = new FileInputStream(fileName)) {
+      props.load(fis);
+    } catch (IOException e) {
+      props = null;
+    }
   }
 
   public static String getPropOrQuery(String prop) { // TODO : Implement this method

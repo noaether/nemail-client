@@ -17,7 +17,9 @@ import ca.noae.Actions.FileHandler;
 import ca.noae.Actions.Mailbox;
 import ca.noae.Connections.Authentication;
 import ca.noae.Connections.EmailServerFinder;
+import ca.noae.Login.ConfigManager;
 import ca.noae.Login.Login;
+import ca.noae.Objects.UserInfo;
 import ca.noae.User.ConsoleUI;
 import ca.noae.User.Utils;
 
@@ -25,25 +27,12 @@ public class Main {
 
     // TODO : Actually do the work in this branch
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try (Scanner scanner = new Scanner(System.in)) {
-            String[] loginDetails = Login.startAuthentication(scanner);
-
-            String emailAddress = loginDetails[0];
-            String password = loginDetails[1];
-            String mailbox = loginDetails[2];
-
-            String smtpServerAddress = loginDetails[3];
-            String smtpServerPort = loginDetails[6];
-            String imapServerAddress = loginDetails[4];
-            String imapServerPort = loginDetails[7];
-            String popServerAddress = loginDetails[5];
-            String popServerPort = loginDetails[8];
-
-            // Prompt the user for the mailbox they want to access
-            new Authentication(smtpServerAddress, smtpServerPort, popServerAddress, popServerPort, imapServerAddress,
-                    imapServerPort,
-                    emailAddress, password);
+            // Initialize
+            new ConfigManager(scanner, "app.properties");
+            UserInfo user = Login.startAuthentication(scanner);
+            new Authentication();
 
             // Authenticate the user's credentials
             try {
@@ -54,7 +43,7 @@ public class Main {
 
                 new Mailbox(finalStore);
                 new EmailClient(smtpTransport);
-                List<String[]> latestMessages = Mailbox.getLatestMessages(mailbox);
+                List<String[]> latestMessages = Mailbox.getLatestMessages(UserInfo.mailbox);
                 List<String> latestSubjects = Mailbox.getSubjects();
                 List<String> latestSenders = Mailbox.getFroms();
                 // List<String> latestDates = Mailbox.getDates();
@@ -96,7 +85,7 @@ public class Main {
                                         read_reply_Reply = scanner.nextLine();
                                     } while (read_reply_Reply.isEmpty());
                                     // Send the email
-                                    EmailClient.sendEmail(latestSenders.get(read_messageOption), emailAddress,
+                                    EmailClient.sendEmail(latestSenders.get(read_messageOption), UserInfo.emailAddress,
                                             "RE: " + latestSubjects.get(read_messageOption), read_reply_Reply);
                                     break;
 
@@ -122,7 +111,7 @@ public class Main {
                                 reply_Reply = scanner.nextLine();
                             } while (reply_Reply.isEmpty());
                             // Send the email
-                            EmailClient.sendEmail(latestSenders.get(reply_messageOption - 1), emailAddress,
+                            EmailClient.sendEmail(latestSenders.get(reply_messageOption - 1), UserInfo.emailAddress,
                                     "RE: " + latestSubjects.get(reply_messageOption - 1), reply_Reply);
                         }
                         case -1 ->

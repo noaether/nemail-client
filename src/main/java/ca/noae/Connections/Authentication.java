@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 import com.sun.mail.imap.IMAPStore;
 import com.sun.mail.pop3.POP3Store;
 
+import ca.noae.Objects.UserInfo;
+
 public class Authentication {
   private static String smtpHost;
   private static String smtpPort;
@@ -23,16 +25,15 @@ public class Authentication {
   private static String emailAddress;
   private static String password;
 
-  public Authentication(String smtpHost, String smtpPort, String pop3Host, String pop3Port, String imapHost,
-      String imapPort, String emailAddress, String password) {
-    Authentication.smtpHost = smtpHost;
-    Authentication.smtpPort = smtpPort;
-    Authentication.pop3Host = pop3Host;
-    Authentication.pop3Port = pop3Port;
-    Authentication.imapHost = imapHost;
-    Authentication.imapPort = imapPort;
-    Authentication.emailAddress = emailAddress;
-    Authentication.password = password;
+  public Authentication() {
+    Authentication.smtpHost = UserInfo.smtpServerAddress;
+    Authentication.smtpPort = UserInfo.smtpServerPort;
+    Authentication.pop3Host = UserInfo.popServerAddress;
+    Authentication.pop3Port = UserInfo.popServerPort;
+    Authentication.imapHost = UserInfo.imapServerAddress;
+    Authentication.imapPort = UserInfo.imapServerPort;
+    Authentication.emailAddress = UserInfo.emailAddress;
+    Authentication.password = UserInfo.password;
   }
 
   // Authenticate the user's credentials against the SMTP server

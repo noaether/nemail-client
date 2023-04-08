@@ -2,21 +2,57 @@ package ca.noae.Connections;
 
 import java.util.Properties;
 
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.Transport;
 
 import ca.noae.Objects.UserInfo;
 
-public class Authentication {
+public final class Authentication {
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private Authentication() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /** The host name of the SMTP server. */
   private static String smtpHost;
+
+  /** The port of the SMTP server. */
   private static String smtpPort;
+
+  /** The host name of the POP3 server. */
   private static String pop3Host;
+
+  /** The port of the POP3 server. */
   private static String pop3Port;
+
+  /** The host name of the IMAP server. */
   private static String imapHost;
+
+  /** The port of the IMAP server. */
   private static String imapPort;
+
+  /** The email address of the user. */
   private static String emailAddress;
+
+  /** The password of the user. */
   private static String password;
 
-  public Authentication(UserInfo user) {
+  /**
+   *
+   * Initializes the authentication parameters required for sending and receiving
+   * emails.
+   *
+   * @param user the UserInfo object containing user's email settings
+   */
+  public static void init(final UserInfo user) {
     Authentication.smtpHost = user.getSmtpServerAddress();
     Authentication.smtpPort = user.getSmtpServerPort();
     Authentication.pop3Host = user.getPopServerAddress();

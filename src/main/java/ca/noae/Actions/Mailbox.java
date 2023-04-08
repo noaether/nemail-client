@@ -10,6 +10,15 @@ import javax.mail.Store;
 
 public final class Mailbox {
   /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private Mailbox() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /**
    * The maximum number of messages to retrieve from the mail server.
    */
   private static final int MAX_MESSAGES = 25;
@@ -29,15 +38,6 @@ public final class Mailbox {
    * The latest messages retrieved from the mail server.
    */
   private static List<String[]> latestMessages = new ArrayList<>();
-
-  /**
-   *
-   * This is a utility class containing only static methods and cannot be
-   * instantiated.
-   */
-  private Mailbox() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-  }
 
   /**
    * Retrieves the latest messages from the specified mailbox and returns them as
@@ -108,21 +108,25 @@ public final class Mailbox {
     return froms;
   }
 
-  /* public static List<String> getDates() {
-    List<String> dates = new ArrayList<>();
-    for (String[] latestMessage : latestMessages) {
-      dates.add(latestMessage[3]); // 3 is the index of the date in the String[]
-    }
-    return dates;
-  } */
+  /*
+   * public static List<String> getDates() {
+   * List<String> dates = new ArrayList<>();
+   * for (String[] latestMessage : latestMessages) {
+   * dates.add(latestMessage[3]); // 3 is the index of the date in the String[]
+   * }
+   * return dates;
+   * }
+   */
 
-  /* public static List<String> getBodies() {
-    List<String> bodies = new ArrayList<>();
-    for (String[] latestMessage : latestMessages) {
-      bodies.add(latestMessage[4]);
-    }
-    return bodies;
-  } */
+  /*
+   * public static List<String> getBodies() {
+   * List<String> bodies = new ArrayList<>();
+   * for (String[] latestMessage : latestMessages) {
+   * bodies.add(latestMessage[4]);
+   * }
+   * return bodies;
+   * }
+   */
 
   /**
    * Returns the messages retrieved from the mail server.

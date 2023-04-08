@@ -23,7 +23,7 @@ public class Main {
             // Initialize
             new ConfigManager(scanner, "app.properties");
             UserInfo user = Login.startAuthentication(scanner);
-            new Authentication(user);
+            Authentication.init(user);
 
             // Authenticate the user's credentials
             try {

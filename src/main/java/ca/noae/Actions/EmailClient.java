@@ -16,15 +16,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class EmailClient {
-
-  /**
-   * The SMTP transport used to send email messages. This field is initialized
-   * when the user logs in to their email account using SMTP authentication.
-   * Once the transport is obtained, it can be reused to send multiple messages
-   * without requiring authentication each time.
-   */
-  private static Transport transport;
-
   /**
    * Initializes the EmailClient class with the specified transport.
    *
@@ -33,6 +24,14 @@ public class EmailClient {
   public EmailClient(final Transport initTransport) {
     EmailClient.transport = initTransport;
   }
+
+  /**
+   * The SMTP transport used to send email messages. This field is initialized
+   * when the user logs in to their email account using SMTP authentication.
+   * Once the transport is obtained, it can be reused to send multiple messages
+   * without requiring authentication each time.
+   */
+  private static Transport transport;
 
   /**
    * Sends an email to the specified recipient with the given subject and body.

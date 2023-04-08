@@ -18,6 +18,16 @@ public final class Mailbox {
     Mailbox.store = store;
   }
 
+  /**
+   * Retrieves the latest messages from the specified mailbox and returns them as
+   * a List of String arrays.
+   *
+   * @param mailbox the name of the mailbox to retrieve messages from
+   * @return a List of String arrays containing message information, including
+   *         message number, subject, sender, date, and content
+   * @throws Exception if the specified mailbox does not exist or there is an
+   *                   error while retrieving messages
+   */
   public static List<String[]> getLatestMessages(String mailbox)
       throws Exception {
 
@@ -46,6 +56,12 @@ public final class Mailbox {
     return latestMessages;
   }
 
+  /**
+   * Retrieves the subjects of the latest messages and returns them as a List of
+   * Strings.
+   *
+   * @return a List of Strings containing the subjects of the latest messages
+   */
   public static List<String> getSubjects() {
     List<String> subjects = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
@@ -62,6 +78,12 @@ public final class Mailbox {
     return froms;
   }
 
+  /**
+   * Retrieves the senders of the latest messages and returns them as a List of
+   * Strings.
+   *
+   * @return a List of Strings containing the senders of the latest messages
+   */
   public static List<String> getDates() {
     List<String> dates = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {
@@ -70,6 +92,12 @@ public final class Mailbox {
     return dates;
   }
 
+  /**
+   * Retrieves the bodies of the latest messages and returns them as a List of
+   * Strings.
+   *
+   * @return a List of Strings containing the bodies of the latest messages
+   */
   public static List<String> getBodies() {
     List<String> bodies = new ArrayList<>();
     for (String[] latestMessage : latestMessages) {

@@ -70,7 +70,7 @@ public final class ConfigManager {
    *                property value
    * @return the value of the specified property or query
    */
-  public static String getPropOrQuery(final String prop, final String message) { // TODO : Implement this method
+  public static String getPropOrQuery(final String prop, final String message) {
     if (props == null) {
       System.out.print(message);
       return scanner.nextLine();

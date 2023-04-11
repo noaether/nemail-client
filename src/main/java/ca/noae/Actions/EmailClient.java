@@ -60,7 +60,7 @@ public class EmailClient {
    * @throws MessagingException if there is an error extracting the text content
    * @throws IOException        if there is an error reading the body part
    */
-  private String getTextFromMimeMultipart(
+  public static String getTextFromMimeMultipart(
       final MimeMultipart mimeMultipart) throws MessagingException, IOException {
     String result = "";
     for (int i = 0; i < mimeMultipart.getCount(); i++) {
@@ -68,7 +68,7 @@ public class EmailClient {
       if (bodyPart.isMimeType("text/plain")) {
         return result + "\n" + bodyPart.getContent(); // without return, same text appears twice in my tests
       }
-      result += this.parseBodyPart(bodyPart);
+      result += EmailClient.parseBodyPart(bodyPart);
     }
     return result;
   }
@@ -82,13 +82,15 @@ public class EmailClient {
    * @throws IOException        if there is an error reading the content of the
    *                            BodyPart
    */
-  private String parseBodyPart(final BodyPart bodyPart) throws MessagingException, IOException {
+  public static String parseBodyPart(final BodyPart bodyPart) throws MessagingException, IOException {
     if (bodyPart.isMimeType("text/html")) {
       return "\n" + org.jsoup.Jsoup
           .parse(bodyPart.getContent().toString())
           .text();
     } else if (bodyPart.getContent() instanceof MimeMultipart) {
-      return getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
+      return EmailClient.getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
+    } else if (bodyPart.isMimeType("text/plain")) {
+      return "\n" + bodyPart.getContent();
     } else {
       return bodyPart.toString();
     }

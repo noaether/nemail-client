@@ -22,28 +22,28 @@ public final class Authentication {
   }
 
   /** The host name of the SMTP server. */
-  private static String smtpHost;
+  public static String smtpHost;
 
   /** The port of the SMTP server. */
-  private static String smtpPort;
+  public static String smtpPort;
 
   /** The host name of the POP3 server. */
-  private static String pop3Host;
+  public static String pop3Host;
 
   /** The port of the POP3 server. */
-  private static String pop3Port;
+  public static String pop3Port;
 
   /** The host name of the IMAP server. */
-  private static String imapHost;
+  public static String imapHost;
 
   /** The port of the IMAP server. */
-  private static String imapPort;
+  public static String imapPort;
 
   /** The email address of the user. */
-  private static String emailAddress;
+  public static String emailAddress;
 
   /** The password of the user. */
-  private static String password;
+  public static String password;
 
   /**
    *

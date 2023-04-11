@@ -37,7 +37,7 @@ public final class Mailbox {
   /**
    * The latest messages retrieved from the mail server.
    */
-  private static List<String[]> latestMessages = new ArrayList<>();
+  public static List<String[]> latestMessages = new ArrayList<>();
 
   /**
    * Retrieves the latest messages from the specified mailbox and returns them as
@@ -68,6 +68,7 @@ public final class Mailbox {
     System.out.println("Total Messages: " + messageCount);
     System.out.println("------------------------------");
     System.out.println("Showing messages " + start + " to " + messageCount);
+    latestMessages.clear(); // Clears array to avoid duplicates
     int messageNo = 1;
     for (Message message : messages) {
       latestMessages.add(new String[] {

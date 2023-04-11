@@ -1,5 +1,6 @@
 package ca.noae.Actions;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.FileOutputStream;
 import java.io.IOException; // Import the IOException class to handle errors
@@ -22,9 +23,9 @@ public final class FileHandler {
      *                         Mailbox.messages array
      * @throws RuntimeException if there is an error while saving the email
      */
-    public static void saveEmail(final int messageSelection) {
+    public static void saveEmail(final Message message) {
         try {
-            Mailbox.getMessages()[messageSelection - 1].writeTo(new FileOutputStream("mail.eml"));
+            message.writeTo(new FileOutputStream("mail.eml"));
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

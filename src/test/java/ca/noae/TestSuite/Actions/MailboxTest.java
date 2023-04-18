@@ -107,4 +107,31 @@ public class MailboxTest {
     assertEquals("Subject2", messages[1].getSubject());
   }
 
+  @Test
+  public void testSetMessagesSuccess() throws Exception {
+    Message[] messages = new Message[] {
+        Mockito.mock(Message.class),
+        Mockito.mock(Message.class)
+    };
+
+    // Set the messages
+    Message[] result = Mailbox.setMessages(messages);
+
+    // Verify that the messages were set correctly
+    assertArrayEquals(messages, result);
+    assertArrayEquals(messages, Mailbox.getMessages());
+  }
+
+  @Test
+  public void testSetMessagesNull() throws Exception {
+    try {
+      // Try to set null messages
+      Mailbox.setMessages(null);
+      fail("Expected IllegalArgumentException to be thrown");
+    } catch (IllegalArgumentException e) {
+      // Verify that the exception message is correct
+      assertEquals("Message cannot be null", e.getMessage());
+    }
+  }
+
 }

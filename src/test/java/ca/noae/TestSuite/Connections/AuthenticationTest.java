@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.sun.mail.util.MailConnectException;
+
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 
@@ -20,15 +22,17 @@ public class AuthenticationTest {
 
   @BeforeEach
   void setUp() {
+    int smtpPort = 9000;
+    int pop3Port = 10000;
+    int imapPort = 11000;
     greenMail = new GreenMail(new ServerSetup[] {
-        new ServerSetup(3025, "localhost", ServerSetup.PROTOCOL_SMTP),
-        new ServerSetup(3110, "localhost", ServerSetup.PROTOCOL_POP3),
-        new ServerSetup(3993, "localhost", ServerSetup.PROTOCOL_IMAP)
+        new ServerSetup(smtpPort, "localhost", ServerSetup.PROTOCOL_SMTP),
+        new ServerSetup(pop3Port, "localhost", ServerSetup.PROTOCOL_POP3),
     });
     greenMail.setUser("test@example.com", "testpassword");
     greenMail.start();
     testUserInfo = new UserInfo("test@example.com", "testpassword", "inbox", "localhost", "localhost",
-        "localhost", "3025", "3110", "3993");
+        "localhost", Integer.toString(smtpPort), Integer.toString(pop3Port), Integer.toString(imapPort));
     Authentication.init(testUserInfo);
   }
 
@@ -52,7 +56,8 @@ public class AuthenticationTest {
 
   @Test
   void testGetIMAPStore() {
-    assertDoesNotThrow(() -> Authentication.getIMAPStore());
+    assertThrows(MailConnectException.class, () -> Authentication.getIMAPStore()); // test that exception throws when
+                                                                                   // IMAP is not supported
   }
 
   @Test

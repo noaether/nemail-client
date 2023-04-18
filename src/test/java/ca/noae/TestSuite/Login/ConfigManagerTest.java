@@ -23,14 +23,13 @@ class ConfigManagerTest {
 
   @BeforeEach
   void setUp() throws FileNotFoundException {
-    // Create a test properties file with a test property
-    Properties props = new Properties();
-    props.setProperty(TEST_PROP_NAME, TEST_PROP_VALUE);
-    OutputStream outputStream = new FileOutputStream("config.xml");
+    OutputStream output = new FileOutputStream(TEST_FILE_NAME);
+    Properties prop = new Properties();
+    prop.setProperty(TEST_PROP_NAME, TEST_PROP_VALUE);
     try {
-      props.storeToXML(outputStream, props.toString());
+      prop.store(output, null);
     } catch (IOException e) {
-      fail("Failed to create test properties file");
+      e.printStackTrace();
     }
   }
 
@@ -41,7 +40,7 @@ class ConfigManagerTest {
     testFile.delete();
   }
 
-  /* @Test
+  @Test
   void testInitConfigManager() {
     // Test that initConfigManager loads properties from the test file
     Scanner scanner = new Scanner(System.in);
@@ -55,7 +54,7 @@ class ConfigManagerTest {
     Scanner scanner = new Scanner(System.in);
     ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
     assertEquals(TEST_PROP_VALUE, ConfigManager.getPropOrQuery(TEST_PROP_NAME));
-  } */
+  }
 
   @Test
   void testGetPropOrQueryWhenPropertiesNotLoaded() {
@@ -66,7 +65,7 @@ class ConfigManagerTest {
     assertEquals("test input", ConfigManager.getPropOrQuery(TEST_PROP_NAME));
   }
 
-  /* @Test
+  @Test
   void testGetPropOrQueryWithMessageWhenPropertiesLoaded() {
     // Test that getPropOrQuery returns a loaded property
     Scanner scanner = new Scanner(System.in);
@@ -81,5 +80,5 @@ class ConfigManagerTest {
     Scanner scanner = new Scanner(new ByteArrayInputStream("test input".getBytes()));
     ConfigManager.initConfigManager(scanner, "non-existent-file");
     assertEquals("test input", ConfigManager.getPropOrQuery(TEST_PROP_NAME, "Test message"));
-  } */
+  }
 }

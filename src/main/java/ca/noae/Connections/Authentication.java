@@ -105,11 +105,20 @@ public final class Authentication {
     properties.setProperty("mail.store.protocol", "imap");
     properties.setProperty("mail.imap.host", imapHost);
     properties.setProperty("mail.imap.port", imapPort);
-    properties.setProperty("mail.imap.ssl.enable", "true");
-    Session session = Session.getInstance(properties);
-    Store store = session.getStore("imap");
-    store.connect(imapHost, emailAddress, password);
-    return store;
+    try {
+      properties.setProperty("mail.imap.ssl.enable", "true");
+      Session session = Session.getInstance(properties);
+      Store store = session.getStore("imap");
+      store.connect(imapHost, emailAddress, password);
+
+      return store.isConnected() ? store : null;
+    } catch(MessagingException e) {
+      properties.setProperty("mail.imap.ssl.enable", "false");
+      Session session = Session.getInstance(properties);
+      Store store = session.getStore("imap");
+      store.connect(imapHost, emailAddress, password);
+      return store;
+    }
   }
 
   /**
@@ -125,11 +134,18 @@ public final class Authentication {
     properties.setProperty("mail.store.protocol", "pop3");
     properties.setProperty("mail.pop3.host", pop3Host);
     properties.setProperty("mail.pop3.port", pop3Port);
-    properties.setProperty("mail.pop3.ssl.enable", "true");
-    Session session = Session.getInstance(properties);
-    Store store = session.getStore("pop3");
-    store.connect(pop3Host, emailAddress, password);
-    return store;
+    try {
+      properties.setProperty("mail.pop3.ssl.enable", "true");
+      Session session = Session.getInstance(properties);
+      Store store = session.getStore("pop3");
+      store.connect(pop3Host, emailAddress, password);
+      return store;
+    } catch (MessagingException e) {
+      properties.setProperty("mail.pop3.ssl.enable", "false");
+      Session session = Session.getInstance(properties);
+      Store store = session.getStore("pop3");
+      store.connect(pop3Host, emailAddress, password);
+      return store;    }
   }
 
   /**
@@ -140,7 +156,7 @@ public final class Authentication {
    * @throws MessagingException if unable to connect to the email server using
    *                            either protocol.
    */
-  public static Store getStore() throws Exception { /* TODO : Implement error throwing */
+  public static Store getStore() throws Exception {
     Store finalStore = null;
     try {
       finalStore = getIMAPStore();

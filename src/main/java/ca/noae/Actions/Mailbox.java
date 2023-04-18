@@ -137,4 +137,19 @@ public final class Mailbox {
   public static Message[] getMessages() {
     return messages;
   }
+
+  /**
+   * Sets the messages "retrieved" from the mail server.
+   *
+   * @param messages the messages to set
+   * @return the message added if successful
+   * @throws IllegalArgumentException if the message is null
+   */
+  public static Message[] setMessages(final Message[] messages) throws IllegalArgumentException {
+    if (messages == null) {
+      throw new IllegalArgumentException("Message cannot be null");
+    }
+    Mailbox.messages = messages;
+    return messages;
+  }
 }

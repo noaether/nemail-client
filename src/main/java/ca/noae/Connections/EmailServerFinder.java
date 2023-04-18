@@ -27,23 +27,23 @@ public final class EmailServerFinder {
   static {
     EMAIL_PROVIDERS.put(
         "gmail.com", new String[] {
-            "smtp.gmail.com", "imap.gmail.com"
+            "smtp.gmail.com", "imap.gmail.com", "pop.gmail.com"
         });
     EMAIL_PROVIDERS.put("outlook.com",
         new String[] {
-            "smtp-mail.outlook.com", "outlook.office365.com"
+            "smtp-mail.outlook.com", "outlook.office365.com", "pop-mail.outlook.com"
         });
     EMAIL_PROVIDERS.put("yahoo.com",
         new String[] {
-            "smtp.mail.yahoo.com", "imap.mail.yahoo.com"
+            "smtp.mail.yahoo.com", "imap.mail.yahoo.com", "pop.mail.yahoo.com"
         });
     EMAIL_PROVIDERS.put("hotmail.com",
         new String[] {
-            "smtp-mail.outlook.com", "outlook.office365.com"
+            "smtp-mail.outlook.com", "outlook.office365.com", "pop-mail.outlook.com"
         });
     EMAIL_PROVIDERS.put(
         "noae.ca", new String[] {
-            "smtp.migadu.com", "imap.migadu.com"
+            "smtp.migadu.com", "imap.migadu.com", "pop.migadu.com"
         });
   }
 
@@ -85,12 +85,15 @@ public final class EmailServerFinder {
     if (servers != null) {
       String smtpServer = servers[0];
       String imapServer = servers[1];
+      String pop3Server = servers[2];
 
       System.out.println("SMTP server: " + smtpServer);
       System.out.println("IMAP server: " + imapServer);
+      System.out.println("POP3 server: " + pop3Server);
+
       respStrings[0] = smtpServer;
       respStrings[1] = imapServer;
-      respStrings[2] = imapServer;
+      respStrings[2] = pop3Server;
       return respStrings;
     }
 
@@ -99,11 +102,13 @@ public final class EmailServerFinder {
         "smtp." + domain, "mail." + domain };
     String[] possibleIMAPHosts = {
         "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain };
+    String[] possiblePOP3Hosts = {
+        "pop." + domain, "pop3." + domain, "imap." + domain, "mail." + domain };
 
     // Probe known ports
     String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS);
     String imapServer = probePorts(possibleIMAPHosts, IMAP_PORTS);
-    String pop3Server = probePorts(possibleIMAPHosts, POP3_PORTS);
+    String pop3Server = probePorts(possiblePOP3Hosts, POP3_PORTS);
 
     // Try to open connections and check capabilities
     if (smtpServer == null) {
@@ -115,7 +120,7 @@ public final class EmailServerFinder {
     }
 
     if (pop3Server == null) {
-      pop3Server = probeCapabilities(possibleIMAPHosts, POP3_PORTS, "POP3");
+      pop3Server = probeCapabilities(possiblePOP3Hosts, POP3_PORTS, "POP3");
     }
 
     if (smtpServer != null) {

@@ -55,7 +55,7 @@ public final class ConsoleUI {
         }
       }
     }
-    int totalWidth = Arrays.stream(columnWidths).sum() + columnWidths.length - 1;
+    int totalWidth = Arrays.stream(columnWidths).sum() + columnWidths.length * 3 + 1;
     StringBuilder separatorBuilder = new StringBuilder();
     for (int i = 0; i < totalWidth; i++) {
       separatorBuilder.append("-");

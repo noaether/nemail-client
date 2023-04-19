@@ -28,7 +28,10 @@ public class ConsoleUITest {
    */
   @Test
   public void testCreateTable() {
+    @SuppressWarnings("checkstyle:nowhitespaceafter")
     String[] columnNames = { "ID", "Name", "Age" };
+
+    @SuppressWarnings("checkstyle:nowhitespaceafter")
     String[][] data = {
         { "1", "John", "25" },
         { "2", "Jane", "30" },
@@ -40,14 +43,13 @@ public class ConsoleUITest {
 
     ConsoleUI.createTable(columnNames, data);
 
-    String expectedOutput =
-        "-------------------\n" +
-        "| ID | Name | Age | \n" +
-        "-------------------\n" +
-        "| 1  | John | 25  | \n" +
-        "| 2  | Jane | 30  | \n" +
-        "| 3  | Bob  | 40  | \n" +
-        "-------------------\n";
+    String expectedOutput = "-------------------\n"
+        + "| ID | Name | Age | \n"
+        + "-------------------\n"
+        + "| 1  | John | 25  | \n"
+        + "| 2  | Jane | 30  | \n"
+        + "| 3  | Bob  | 40  | \n"
+        + "-------------------\n";
 
     assertEquals(expectedOutput, outContent.toString());
   }

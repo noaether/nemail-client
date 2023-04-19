@@ -146,7 +146,7 @@ public final class Mailbox {
    * @throws IllegalArgumentException if the message is null
    */
   public static Message[] setMessages(final Message[] newMessage) throws IllegalArgumentException {
-    if (messages == null) {
+    if (newMessage == null) {
       throw new IllegalArgumentException("Message cannot be null");
     }
     Mailbox.messages = newMessage;

@@ -224,7 +224,7 @@ public final class MailboxTest {
    * @throws MessagingException if an error occurs while setting the messages
    */
   @Test
-  public void testSetMessagesNull() throws Exception {
+  public void testSetMessagesNull() throws IllegalArgumentException {
     try {
       // Try to set null messages
       Mailbox.setMessages(null);

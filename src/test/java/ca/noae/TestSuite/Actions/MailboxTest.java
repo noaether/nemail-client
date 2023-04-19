@@ -96,7 +96,7 @@ public final class MailboxTest {
     Mockito.when(message2.getContent()).thenReturn("Body2");
 
     // reset mailbox
-    Mailbox.getLatestMessages("inbox", store);
+    Mailbox.queryLatest("inbox", store);
   }
 
   /**
@@ -111,7 +111,7 @@ public final class MailboxTest {
    */
   @Test
   public void testGetLatestMessages() throws Exception {
-    List<String[]> latestMessages = Mailbox.getLatestMessages("inbox", store);
+    List<String[]> latestMessages = Mailbox.queryLatest("inbox", store);
 
     // check that messages were retrieved correctly
     assertEquals(2, latestMessages.size());
@@ -133,7 +133,7 @@ public final class MailboxTest {
   public void testGetLatestMessagesFolderNotFound() throws Exception {
     Mockito.when(inbox.exists()).thenReturn(false);
 
-    assertThrows(FolderNotFoundException.class, () -> Mailbox.getLatestMessages("inbox", store));
+    assertThrows(FolderNotFoundException.class, () -> Mailbox.queryLatest("inbox", store));
   }
 
   /**

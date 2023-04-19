@@ -37,7 +37,7 @@ public final class Mailbox {
   /**
    * The latest messages retrieved from the mail server.
    */
-  public static List<String[]> latestMessages = new ArrayList<>();
+  private static List<String[]> latestMessages = new ArrayList<>();
 
   /**
    * Retrieves the latest messages from the specified mailbox and returns them as
@@ -50,7 +50,7 @@ public final class Mailbox {
    * @throws Exception if the specified mailbox does not exist or there is an
    *                   error while retrieving messages
    */
-  public static List<String[]> getLatestMessages(final String mailbox, final Store store)
+  public static List<String[]> queryLatest(final String mailbox, final Store store)
       throws Exception {
 
     boolean exists = store.getFolder(mailbox).exists();
@@ -145,11 +145,20 @@ public final class Mailbox {
    * @return the message added if successful
    * @throws IllegalArgumentException if the message is null
    */
-  public static Message[] setMessages(final Message[] messages) throws IllegalArgumentException {
+  public static Message[] setMessages(final Message[] newMessage) throws IllegalArgumentException {
     if (messages == null) {
       throw new IllegalArgumentException("Message cannot be null");
     }
-    Mailbox.messages = messages;
+    Mailbox.messages = newMessage;
     return messages;
+  }
+
+  /**
+   * Returns the List of latest messages retrieved from the mail server.
+   *
+   * @return the List of latest messages retrieved from the mail server
+   */
+  public static List<String[]> getLatestMessages() {
+    return latestMessages;
   }
 }

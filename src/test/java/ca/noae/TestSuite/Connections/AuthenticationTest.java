@@ -38,14 +38,7 @@ public class AuthenticationTest {
 
   @AfterEach
   void tearDown() {
-    Authentication.smtpHost = null;
-    Authentication.smtpPort = null;
-    Authentication.pop3Host = null;
-    Authentication.pop3Port = null;
-    Authentication.imapHost = null;
-    Authentication.imapPort = null;
-    Authentication.emailAddress = null;
-    Authentication.password = null;
+    Authentication.init(null);
     greenMail.stop();
   }
 

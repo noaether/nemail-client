@@ -21,46 +21,20 @@ public final class Authentication {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }
 
-  /** The host name of the SMTP server. */
-  public static String smtpHost;
-
-  /** The port of the SMTP server. */
-  public static String smtpPort;
-
-  /** The host name of the POP3 server. */
-  public static String pop3Host;
-
-  /** The port of the POP3 server. */
-  public static String pop3Port;
-
-  /** The host name of the IMAP server. */
-  public static String imapHost;
-
-  /** The port of the IMAP server. */
-  public static String imapPort;
-
-  /** The email address of the user. */
-  public static String emailAddress;
-
-  /** The password of the user. */
-  public static String password;
+  /**
+   * The UserInfo object containing the user's email settings.
+   */
+  private static UserInfo user;
 
   /**
    *
    * Initializes the authentication parameters required for sending and receiving
    * emails.
    *
-   * @param user the UserInfo object containing user's email settings
+   * @param initUser the UserInfo object containing user's email settings
    */
-  public static void init(final UserInfo user) {
-    Authentication.smtpHost = user.getSmtpServerAddress();
-    Authentication.smtpPort = user.getSmtpServerPort();
-    Authentication.pop3Host = user.getPopServerAddress();
-    Authentication.pop3Port = user.getPopServerPort();
-    Authentication.imapHost = user.getImapServerAddress();
-    Authentication.imapPort = user.getImapServerPort();
-    Authentication.emailAddress = user.getEmailAddress();
-    Authentication.password = user.getPassword();
+  public static void init(final UserInfo initUser) {
+    Authentication.user = initUser;
   }
 
   /**
@@ -75,12 +49,12 @@ public final class Authentication {
     props.put("mail.smtp.auth", "true");
     props.put("mail.smtp.socketFactory.class",
         "javax.net.ssl.SSLSocketFactory");
-    props.put("mail.smtp.host", smtpHost);
-    props.put("mail.smtp.port", smtpPort);
+    props.put("mail.smtp.host", user.getSmtpServerAddress());
+    props.put("mail.smtp.port", user.getSmtpServerPort());
 
     Session session = Session.getInstance(props, new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(emailAddress, password);
+        return new PasswordAuthentication(user.getEmailAddress(), user.getPassword());
       }
     });
 
@@ -103,20 +77,20 @@ public final class Authentication {
   public static Store getIMAPStore() throws Exception {
     Properties properties = new Properties();
     properties.setProperty("mail.store.protocol", "imap");
-    properties.setProperty("mail.imap.host", imapHost);
-    properties.setProperty("mail.imap.port", imapPort);
+    properties.setProperty("mail.imap.host", user.getImapServerAddress());
+    properties.setProperty("mail.imap.port", user.getImapServerPort());
     try {
       properties.setProperty("mail.imap.ssl.enable", "true");
       Session session = Session.getInstance(properties);
       Store store = session.getStore("imap");
-      store.connect(imapHost, emailAddress, password);
+      store.connect(user.getImapServerAddress(), user.getEmailAddress(), user.getPassword());
 
       return store.isConnected() ? store : null;
-    } catch(MessagingException e) {
+    } catch (MessagingException e) {
       properties.setProperty("mail.imap.ssl.enable", "false");
       Session session = Session.getInstance(properties);
       Store store = session.getStore("imap");
-      store.connect(imapHost, emailAddress, password);
+      store.connect(user.getImapServerAddress(), user.getEmailAddress(), user.getPassword());
       return store;
     }
   }
@@ -132,20 +106,21 @@ public final class Authentication {
   public static Store getPOP3Store() throws Exception {
     Properties properties = new Properties();
     properties.setProperty("mail.store.protocol", "pop3");
-    properties.setProperty("mail.pop3.host", pop3Host);
-    properties.setProperty("mail.pop3.port", pop3Port);
+    properties.setProperty("mail.pop3.host", user.getPopServerAddress());
+    properties.setProperty("mail.pop3.port", user.getPopServerPort());
     try {
       properties.setProperty("mail.pop3.ssl.enable", "true");
       Session session = Session.getInstance(properties);
       Store store = session.getStore("pop3");
-      store.connect(pop3Host, emailAddress, password);
+      store.connect(user.getPopServerAddress(), user.getEmailAddress(), user.getPassword());
       return store;
     } catch (MessagingException e) {
       properties.setProperty("mail.pop3.ssl.enable", "false");
       Session session = Session.getInstance(properties);
       Store store = session.getStore("pop3");
-      store.connect(pop3Host, emailAddress, password);
-      return store;    }
+      store.connect(user.getPopServerAddress(), user.getEmailAddress(), user.getPassword());
+      return store;
+    }
   }
 
   /**
@@ -170,4 +145,14 @@ public final class Authentication {
     }
     return finalStore;
   }
+
+  /**
+   * Returns the UserInfo object containing the user's email settings.
+   *
+   * @return the UserInfo object containing the user's email settings
+   */
+  public static UserInfo getUser() {
+    return user;
+  }
+
 }

@@ -27,21 +27,43 @@ import java.util.List;
 
 public class UtilsTest {
 
+    /**
+     * The MimeMultipart object to be used in the tests.
+     */
     private MimeMultipart mimeMultipart;
 
-    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final PrintStream originalOut = System.out;
+    /**
+     * The ByteArrayOutputStream object to be used in the tests.
+     */
+    private static ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
+    /**
+     * The PrintStream object to be used in the tests.
+     */
+    private static PrintStream originalOut = System.out;
+
+    /**
+     * Sets up the output stream.
+     */
     @BeforeAll
     public static void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
 
+    /**
+     * Restores the output stream.
+     */
     @AfterAll
     public static void restoreStreams() {
         System.setOut(originalOut);
     }
 
+    /**
+     * Sets up the MimeMultipart object.
+     *
+     * @throws MessagingException
+     * @throws IOException
+     */
     @BeforeEach
     public void setup() throws MessagingException, IOException {
         mimeMultipart = Mockito.mock(MimeMultipart.class);
@@ -53,12 +75,30 @@ public class UtilsTest {
         Mockito.when(bodyPart.getContent()).thenReturn("test plain text");
     }
 
+    /**
+     * Tests the {@link Utils#getTextFromMimeMultipart(MimeMultipart)} method with a
+     * MimeMultipart object with two BodyPart objects.
+     *
+     * @throws MessagingException if there is an error with the mocked MimeMultipart
+     *                           object
+     * @throws IOException        if there is an error with the mocked MimeMultipart
+     *                          object
+     */
     @Test
     public void testGetTextFromMimeMultipart() throws MessagingException, IOException {
         String result = Utils.getTextFromMimeMultipart(mimeMultipart);
         Assertions.assertEquals("\n" + "test plain text", result);
     }
 
+    /**
+     * Tests the {@link Utils#getTextFromMimeMultipart(MimeMultipart)} method with a
+     * MimeMultipart object with one BodyPart object.
+     *
+     * @throws MessagingException if there is an error with the mocked MimeMultipart
+     *                           object
+     * @throws IOException        if there is an error with the mocked MimeMultipart
+     *                          object
+     */
     @Test
     public void testDisplayMessage() throws Exception {
         // Create mock message object
@@ -79,15 +119,22 @@ public class UtilsTest {
 
         // Verify output
         assertEquals(
-                "------------------------------------------------\n" +
-                "Message: 1\n" +
-                "Subject: Test Subject\n" +
-                "From: test@test.com\n" +
-                "Date: 2023-04-18\n" +
-                "Body: Hello World!\n" +
-                "------------------------------------------------\n", outContent.toString());
+                "------------------------------------------------\n"
+                + "Message: 1\n"
+                + "Subject: Test Subject\n"
+                + "From: test@test.com\n"
+                + "Date: 2023-04-18\n"
+                + "Body: Hello World!\n"
+                + "------------------------------------------------\n", outContent.toString());
     }
 
+    /**
+     * Tests the {@link Utils#getTextFromMessage(Message)} method with a Message
+     * object with a plain text body.
+     *
+     * @throws MessagingException if there is an error with the mocked Message object
+     * @throws IOException        if there is an error with the mocked Message object
+     */
     @Test
     public void testGetTextFromMessage() throws MessagingException, IOException {
         Message message = Mockito.mock(Message.class);

@@ -6,7 +6,9 @@ import org.mockito.Mockito;
 import ca.noae.Login.ConfigManager;
 import ca.noae.Login.ServerManager;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 
 import java.util.Scanner;
 

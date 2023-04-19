@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.Properties;
 
-public class EmailClient {
+public final class EmailClient {
 
   /**
    *
@@ -31,7 +31,7 @@ public class EmailClient {
    *
    * @param initTransport the SMTP transport to use for sending email messages
    */
-  public void init(final Transport initTransport) {
+  public static void init(final Transport initTransport) {
     EmailClient.transport = initTransport;
   }
 

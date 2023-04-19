@@ -54,7 +54,7 @@ public final class Main {
 
                 Store finalStore = Authentication.getStore();
 
-                new EmailClient(smtpTransport);
+                EmailClient.init(smtpTransport);
                 List<String[]> latestMessages = Mailbox.queryLatest(user.getMailbox(), finalStore);
                 List<String> latestSubjects = Mailbox.getSubjects();
                 List<String> latestSenders = Mailbox.getFroms();

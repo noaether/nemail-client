@@ -141,7 +141,7 @@ public final class Mailbox {
   /**
    * Sets the messages "retrieved" from the mail server.
    *
-   * @param messages the messages to set
+   * @param newMessage the messages to set
    * @return the message added if successful
    * @throws IllegalArgumentException if the message is null
    */

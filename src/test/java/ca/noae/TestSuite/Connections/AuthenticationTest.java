@@ -18,7 +18,7 @@ public class AuthenticationTest {
 
   private UserInfo testUserInfo;
 
-  public GreenMail greenMail;
+  private GreenMail greenMail;
 
   @BeforeEach
   void setUp() {

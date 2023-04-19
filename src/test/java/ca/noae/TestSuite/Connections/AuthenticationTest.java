@@ -1,6 +1,7 @@
 package ca.noae.TestSuite.Connections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +17,19 @@ import ca.noae.Objects.UserInfo;
 
 public class AuthenticationTest {
 
+  /**
+   * The UserInfo object to be used in the tests.
+   */
   private UserInfo testUserInfo;
 
+  /**
+   * The GreenMail object to be used in the tests.
+   */
   private GreenMail greenMail;
 
+  /**
+   * Sets up the test environment.
+   */
   @BeforeEach
   void setUp() {
     int smtpPort = 9000;
@@ -36,28 +46,43 @@ public class AuthenticationTest {
     Authentication.init(testUserInfo);
   }
 
+  /**
+   * Tears down the test environment.
+   */
   @AfterEach
   void tearDown() {
     Authentication.init(null);
     greenMail.stop();
   }
 
+  /**
+   * Tests the {@link Authentication#getSMTPTransport()} method.
+   */
   @Test
   void testGetSMTPTransport() {
     assertDoesNotThrow(() -> Authentication.getSMTPTransport());
   }
 
+  /**
+   * Tests the {@link Authentication#getIMAPStore()} method.
+   */
   @Test
   void testGetIMAPStore() {
     assertThrows(MailConnectException.class, () -> Authentication.getIMAPStore()); // test that exception throws when
                                                                                    // IMAP is not supported
   }
 
+  /**
+   * Tests the {@link Authentication#getPOP3Store()} method.
+   */
   @Test
   void testGetPOP3Store() {
     assertDoesNotThrow(() -> Authentication.getPOP3Store());
   }
 
+  /**
+   * Tests the {@link Authentication#getStore()} method.
+   */
   @Test
   void testGetStore() {
     assertDoesNotThrow(() -> Authentication.getStore());

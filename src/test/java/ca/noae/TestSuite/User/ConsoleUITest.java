@@ -10,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConsoleUITest {
 
+  /**
+   * Tests the {@link ConsoleUI#clearScreen()} method.
+   */
   @Test
   public void testClearScreen() {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -20,6 +23,9 @@ public class ConsoleUITest {
     assertEquals("\033[H\033[2J", outContent.toString());
   }
 
+  /**
+   * Tests the {@link ConsoleUI#createTable(String[], String[][])} method.
+   */
   @Test
   public void testCreateTable() {
     String[] columnNames = { "ID", "Name", "Age" };

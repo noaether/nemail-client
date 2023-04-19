@@ -19,9 +19,9 @@ public final class FileHandler {
     /**
      * Saves the selected email to a file named "mail.eml".
      *
-     * @param messageSelection the index of the email to save in the
-     *                         Mailbox.messages array
-     * @throws RuntimeException if there is an error while saving the email
+     * @param message the Message object to save
+     *
+     * @throws IOException      if there is an error while saving the email
      */
     public static void saveEmail(final Message message) {
         try {

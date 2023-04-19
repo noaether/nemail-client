@@ -16,12 +16,22 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class EmailClient {
+
+  /**
+   *
+   * This is a utility class containing only static methods and cannot be
+   * instantiated.
+   */
+  private EmailClient() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   /**
    * Initializes the EmailClient class with the specified transport.
    *
    * @param initTransport the SMTP transport to use for sending email messages
    */
-  public EmailClient(final Transport initTransport) {
+  public void init(final Transport initTransport) {
     EmailClient.transport = initTransport;
   }
 

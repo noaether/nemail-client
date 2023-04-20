@@ -48,3 +48,4 @@ app.properties
 .settings/org.eclipse.m2e.core.prefs
 .gitignore
 .settings/org.eclipse.jdt.apt.core.prefs
+codecov

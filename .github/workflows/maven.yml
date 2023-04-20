@@ -11,8 +11,8 @@ jobs:
         with:
           java-version: 17
       - name: Install dependencies
-        run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B
+        run: mvn install -Dmaven.javadoc.skip=true -B
       - name: Run tests and collect coverage
-        run: mvn clean validate test --no-build-cache -B
+        run: mvn clean validate test -B
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

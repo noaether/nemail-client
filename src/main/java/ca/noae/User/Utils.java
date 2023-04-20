@@ -1,6 +1,7 @@
 package ca.noae.User;
 
 import ca.noae.Actions.Mailbox;
+import ca.noae.Objects.CodeElements.Generated;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -15,6 +16,7 @@ public final class Utils {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
+    @Generated
     private Utils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

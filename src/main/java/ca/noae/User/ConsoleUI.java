@@ -3,12 +3,15 @@ package ca.noae.User;
 import java.io.IOException;
 import java.util.Arrays;
 
+import ca.noae.Objects.CodeElements.Generated;
+
 public final class ConsoleUI {
   /**
    *
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private ConsoleUI() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

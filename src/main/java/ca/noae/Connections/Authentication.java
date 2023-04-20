@@ -10,6 +10,7 @@ import javax.mail.Store;
 import javax.mail.Transport;
 
 import ca.noae.Objects.UserInfo;
+import ca.noae.Objects.CodeElements.Generated;
 
 public final class Authentication {
   /**
@@ -17,6 +18,7 @@ public final class Authentication {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private Authentication() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

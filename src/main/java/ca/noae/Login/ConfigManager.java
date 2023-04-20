@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import ca.noae.Objects.CodeElements.Generated;
+
 public final class ConfigManager {
   /**
    *
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private ConfigManager() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

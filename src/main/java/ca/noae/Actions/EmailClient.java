@@ -12,16 +12,18 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import ca.noae.Objects.CodeElements.Generated;
+
 import java.io.IOException;
 import java.util.Properties;
 
 public final class EmailClient {
-
   /**
    *
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private EmailClient() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

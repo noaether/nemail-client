@@ -2,16 +2,19 @@ package ca.noae.Actions;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+
+import ca.noae.Objects.CodeElements.Generated;
+
 import java.io.FileOutputStream;
 import java.io.IOException; // Import the IOException class to handle errors
 
 public final class FileHandler {
-
     /**
      *
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
+    @Generated
     private FileHandler() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

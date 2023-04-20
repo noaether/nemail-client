@@ -14,6 +14,7 @@ import ca.noae.Connections.Authentication;
 import ca.noae.Login.ConfigManager;
 import ca.noae.Login.Login;
 import ca.noae.Objects.UserInfo;
+import ca.noae.Objects.CodeElements.Generated;
 import ca.noae.User.ConsoleUI;
 import ca.noae.User.Utils;
 
@@ -24,6 +25,7 @@ public final class Main {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
+    @Generated
     private Main() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

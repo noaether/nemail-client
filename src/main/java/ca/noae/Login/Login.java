@@ -3,6 +3,7 @@ package ca.noae.Login;
 import java.util.Scanner;
 
 import ca.noae.Objects.UserInfo;
+import ca.noae.Objects.CodeElements.Generated;
 
 public final class Login {
   /**
@@ -10,6 +11,7 @@ public final class Login {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private Login() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

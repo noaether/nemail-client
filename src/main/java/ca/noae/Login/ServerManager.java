@@ -3,6 +3,7 @@ package ca.noae.Login;
 import java.net.UnknownHostException;
 
 import ca.noae.Connections.EmailServerFinder;
+import ca.noae.Objects.CodeElements.Generated;
 
 public final class ServerManager {
   /**
@@ -10,6 +11,7 @@ public final class ServerManager {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private ServerManager() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

@@ -8,12 +8,15 @@ import javax.mail.FolderNotFoundException;
 import javax.mail.Message;
 import javax.mail.Store;
 
+import ca.noae.Objects.CodeElements.Generated;
+
 public final class Mailbox {
   /**
    *
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private Mailbox() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

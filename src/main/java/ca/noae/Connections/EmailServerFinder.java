@@ -7,12 +7,15 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.noae.Objects.CodeElements.Generated;
+
 public final class EmailServerFinder {
   /**
    *
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
+  @Generated
   private EmailServerFinder() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

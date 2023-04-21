@@ -74,7 +74,7 @@ public class UserInfoTest {
    * remaining parameters.
    */
   @Test
-  public void createPartialUser_withEmpty() {
+  public void createPartialUserWithEmpty() {
     UserInfo user = new UserInfo("email", "password", "", "smtp", "pop", "imap", "", "", "");
 
     assertEquals("email", user.getEmailAddress());
@@ -99,7 +99,7 @@ public class UserInfoTest {
    * remaining parameters.
    */
   @Test
-  public void createPartialUser_withNull() {
+  public void createPartialUserWithNull() {
     UserInfo user = new UserInfo("email", "password", null, "smtp", "pop", "imap", null, null, null);
 
     assertEquals("email", user.getEmailAddress());
@@ -124,7 +124,7 @@ public class UserInfoTest {
    * remaining parameters.
    */
   @Test
-  public void createPartialUser_withNullAndEmpty() {
+  public void createPartialUserWithNullAndEmpty() {
     UserInfo user = new UserInfo("email", "password", "", "smtp", "pop", "imap", null, null, null);
 
     assertEquals("email", user.getEmailAddress());
@@ -149,7 +149,7 @@ public class UserInfoTest {
    * remaining parameters.
    */
   @Test
-  public void createPartialUser_withEmptyAndNull() {
+  public void createPartialUserWithEmptyAndNull() {
     UserInfo user = new UserInfo("email", "password", null, "smtp", "pop", "imap", "", "", "");
 
     assertEquals("email", user.getEmailAddress());

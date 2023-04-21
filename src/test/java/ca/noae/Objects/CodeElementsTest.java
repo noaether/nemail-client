@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class CodeElementsTest {
 
   /**
-   * Tests the {@link CodeElements#InvalidLoginException(String)} method
+   * Tests the {@link CodeElements#InvalidLoginException(String)} method.
    * @throws Exception
    */
   @Test
@@ -23,7 +23,7 @@ public class CodeElementsTest {
   }
 
   /**
-   * Tests the {@link CodeElements#Generated} method
+   * Tests the {@link CodeElements#Generated} method.
    * @throws Exception
    */
   @Test

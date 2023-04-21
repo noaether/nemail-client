@@ -30,9 +30,24 @@ jobs:
         files: |
           target/surefire-reports/**/*.xml
 
+    - name: Set badge color
+      shell: bash
+      run: |
+        case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+          success)
+            echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+            ;;
+          failure)
+            echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+            ;;
+          neutral)
+            echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+            ;;
+        esac
+
     - name: Download Badge
       run: |
-        curl -o badge.svg "https://img.shields.io/static/v1?label=TESTS&message=${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}%20%E2%9C%94%20%7C%20${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}%20%E2%9E%A6%20%7C%20%${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}%20%E2%9C%97&color=f2993a"
+        curl -o badge.svg "https://img.shields.io/static/v1?label=TESTS&message=${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}%20%E2%9C%94%20%7C%20${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}%20%E2%9E%A6%20%7C%20%${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}%20%E2%9C%97&color=${{ env.BADGE_COLOR }}&style=for-the-badge"
         echo "Badge downloaded and saved as badge.svg"
 
     - name: Upload badge to Gist

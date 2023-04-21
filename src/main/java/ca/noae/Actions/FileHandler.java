@@ -5,6 +5,7 @@ import javax.mail.MessagingException;
 
 import ca.noae.Objects.CodeElements.Generated;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException; // Import the IOException class to handle errors
 
@@ -14,7 +15,7 @@ public final class FileHandler {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
-    @Generated({"Utility class cannot be instantiated"})
+    @Generated({ "Utility class cannot be instantiated" })
     private FileHandler() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
@@ -23,17 +24,12 @@ public final class FileHandler {
      * Saves the selected email to a file named "mail.eml".
      *
      * @param message the Message object to save
+     * @throws MessagingException if there is an error while parsing the email
+     * @throws FileNotFoundException if the file cannot be created
      *
-     * @throws IOException      if there is an error while saving the email
+     * @throws IOException if there is an error while saving the email
      */
-    public static void saveEmail(final Message message) {
-        try {
-            message.writeTo(new FileOutputStream("mail.eml"));
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+    public static void saveEmail(final Message message) throws FileNotFoundException, IOException, MessagingException {
+        message.writeTo(new FileOutputStream("mail.eml"));
     }
 }

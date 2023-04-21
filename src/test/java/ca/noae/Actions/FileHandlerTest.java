@@ -50,9 +50,10 @@ public final class FileHandlerTest {
    * contains the email message.
    *
    * @throws IOException if an error occurs while reading from the file.
+   * @throws MessagingException
    */
   @Test
-  public void testSaveEmail() throws IOException {
+  public void testSaveEmail() throws IOException, MessagingException {
     FileHandler.saveEmail(testMessage);
     File testFile = new File(TEST_FILE_NAME);
     Assertions.assertTrue(testFile.exists());

@@ -2,8 +2,10 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
+    paths: ['src/**', '.github/workflows/**']
   pull_request:
     branches: [ "main" ]
+    paths: ['src/**', '.github/workflows/**']
 permissions:
   checks: write
   pull-requests: write

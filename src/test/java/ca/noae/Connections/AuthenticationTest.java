@@ -1,4 +1,4 @@
-package ca.noae.TestSuite.Connections;
+package ca.noae.Connections;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -12,7 +12,6 @@ import com.sun.mail.util.MailConnectException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 
-import ca.noae.Connections.Authentication;
 import ca.noae.Objects.UserInfo;
 
 public class AuthenticationTest {

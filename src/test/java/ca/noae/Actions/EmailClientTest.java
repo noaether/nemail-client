@@ -1,7 +1,6 @@
-package ca.noae.TestSuite.Actions;
+package ca.noae.Actions;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 import java.io.IOException;
 
@@ -14,9 +13,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import ca.noae.Actions.EmailClient;
 
 public class EmailClientTest {
 

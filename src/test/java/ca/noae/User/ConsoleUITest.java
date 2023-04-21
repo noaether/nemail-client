@@ -1,8 +1,6 @@
-package ca.noae.TestSuite.User;
+package ca.noae.User;
 
 import org.junit.jupiter.api.Test;
-
-import ca.noae.User.ConsoleUI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

@@ -1,10 +1,8 @@
-package ca.noae.TestSuite.Actions;
+package ca.noae.Actions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import ca.noae.Actions.FileHandler;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

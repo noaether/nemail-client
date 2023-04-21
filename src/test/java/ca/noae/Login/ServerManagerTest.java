@@ -1,10 +1,7 @@
-package ca.noae.TestSuite.Login;
+package ca.noae.Login;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import ca.noae.Login.ConfigManager;
-import ca.noae.Login.ServerManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

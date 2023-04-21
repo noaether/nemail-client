@@ -1,4 +1,4 @@
-package ca.noae.TestSuite.Actions;
+package ca.noae.Actions;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import ca.noae.Actions.Mailbox;
 
 public final class MailboxTest {
 

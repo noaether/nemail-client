@@ -1,6 +1,5 @@
-package ca.noae.TestSuite.Connections;
+package ca.noae.Connections;
 
-import ca.noae.Connections.EmailServerFinder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;

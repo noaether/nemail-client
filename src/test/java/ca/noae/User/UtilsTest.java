@@ -1,4 +1,4 @@
-package ca.noae.TestSuite.User;
+package ca.noae.User;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ca.noae.Actions.Mailbox;
-import ca.noae.User.Utils;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;

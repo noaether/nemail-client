@@ -1,6 +1,4 @@
-package ca.noae.TestSuite.Login;
-
-import ca.noae.Login.ConfigManager;
+package ca.noae.Login;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

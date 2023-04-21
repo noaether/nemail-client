@@ -48,7 +48,7 @@ jobs:
     - name: wget
       uses: wei/wget@v1
       with:
-        args: https://img.shields.io/static/v1?label=TESTS&message=${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}%20%E2%9C%94%20%7C%20${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}%20%E2%9E%A6%20%7C%20%${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}%20%E2%9C%97&color=f2993a
+        args: -O badge.svg "https://img.shields.io/static/v1?label=TESTS&message=${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}%20%E2%9C%94%20%7C%20${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}%20%E2%9E%A6%20%7C%20%${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}%20%E2%9C%97&color=f2993a"
 
     - name: Upload badge to Gist
       # Upload only for master branch
@@ -59,7 +59,7 @@ jobs:
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gistURL: https://gist.githubusercontent.com/noaether/97da96712e6943076ea2213ed504009c
-        file: v1.svg
+        file: badge.svg
 
   verify:
     runs-on: ubuntu-latest

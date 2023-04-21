@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: '17'
     - name: Build with Maven
-      run: mvn -B clean package test --file pom.xml
+      run: mvn -B clean package test --file test.xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1

@@ -1,18 +1,26 @@
 package ca.noae.Actions;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import javax.mail.Address;
 import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 public class EmailClientTest {
 
@@ -223,5 +231,41 @@ public class EmailClientTest {
     String expectedUnsupportedText = unsupportedPart.toString();
     String actualUnsupportedText = EmailClient.parseBodyPart(unsupportedPart);
     assertEquals(expectedUnsupportedText, actualUnsupportedText);
+  }
+
+  @Test
+  public void sendEmail() throws MessagingException, IOException {
+    Transport smtpTransport = mock(Transport.class);
+    EmailClient.init(smtpTransport);
+
+    EmailClient.sendEmail("to", "from", "subject", "body", null);
+
+    ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
+    verify(smtpTransport).sendMessage(messageArgumentCaptor.capture(), any(Address[].class));
+
+    assertEquals("to", messageArgumentCaptor.getValue().getAllRecipients()[0].toString());
+    assertEquals("from", messageArgumentCaptor.getValue().getFrom()[0].toString());
+    assertEquals("subject", messageArgumentCaptor.getValue().getSubject());
+    assertEquals("body", messageArgumentCaptor.getValue().getContent());
+  }
+
+  @Test
+  public void sendEmailWithAttachment() throws MessagingException, IOException {
+    Transport smtpTransport = mock(Transport.class);
+    EmailClient.init(smtpTransport);
+
+    EmailClient.sendEmail("to", "from", "subject", "body", "README.md");
+
+    ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
+    verify(smtpTransport).sendMessage(messageArgumentCaptor.capture(), any(Address[].class));
+    assertTrue(messageArgumentCaptor.getValue().getContent() instanceof MimeMultipart);
+
+    MimeMultipart mimeMultipart = (MimeMultipart) messageArgumentCaptor.getValue().getContent();
+    assertEquals("to", messageArgumentCaptor.getValue().getAllRecipients()[0].toString());
+    assertEquals("from", messageArgumentCaptor.getValue().getFrom()[0].toString());
+    assertEquals("subject", messageArgumentCaptor.getValue().getSubject());
+    assertEquals(2, mimeMultipart.getCount());
+    assertEquals("\nbody", EmailClient.parseBodyPart(mimeMultipart.getBodyPart(0)));
+    assertEquals("README.md", mimeMultipart.getBodyPart(1).getFileName());
   }
 }

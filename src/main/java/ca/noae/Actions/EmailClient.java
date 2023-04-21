@@ -3,12 +3,16 @@
 */
 package ca.noae.Actions;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
@@ -54,13 +58,27 @@ public final class EmailClient {
    * @param body    the body of the email
    * @throws MessagingException if there is an error sending the email
    */
-  public static void sendEmail(final String to, final String from, final String subject, final String body)
+  public static void sendEmail(final String to, final String from, final String subject, final String body, final Object attachment)
       throws MessagingException {
-    Message message = new MimeMessage(Session.getDefaultInstance(new Properties()));
-    message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+    MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties()));
     message.setFrom(new InternetAddress(from));
+    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
     message.setSubject(subject);
-    message.setText(body);
+    if (attachment != null) {
+      MimeMultipart multipart = new MimeMultipart();
+      BodyPart messageBodyPart = new MimeBodyPart();
+      messageBodyPart.setContent(body, "text/html");
+      multipart.addBodyPart(messageBodyPart);
+      messageBodyPart = new MimeBodyPart();
+      DataSource source = new FileDataSource(attachment.toString());
+      messageBodyPart.setDataHandler(new DataHandler(source));
+      messageBodyPart.setFileName(attachment.toString());
+      multipart.addBodyPart(messageBodyPart);
+      message.setContent(multipart);
+    } else {
+      message.setContent(body, "text/html");
+    }
+
     transport.sendMessage(message, message.getAllRecipients());
   }
 

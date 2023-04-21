@@ -102,7 +102,7 @@ public final class Main {
                                     } while (replyMessage.isEmpty());
                                     // Send the email
                                     EmailClient.sendEmail(latestSenders.get(readMessageOption), user.getEmailAddress(),
-                                            "RE: " + latestSubjects.get(readMessageOption), replyMessage);
+                                            "RE: " + latestSubjects.get(readMessageOption), replyMessage, null);
                                     break;
 
                                 case 3:
@@ -128,7 +128,7 @@ public final class Main {
                             } while (replyChoice.isEmpty());
                             // Send the email
                             EmailClient.sendEmail(latestSenders.get(replyMessageOption - 1), user.getEmailAddress(),
-                                    "RE: " + latestSubjects.get(replyMessageOption - 1), replyChoice);
+                                    "RE: " + latestSubjects.get(replyMessageOption - 1), replyChoice, null);
                         }
                         case -1 ->
                             cleanQuit = readReadReplyOption;

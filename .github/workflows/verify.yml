@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Test and upload Code Coverage
+name: Verify styling/formatting
 
 on:
   push:

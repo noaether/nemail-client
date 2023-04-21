@@ -15,5 +15,27 @@ public class CodeElements {
   @Retention(RetentionPolicy.RUNTIME)
   @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
   public @interface Generated {
+    /**
+     * The value element MUST have one or more values.
+     *
+     * @return the value element
+     */
+    String[] value();
+  }
+
+  /**
+   * Exception thrown when a login attempt fails.
+   */
+  public static class InvalidLoginException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Constructs an InvalidLoginException with the specified detail message.
+     *
+     * @param message the detail message
+     */
+    public InvalidLoginException(final String message) {
+      super(message);
+    }
   }
 }

@@ -25,7 +25,7 @@ public final class Main {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
-    @Generated
+    @Generated({"Utility class cannot be instantiated"})
     private Main() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

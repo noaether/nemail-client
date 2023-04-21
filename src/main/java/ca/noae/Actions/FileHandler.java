@@ -14,7 +14,7 @@ public final class FileHandler {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
-    @Generated
+    @Generated({"Utility class cannot be instantiated"})
     private FileHandler() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

@@ -1,9 +1,9 @@
 package ca.noae.User;
 
+import ca.noae.Actions.EmailClient;
 import ca.noae.Actions.Mailbox;
 import ca.noae.Objects.CodeElements.Generated;
 
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMultipart;
@@ -19,36 +19,6 @@ public final class Utils {
     @Generated({"Utility class cannot be instantiated"})
     private Utils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-    }
-
-    /**
-     *
-     * Extracts text content from a given MimeMultipart object.
-     *
-     * @param mimeMultipart the MimeMultipart object to extract text content from
-     * @return a String containing the text content of the MimeMultipart object
-     * @throws MessagingException if there is a problem accessing the content of the
-     *                            MimeMultipart object
-     * @throws IOException        if there is an I/O error while parsing the content
-     *                            of the MimeMultipart object
-     */
-    public static String getTextFromMimeMultipart(
-            final MimeMultipart mimeMultipart) throws MessagingException, IOException {
-        StringBuilder result = new StringBuilder();
-        int count = mimeMultipart.getCount();
-        for (int i = 0; i < count; i++) {
-            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-            if (bodyPart.isMimeType("text/plain")) {
-                result.append("\n").append(bodyPart.getContent());
-                break; // without break same text appears twice in my tests
-            } else if (bodyPart.isMimeType("text/html")) {
-                String html = (String) bodyPart.getContent();
-                result.append("\n").append(org.jsoup.Jsoup.parse(html).text());
-            } else if (bodyPart.getContent() instanceof MimeMultipart) {
-                result.append(getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent()));
-            }
-        }
-        return result.toString();
     }
 
     /**
@@ -99,7 +69,7 @@ public final class Utils {
             result = message.getContent().toString();
         } else if (message.isMimeType("multipart/*")) {
             MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-            result = getTextFromMimeMultipart(mimeMultipart);
+            result = EmailClient.getTextFromMimeMultipart(mimeMultipart);
         }
         return result;
     }

@@ -56,6 +56,7 @@ public final class EmailClient {
    * @param from    the email address of the sender
    * @param subject the subject line of the email
    * @param body    the body of the email
+   * @param attachment the path to the file to attach to the email
    * @throws MessagingException if there is an error sending the email
    */
   public static void sendEmail(final String to, final String from, final String subject, final String body, final Object attachment)

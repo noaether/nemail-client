@@ -6,7 +6,7 @@
 
     <groupId>ca.noae</groupId>
     <artifactId>nemail-client</artifactId>
-    <version>1.5.0-FORMATTING</version>
+    <version>1.6.1</version>
 
     <name>nemail-client</name>
 
@@ -70,6 +70,13 @@
                 <version>3.8.1</version>
                 <configuration>
                     <release>17</release>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>src/</classpathPrefix>
+                            <mainClass>ca.noae.Main</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
 
@@ -94,6 +101,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Add the Shade Plugin configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>ca.noae.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 
             <plugin>
                 <groupId>org.jacoco</groupId>

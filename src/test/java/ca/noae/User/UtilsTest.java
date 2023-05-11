@@ -75,28 +75,8 @@ public class UtilsTest {
     }
 
     /**
-     * Tests the {@link Utils#getTextFromMimeMultipart(MimeMultipart)} method with a
-     * MimeMultipart object with two BodyPart objects.
-     *
-     * @throws MessagingException if there is an error with the mocked MimeMultipart
-     *                           object
-     * @throws IOException        if there is an error with the mocked MimeMultipart
-     *                          object
-     */
-    @Test
-    public void testGetTextFromMimeMultipart() throws MessagingException, IOException {
-        String result = Utils.getTextFromMimeMultipart(mimeMultipart);
-        Assertions.assertEquals("\n" + "test plain text", result);
-    }
-
-    /**
-     * Tests the {@link Utils#getTextFromMimeMultipart(MimeMultipart)} method with a
-     * MimeMultipart object with one BodyPart object.
-     *
-     * @throws MessagingException if there is an error with the mocked MimeMultipart
-     *                           object
-     * @throws IOException        if there is an error with the mocked MimeMultipart
-     *                          object
+     * Tests the {@link Utils#displayMessage} method with
+     * a Message object with a plain text body.
      */
     @Test
     public void testDisplayMessage() throws Exception {

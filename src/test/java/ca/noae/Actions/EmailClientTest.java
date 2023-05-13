@@ -232,6 +232,13 @@ public class EmailClientTest {
     assertEquals(expectedUnsupportedText, actualUnsupportedText);
   }
 
+  /**
+   * Tests the {@link EmailClient#sendEmail(String, String, String, String, String)}
+   * method.
+   *
+   * @throws MessagingException
+   * @throws IOException
+   */
   @Test
   public void sendEmail() throws MessagingException, IOException {
     Transport smtpTransport = mock(Transport.class);
@@ -248,6 +255,13 @@ public class EmailClientTest {
     assertEquals("body", messageArgumentCaptor.getValue().getContent());
   }
 
+  /**
+   * Tests the {@link EmailClient#sendEmail(String, String, String, String, String)}
+   * method with an attachment.
+   *
+   * @throws MessagingException
+   * @throws IOException
+   */
   @Test
   public void sendEmailWithAttachment() throws MessagingException, IOException {
     Transport smtpTransport = mock(Transport.class);

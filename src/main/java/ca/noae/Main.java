@@ -69,8 +69,7 @@ public final class Main {
                             "#", "Subject", "From", "Dates" },
                             latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
-                    System.out.print("Select an option: " + "\n"
-                            + "1. Read" + "\n" + "2. Reply" + "\n"
+                    System.out.print("Select message to open." + "\n"
                             + "Enter your selection. Enter -1 to quit at any time: ");
 
                     int readReadReplyOption = scanner.nextInt();
@@ -84,7 +83,8 @@ public final class Main {
                             System.out.print("Select an option:" + "\n"
                                     + "1. Go back to list of emails" + "\n"
                                     + "2. Reply" + "\n"
-                                    + "3. Save to file" + "\n"
+                                    + "3. Forward" + "\n"
+                                    + "4. Save to file" + "\n"
                                     + "Enter your selection: ");
                             int readGoReplySaveOption = scanner.nextInt();
                             switch (readGoReplySaveOption) {
@@ -100,8 +100,27 @@ public final class Main {
                                     EmailClient.sendEmail(latestSenders.get(readMessageOption), user.getEmailAddress(),
                                             "RE: " + latestSubjects.get(readMessageOption), replyMessage, null);
                                     break;
-
                                 case 3:
+                                    // Forward a message's content to a new address. Ask for address to send to
+
+                                    String forwardAddress;
+                                    System.out.print("Enter the email address to forward to: ");
+                                    do {
+                                        forwardAddress = scanner.nextLine();
+                                    } while (forwardAddress.isEmpty());
+
+                                    String forwardMessage;
+                                    System.out.println("Enter your message: ");
+                                    do {
+                                        forwardMessage = scanner.nextLine();
+                                    } while (forwardMessage.isEmpty());
+
+                                    // Send the email
+                                    EmailClient.sendEmail(latestSenders.get(readMessageOption), forwardAddress,
+                                            "FW: " + latestSubjects.get(readMessageOption),
+                                            forwardMessage, Mailbox.getMessages()[readMessageOption - 1]);
+                                    break;
+                                case 4:
                                     FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
                                     break;
                                 case -1:

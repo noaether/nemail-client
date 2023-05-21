@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import java.io.File;
@@ -24,15 +22,27 @@ public final class FileHandlerTest {
    */
   private Message testMessage;
 
+  /**
+   * The subject of the test message.
+   */
   private String subject = "Test Subject";
+
+  /**
+   * The body of the test message.
+   */
   private String body = "This is a test email message";
+
+  /**
+   * The date of the test message.
+   * I know it's deprecated. It's just a test. Calm down.
+   */
   private Date date = new Date("2020/01/01");
 
 
   /**
    * The name of the test file.
    */
-  private String TEST_FILE_NAME;
+  private String testFileName;
   /**
    *
    * The setup method initializes the testMessage variable with a new MimeMessage
@@ -47,12 +57,12 @@ public final class FileHandlerTest {
     Properties props = new Properties();
     testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setText(body);
-    testMessage.addFrom(new javax.mail.Address[] { new javax.mail.internet.InternetAddress("john@foo.bar") });
+    testMessage.addFrom(new javax.mail.Address[] {new javax.mail.internet.InternetAddress("john@foo.bar")});
     testMessage.setSubject(subject);
     testMessage.setSentDate(date);
 
     String[] info = {testMessage.getSubject(), testMessage.getFrom()[0].toString(), testMessage.getSentDate().toString()};
-    TEST_FILE_NAME = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
+    testFileName = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
   }
 
   /**
@@ -68,9 +78,9 @@ public final class FileHandlerTest {
   @Test
   public void testSaveEmail() throws IOException, MessagingException {
     FileHandler.saveEmail(testMessage);
-    File testFile = new File(TEST_FILE_NAME);
+    File testFile = new File(testFileName);
     Assertions.assertTrue(testFile.exists());
-    FileInputStream inputStream = new FileInputStream(TEST_FILE_NAME);
+    FileInputStream inputStream = new FileInputStream(testFileName);
     byte[] buffer = new byte[(int) testFile.length()];
     inputStream.read(buffer);
     String fileContent = new String(buffer);

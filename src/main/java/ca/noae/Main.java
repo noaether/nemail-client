@@ -121,7 +121,7 @@ public final class Main {
 
                                     // Send the email
                                     EmailClient.sendEmail(forwardAddress, user.getEmailAddress(),
-                                            "FW: " + latestSubjects.get(readMessageOption),
+                                            "FW: " + latestSubjects.get(readMessageOption - 1),
                                             forwardMessage, filename);
 
                                     // Delete the file

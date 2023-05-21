@@ -117,10 +117,15 @@ public final class Main {
                                         forwardMessage = scanner.nextLine();
                                     } while (forwardMessage.isEmpty());
 
+                                    String filename = FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
+
                                     // Send the email
                                     EmailClient.sendEmail(latestSenders.get(readMessageOption), forwardAddress,
                                             "FW: " + latestSubjects.get(readMessageOption),
-                                            forwardMessage, Mailbox.getMessages()[readMessageOption - 1]);
+                                            forwardMessage, filename);
+
+                                    // Delete the file
+                                    FileHandler.deleteFile(filename);
                                     break;
                                 case 4:
                                     FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);

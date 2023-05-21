@@ -1,7 +1,5 @@
 package ca.noae.Objects;
 
-import ca.noae.Objects.CodeElements.Generated;
-
 public class UserInfo {
   /**
    *

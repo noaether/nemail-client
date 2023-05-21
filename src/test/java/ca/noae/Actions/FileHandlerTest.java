@@ -38,11 +38,11 @@ public final class FileHandlerTest {
    */
   private Date date = new Date("2020/01/01");
 
-
   /**
    * The name of the test file.
    */
   private String testFileName;
+
   /**
    *
    * The setup method initializes the testMessage variable with a new MimeMessage
@@ -57,12 +57,14 @@ public final class FileHandlerTest {
     Properties props = new Properties();
     testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setText(body);
-    testMessage.addFrom(new javax.mail.Address[] {new javax.mail.internet.InternetAddress("john@foo.bar")});
+    testMessage.addFrom(new javax.mail.Address[] { new javax.mail.internet.InternetAddress("john@foo.bar") });
     testMessage.setSubject(subject);
     testMessage.setSentDate(date);
 
-    String[] info = {testMessage.getSubject(), testMessage.getFrom()[0].toString(), testMessage.getSentDate().toString()};
-    testFileName = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
+    String[] info = { testMessage.getSubject(), testMessage.getFrom()[0].toString(),
+        testMessage.getSentDate().toString() };
+    testFileName = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2])
+        .append(".eml").toString();
   }
 
   /**
@@ -72,7 +74,7 @@ public final class FileHandlerTest {
    * that the email is correctly saved to a file and that the file content
    * contains the email message.
    *
-   * @throws IOException if an error occurs while reading from the file.
+   * @throws IOException        if an error occurs while reading from the file.
    * @throws MessagingException
    */
   @Test
@@ -100,6 +102,24 @@ public final class FileHandlerTest {
     Assertions.assertThrows(NullPointerException.class, () -> {
       FileHandler.saveEmail(null);
     });
+  }
+
+  @Test
+  void testDeleteFile() {
+    // Create a temporary file for testing
+    File tempFile = null;
+    try {
+      tempFile = File.createTempFile("test", ".txt");
+    } catch (Exception e) {
+      Assertions.fail("Failed to create a temporary file for testing");
+    }
+
+    // Delete the file using the deleteFile() method
+    String deletedFileName = FileHandler.deleteFile(tempFile.getAbsolutePath());
+
+    // Verify that the file was deleted
+    Assertions.assertFalse(tempFile.exists());
+    Assertions.assertEquals(tempFile.getAbsolutePath(), deletedFileName);
   }
 
 }

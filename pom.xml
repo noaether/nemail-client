@@ -135,6 +135,10 @@
                     <reportFormats>
                         <reportFormat>html</reportFormat>
                     </reportFormats>
+                    <excludes>
+                        <exclude>ca/noae/Main.class</exclude>
+                        <exclude>ca/noae/Objects/CodeElements*.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>

@@ -31,8 +31,7 @@
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
+  <a href="#working">Currently working on</a> •
   <a href="#license">License</a>
 </p>
 
@@ -61,6 +60,10 @@ $ mvn clean package
 ## Download
 
 You can [download](https://github.com/noaether/nemail-client/releases) the latest installable version of nEmail-Client for Windows, macOS and Linux.
+
+## Working
+
+I'm currently working on making the code coverage better (Aiming for 80%+)
 
 ## License
 

@@ -102,7 +102,7 @@ public final class Main {
                                     break;
 
                                 case 3:
-                                    FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption]);
+                                    FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
                                     break;
                                 case -1:
                                     // Quit

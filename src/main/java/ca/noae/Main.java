@@ -120,7 +120,7 @@ public final class Main {
                                     String filename = FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
 
                                     // Send the email
-                                    EmailClient.sendEmail(latestSenders.get(readMessageOption), forwardAddress,
+                                    EmailClient.sendEmail(forwardAddress, user.getEmailAddress(),
                                             "FW: " + latestSubjects.get(readMessageOption),
                                             forwardMessage, filename);
 

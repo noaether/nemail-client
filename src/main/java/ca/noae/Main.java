@@ -69,7 +69,9 @@ public final class Main {
                             "#", "Subject", "From", "Dates" },
                             latestMessages.toArray(new String[0][0]));
                     // Ask for read, reply or quit
-                    System.out.print("Select message to open." + "\n"
+                    System.out.print("Select an option." + "\n"
+                            + "1. Read" + "\n"
+                            + "2. Reply" + "\n"
                             + "Enter your selection. Enter -1 to quit at any time: ");
 
                     int readReadReplyOption = scanner.nextInt();

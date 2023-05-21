@@ -33,8 +33,8 @@ public final class FileHandler {
      */
     public static String saveEmail(final Message message) throws FileNotFoundException, IOException, MessagingException {
         String[] info = {message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString()};
-        String filename = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).toString();
-        message.writeTo(new FileOutputStream(filename + ".eml"));
+        String filename = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
+        message.writeTo(new FileOutputStream(filename));
 
         return filename;
     }

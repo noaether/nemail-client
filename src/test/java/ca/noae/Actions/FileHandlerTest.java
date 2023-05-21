@@ -104,6 +104,9 @@ public final class FileHandlerTest {
     });
   }
 
+  /**
+   * The testDeleteFile method tests the deleteFile method of FileHandler
+   */
   @Test
   void testDeleteFile() {
     // Create a temporary file for testing
@@ -120,6 +123,27 @@ public final class FileHandlerTest {
     // Verify that the file was deleted
     Assertions.assertFalse(tempFile.exists());
     Assertions.assertEquals(tempFile.getAbsolutePath(), deletedFileName);
+  }
+
+  /**
+   * The testDeleteFile method tests the deleteFile method of FileHandler
+   */
+  @Test
+  void testDeleteFilenull() {
+    // Create a temporary file for testing
+    File tempFile = null;
+    try {
+      tempFile = File.createTempFile("test", ".txt");
+    } catch (Exception e) {
+      Assertions.fail("Failed to create a temporary file for testing");
+    }
+
+    Assertions.assertThrows(RuntimeException.class, () -> {
+      String deletedFileName = FileHandler.deleteFile("notanactualfile.txt");
+    });
+
+    // Verify that the file was deleted
+    Assertions.assertTrue(tempFile.exists());
   }
 
 }

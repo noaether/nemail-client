@@ -51,6 +51,7 @@ public final class FileHandler {
             System.out.println("Deleted the file: " + file.getName());
         } else {
             System.out.println("Failed to delete the file.");
+            throw new RuntimeException("Failed to delete the file.");
         }
 
         return filename;

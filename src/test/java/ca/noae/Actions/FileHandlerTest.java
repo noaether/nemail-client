@@ -57,12 +57,16 @@ public final class FileHandlerTest {
     Properties props = new Properties();
     testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setText(body);
-    testMessage.addFrom(new javax.mail.Address[] { new javax.mail.internet.InternetAddress("john@foo.bar") });
+    testMessage.addFrom(new javax.mail.Address[] {
+      new javax.mail.internet.InternetAddress("john@foo.bar")
+    });
     testMessage.setSubject(subject);
     testMessage.setSentDate(date);
 
-    String[] info = { testMessage.getSubject(), testMessage.getFrom()[0].toString(),
-        testMessage.getSentDate().toString() };
+    String[] info = {
+      testMessage.getSubject(), testMessage.getFrom()[0].toString(),
+      testMessage.getSentDate().toString()
+    };
     testFileName = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2])
         .append(".eml").toString();
   }
@@ -105,7 +109,7 @@ public final class FileHandlerTest {
   }
 
   /**
-   * The testDeleteFile method tests the deleteFile method of FileHandler
+   * The testDeleteFile method tests the deleteFile method of FileHandler.
    */
   @Test
   void testDeleteFile() {
@@ -127,6 +131,7 @@ public final class FileHandlerTest {
 
   /**
    * The testDeleteFile method tests the deleteFile method of FileHandler
+   * with a null file name and a file that doesn't exist.
    */
   @Test
   void testDeleteFilenull() {

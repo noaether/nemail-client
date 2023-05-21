@@ -29,6 +29,7 @@ public final class FileHandler {
      * @throws FileNotFoundException if the file cannot be created
      *
      * @throws IOException if there is an error while saving the email
+     * @return the name of the file that was saved
      */
     public static String saveEmail(final Message message) throws FileNotFoundException, IOException, MessagingException {
         String[] info = {message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString()};
@@ -42,8 +43,9 @@ public final class FileHandler {
      * Deletes the file with the specified filename.
      *
      * @param filename the name of the file to delete
+     * @return the name of the file that was deleted
      */
-    public static String deleteFile(String filename) {
+    public static String deleteFile(final String filename) {
         File file = new File(filename);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());

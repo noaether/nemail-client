@@ -5,34 +5,43 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import ca.noae.Objects.CodeElements.Generated;
+import ca.noae.Objects.CodeElements.InvalidLoginException;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.annotation.Annotation;
+
 @RunWith(MockitoJUnitRunner.class)
 public class CodeElementsTest {
+  /**
+   * Tests the {@link CodeElements#InvalidLoginException} exception.
+   */
   @Test
   public void testInvalidLoginException() {
     String errorMessage = "Invalid login credentials";
-    CodeElements.InvalidLoginException exception = new CodeElements.InvalidLoginException(errorMessage);
+    InvalidLoginException exception = new CodeElements.InvalidLoginException(errorMessage);
 
     assertNotNull(exception);
     assertEquals(errorMessage, exception.getMessage());
   }
 
+  /**
+   * Tests the {@link CodeElements#Generated} method.
+   */
   @Test
   public void testGeneratedAnnotation() {
     String[] values = { "value1", "value2" };
-    CodeElements.Generated annotation = new CodeElements.Generated() {
+    Generated annotation = new CodeElements.Generated() {
       @Override
       public String[] value() {
         return values;
       }
 
       @Override
-      public Class<? extends java.lang.annotation.Annotation> annotationType() {
-        return CodeElements.Generated.class;
+      public Class<? extends Annotation> annotationType() {
+        return Generated.class;
       }
     };
 

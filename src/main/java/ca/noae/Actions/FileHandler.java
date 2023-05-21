@@ -30,6 +30,8 @@ public final class FileHandler {
      * @throws IOException if there is an error while saving the email
      */
     public static void saveEmail(final Message message) throws FileNotFoundException, IOException, MessagingException {
-        message.writeTo(new FileOutputStream("mail.eml"));
+        String[] info = {message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString()};
+        String filename = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).toString();
+        message.writeTo(new FileOutputStream(filename + ".eml"));
     }
 }

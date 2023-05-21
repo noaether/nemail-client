@@ -52,7 +52,6 @@ public final class Main {
             // Authenticate the user's credentials
             try {
                 Transport smtpTransport = Authentication.getSMTPTransport();
-                // System.out.println(smtpTransport); TODO : Implement verbose mode
 
                 Store finalStore = Authentication.getStore();
 
@@ -60,8 +59,6 @@ public final class Main {
                 List<String[]> latestMessages = Mailbox.queryLatest(user.getMailbox(), finalStore);
                 List<String> latestSubjects = Mailbox.getSubjects();
                 List<String> latestSenders = Mailbox.getFroms();
-                // List<String> latestDates = Mailbox.getDates();
-                // List<String> latestBodies = Mailbox.getBodies();
 
                 int cleanQuit = 69; // 69 is a magic number but I dont care because it works (as long as its not -1
                                     // its fine)

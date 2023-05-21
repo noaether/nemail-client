@@ -16,6 +16,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.jsoup.Jsoup;
+
 import ca.noae.Objects.CodeElements.Generated;
 
 import java.io.IOException;
@@ -115,8 +117,7 @@ public final class EmailClient {
    */
   public static String parseBodyPart(final BodyPart bodyPart) throws MessagingException, IOException {
     if (bodyPart.isMimeType("text/html")) {
-      return "\n" + org.jsoup.Jsoup
-          .parse(bodyPart.getContent().toString())
+      return "\n" + Jsoup.parse(bodyPart.getContent().toString())
           .text();
     } else if (bodyPart.getContent() instanceof MimeMultipart) {
       return EmailClient.getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());

@@ -1,5 +1,6 @@
 package ca.noae.Objects;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
@@ -77,15 +78,12 @@ public class UserInfoTest {
   public void createPartialUserWithEmpty() {
     UserInfo user = new UserInfo("email", "password", "", "smtp", "pop", "imap", "", "", "");
 
-    assertEquals("email", user.getEmailAddress());
-    assertEquals("password", user.getPassword());
-    assertEquals("inbox", user.getMailbox());
-    assertEquals("smtp", user.getSmtpServerAddress());
-    assertEquals("pop", user.getPopServerAddress());
-    assertEquals("imap", user.getImapServerAddress());
-    assertEquals("587", user.getSmtpServerPort());
-    assertEquals("995", user.getPopServerPort());
-    assertEquals("993", user.getImapServerPort());
+    String[] expected = { "email", "password", "inbox", "smtp", "pop", "imap", "587", "995", "993" };
+    String[] actual = { user.getEmailAddress(), user.getPassword(), user.getMailbox(), user.getSmtpServerAddress(),
+        user.getPopServerAddress(), user.getImapServerAddress(), user.getSmtpServerPort(), user.getPopServerPort(),
+        user.getImapServerPort() };
+
+    assertArrayEquals(expected, actual);
   }
 
   /**

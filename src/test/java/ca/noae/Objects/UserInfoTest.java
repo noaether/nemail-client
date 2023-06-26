@@ -19,7 +19,8 @@ public class UserInfoTest {
    */
   @Test
   public void createFullUser() {
-    UserInfo user = new UserInfo("email", "password", "mailbox", "smtp", "pop", "imap", "smtpPort", "popPort", "imapPort");
+    UserInfo user = new UserInfo("email", "password", "mailbox", "smtp", "pop", "imap", "smtpPort", "popPort",
+        "imapPort");
 
     assertEquals("email", user.getEmailAddress());
     assertEquals("password", user.getPassword());
@@ -125,15 +126,12 @@ public class UserInfoTest {
   public void createPartialUserWithNullAndEmpty() {
     UserInfo user = new UserInfo("email", "password", "", "smtp", "pop", "imap", null, null, null);
 
-    assertEquals("email", user.getEmailAddress());
-    assertEquals("password", user.getPassword());
-    assertEquals("inbox", user.getMailbox());
-    assertEquals("smtp", user.getSmtpServerAddress());
-    assertEquals("pop", user.getPopServerAddress());
-    assertEquals("imap", user.getImapServerAddress());
-    assertEquals("587", user.getSmtpServerPort());
-    assertEquals("995", user.getPopServerPort());
-    assertEquals("993", user.getImapServerPort());
+    String[] expected = { "email", "password", "inbox", "smtp", "pop", "imap", "587", "995", "993" };
+    String[] actual = { user.getEmailAddress(), user.getPassword(), user.getMailbox(), user.getSmtpServerAddress(),
+        user.getPopServerAddress(), user.getImapServerAddress(), user.getSmtpServerPort(), user.getPopServerPort(),
+        user.getImapServerPort() };
+
+    assertArrayEquals(expected, actual);
   }
 
   /**
@@ -150,14 +148,11 @@ public class UserInfoTest {
   public void createPartialUserWithEmptyAndNull() {
     UserInfo user = new UserInfo("email", "password", null, "smtp", "pop", "imap", "", "", "");
 
-    assertEquals("email", user.getEmailAddress());
-    assertEquals("password", user.getPassword());
-    assertEquals("inbox", user.getMailbox());
-    assertEquals("smtp", user.getSmtpServerAddress());
-    assertEquals("pop", user.getPopServerAddress());
-    assertEquals("imap", user.getImapServerAddress());
-    assertEquals("587", user.getSmtpServerPort());
-    assertEquals("995", user.getPopServerPort());
-    assertEquals("993", user.getImapServerPort());
+    String[] expected = { "email", "password", "inbox", "smtp", "pop", "imap", "587", "995", "993" };
+    String[] actual = { user.getEmailAddress(), user.getPassword(), user.getMailbox(), user.getSmtpServerAddress(),
+        user.getPopServerAddress(), user.getImapServerAddress(), user.getSmtpServerPort(), user.getPopServerPort(),
+        user.getImapServerPort() };
+
+    assertArrayEquals(expected, actual);
   }
 }

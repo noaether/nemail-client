@@ -32,7 +32,7 @@ public class CodeElementsTest {
    */
   @Test
   public void testGeneratedAnnotation() {
-    String[] values = { "value1", "value2" };
+    String[] values = {"value1", "value2"};
     Generated annotation = new CodeElements.Generated() {
       @Override
       public String[] value() {

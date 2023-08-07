@@ -34,9 +34,9 @@ public final class FileHandlerTest {
 
   /**
    * The date of the test message.
-   * I know it's deprecated. It's just a test. Calm down.
+   * Set date to 27-08-2021 9:54:00 AM
    */
-  private Date date = new Date("2020/01/01");
+  private Date date = new Date(1630072440000L);
 
   /**
    * The name of the test file.
@@ -144,7 +144,7 @@ public final class FileHandlerTest {
     }
 
     Assertions.assertThrows(RuntimeException.class, () -> {
-      String deletedFileName = FileHandler.deleteFile("notanactualfile.txt");
+      FileHandler.deleteFile("notanactualfile.txt");
     });
 
     // Verify that the file was deleted

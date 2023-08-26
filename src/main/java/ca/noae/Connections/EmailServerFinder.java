@@ -74,7 +74,7 @@ public final class EmailServerFinder {
    *                                  found for the given email address.
    * @throws IllegalArgumentException if the email address is invalid.
    */
-  public static String[] check(final String email) throws UnknownHostException {
+  public static String[] check(final String email) throws UnknownHostException, IllegalArgumentException {
     String[] respStrings = new String[3];
     String[] parts = email.split("@");
 

@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.Scanner;
 
@@ -27,7 +28,9 @@ class ServerManagerTest {
   @Test
   void testGetServerArrayWithInvalidEmail() {
     Scanner scanner = Mockito.mock(Scanner.class);
-    ConfigManager.initConfigManager(scanner, "app.properties");
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, "app.properties");
+    });
     String email = "example@non-existent-domain.com";
     String[] serverArray = ServerManager.getServerArray(email);
 

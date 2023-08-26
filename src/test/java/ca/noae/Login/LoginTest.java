@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import ca.noae.Objects.UserInfo;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTest {
@@ -15,7 +16,9 @@ public class LoginTest {
   void testStartAuthentication() {
     Scanner scanner = Mockito.mock(Scanner.class);
 
-    ConfigManager.initConfigManager(scanner, "app.properties");
+    assertDoesNotThrow(() -> {
+          ConfigManager.initConfigManager(scanner, "app.properties");
+    });
 
     Mockito.when(scanner.nextLine())
         .thenReturn("test@example.com")
@@ -27,6 +30,8 @@ public class LoginTest {
     assertEquals("test@example.com", userInfo.getEmailAddress());
     assertEquals("password", userInfo.getPassword());
     assertEquals("inbox", userInfo.getMailbox());
+
+
     // Assert other properties
   }
 }

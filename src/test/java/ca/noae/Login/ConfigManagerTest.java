@@ -1,5 +1,6 @@
 package ca.noae.Login;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
@@ -62,7 +63,9 @@ class ConfigManagerTest {
   void testInitConfigManager() {
     // Test that initConfigManager loads properties from the test file
     Scanner scanner = new Scanner(System.in);
-    ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    });
     assertEquals(TEST_PROP_VALUE, ConfigManager.getPropOrQuery(TEST_PROP_NAME));
   }
 
@@ -75,21 +78,26 @@ class ConfigManagerTest {
   void testGetPropOrQueryWhenPropertiesLoaded() {
     // Test that getPropOrQuery returns a loaded property
     Scanner scanner = new Scanner(System.in);
-    ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    });
     assertEquals(TEST_PROP_VALUE, ConfigManager.getPropOrQuery(TEST_PROP_NAME));
   }
 
   /**
    * Tests the {@link ConfigManager#getPropOrQuery(String)} method.
    *
-   * Tests that the method prompts the user for input when properties are not loaded.
+   * Tests that the method prompts the user for input when properties are not
+   * loaded.
    */
   @Test
   void testGetPropOrQueryWhenPropertiesNotLoaded() {
     // Test that getPropOrQuery prompts the user for input when properties are not
     // loaded
     Scanner scanner = new Scanner(new ByteArrayInputStream("test input".getBytes()));
-    ConfigManager.initConfigManager(scanner, "non-existent-file");
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, "non-existent-file");
+    });
     assertEquals("test input", ConfigManager.getPropOrQuery(TEST_PROP_NAME));
   }
 
@@ -102,19 +110,24 @@ class ConfigManagerTest {
   void testGetPropOrQueryWithMessageWhenPropertiesLoaded() {
     // Test that getPropOrQuery returns a loaded property
     Scanner scanner = new Scanner(System.in);
-    ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, TEST_FILE_NAME);
+    });
     assertEquals(TEST_PROP_VALUE, ConfigManager.getPropOrQuery(TEST_PROP_NAME, "Test message"));
   }
 
   /**
    * Tests the {@link ConfigManager#getPropOrQuery(String, String)} method.
    *
-   * Tests that the method prompts the user for input when properties are not loaded.
+   * Tests that the method prompts the user for input when properties are not
+   * loaded.
    */
   @Test
   void testGetPropOrQueryWithMessageWhenPropertiesNotLoaded() {
     Scanner scanner = new Scanner(new ByteArrayInputStream("test input".getBytes()));
-    ConfigManager.initConfigManager(scanner, "non-existent-file");
+    assertDoesNotThrow(() -> {
+      ConfigManager.initConfigManager(scanner, "non-existent-file");
+    });
     assertEquals("test input", ConfigManager.getPropOrQuery(TEST_PROP_NAME, "Test message"));
   }
 }

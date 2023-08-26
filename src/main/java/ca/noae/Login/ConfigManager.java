@@ -1,6 +1,6 @@
 package ca.noae.Login;
 
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
@@ -13,7 +13,7 @@ public final class ConfigManager {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
-  @Generated({"Utility class cannot be instantiated"})
+  @Generated({ "Utility class cannot be instantiated" })
   private ConfigManager() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }
@@ -32,10 +32,10 @@ public final class ConfigManager {
    * @param fileName    the name of the file to load properties from
    * @throws IOException if an I/O error occurs while loading the properties
    */
-  public static void initConfigManager(final Scanner initScanner, final String fileName) {
+  public static void initConfigManager(final Scanner initScanner, final String fileName) throws IOException {
     ConfigManager.scanner = initScanner;
     ConfigManager.props = new Properties();
-    try (FileInputStream fis = new FileInputStream(fileName)) {
+    try (FileReader fis = new FileReader(fileName)) {
       props.load(fis);
     } catch (IOException e) {
       props = null;

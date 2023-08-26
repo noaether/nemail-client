@@ -75,9 +75,9 @@ public final class Authentication {
    *
    * @return a configured IMAP Store object for connecting to an email server
    *         using IMAP protocol
-   * @throws Exception if an error occurs while connecting to the email server
+   * @throws MessagingException if an error occurs while connecting to the email server
    */
-  public static Store getIMAPStore() throws Exception {
+  public static Store getIMAPStore() throws MessagingException {
     Properties properties = new Properties();
     properties.setProperty("mail.store.protocol", "imap");
     properties.setProperty("mail.imap.host", user.getImapServerAddress());
@@ -104,9 +104,9 @@ public final class Authentication {
    * provided parameters.
    *
    * @return the configured Store object
-   * @throws Exception if an error occurs while connecting to the server
+   * @throws MessagingException if an error occurs while connecting to the server
    */
-  public static Store getPOP3Store() throws Exception {
+  public static Store getPOP3Store() throws MessagingException {
     Properties properties = new Properties();
     properties.setProperty("mail.store.protocol", "pop3");
     properties.setProperty("mail.pop3.host", user.getPopServerAddress());
@@ -134,14 +134,14 @@ public final class Authentication {
    * @throws MessagingException if unable to connect to the email server using
    *                            either protocol.
    */
-  public static Store getStore() throws Exception {
+  public static Store getStore() throws MessagingException {
     Store finalStore = null;
     try {
       finalStore = getIMAPStore();
-    } catch (Exception noImap) {
+    } catch (MessagingException noImap) {
       try {
         finalStore = getPOP3Store();
-      } catch (Exception e) {
+      } catch (MessagingException e) {
         System.out.println("Unable to connect to server. Please try again later.");
         System.exit(0);
       }

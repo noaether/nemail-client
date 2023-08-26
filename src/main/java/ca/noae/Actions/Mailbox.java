@@ -1,11 +1,13 @@
 package ca.noae.Actions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.Folder;
 import javax.mail.FolderNotFoundException;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Store;
 
 import ca.noae.Objects.CodeElements.Generated;
@@ -50,11 +52,11 @@ public final class Mailbox {
    * @param store   the Store object to use to retrieve messages
    * @return a List of String arrays containing message information, including
    *         message number, subject, sender, date, and content
-   * @throws Exception if the specified mailbox does not exist or there is an
-   *                   error while retrieving messages
+   * @throws MessagingException    if there is an error retrieving the messages
+   * @throws FolderNotFoundException if the specified mailbox does not exist
+   * @throws IOException            if there is an error reading the message
    */
-  public static List<String[]> queryLatest(final String mailbox, final Store store)
-      throws Exception {
+  public static List<String[]> queryLatest(final String mailbox, final Store store) throws MessagingException, FolderNotFoundException, IOException {
 
     boolean exists = store.getFolder(mailbox).exists();
     if (!exists) {

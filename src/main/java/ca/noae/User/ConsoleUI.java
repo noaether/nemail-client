@@ -80,5 +80,4 @@ public final class ConsoleUI {
     }
     System.out.println(separator);
   }
-
 }

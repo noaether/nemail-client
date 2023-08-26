@@ -20,7 +20,7 @@ public class UserInfo {
       final String initSmtpServerAddress,
       final String initPopServerAddress, final String initImapServerAddress, final String initSmtpServerPort,
       final String initPopServerPort,
-      final String initImapServerPort) {
+      final String initImapServerPort) throws AssertionError {
     assert !initEmailAddress.isEmpty() : "Email address cannot be null";
     assert !initPassword.isEmpty() : "Password cannot be null";
     assert !initSmtpServerAddress.isEmpty() : "SMTP server address cannot be null";

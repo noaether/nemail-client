@@ -60,8 +60,7 @@ public final class Main {
                 List<String> latestSubjects = Mailbox.getSubjects();
                 List<String> latestSenders = Mailbox.getFroms();
 
-                int cleanQuit = 69; // 69 is a magic number but I dont care because it works (as long as its not -1
-                                    // its fine)
+                int cleanQuit = 69;
 
                 while (cleanQuit != -1) {
                     ConsoleUI.clearScreen();

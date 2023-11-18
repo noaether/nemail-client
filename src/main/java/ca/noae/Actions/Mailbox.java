@@ -29,12 +29,6 @@ public final class Mailbox {
   private static final int MAX_MESSAGES = 25;
 
   /**
-   *
-   * The inbox folder for the currently authenticated email account.
-   */
-  private static Folder inbox;
-
-  /**
    * The messages retrieved from the mail server.
    */
   private static Message[] messages;
@@ -63,7 +57,10 @@ public final class Mailbox {
       throw new FolderNotFoundException(store.getFolder(mailbox), "Mailbox does not exist");
     }
 
-    inbox = store.getFolder(mailbox);
+    /*
+     * The inbox folder for the currently authenticated email account.
+     */
+    Folder inbox = store.getFolder(mailbox);
     inbox.open(Folder.READ_ONLY);
 
     int messageCount = inbox.getMessageCount();

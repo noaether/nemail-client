@@ -63,12 +63,7 @@ public final class FileHandlerTest {
     testMessage.setSubject(subject);
     testMessage.setSentDate(date);
 
-    String[] info = {
-      testMessage.getSubject(), testMessage.getFrom()[0].toString(),
-      testMessage.getSentDate().toString()
-    };
-    testFileName = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2])
-        .append(".eml").toString();
+    testFileName = FileHandler.getFileName(testMessage);
   }
 
   /**

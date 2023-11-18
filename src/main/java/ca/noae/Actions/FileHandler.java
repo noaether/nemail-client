@@ -32,9 +32,24 @@ public final class FileHandler {
      * @return the name of the file that was saved
      */
     public static String saveEmail(final Message message) throws FileNotFoundException, IOException, MessagingException {
+        String filename = getFileName(message);
+        message.writeTo(new FileOutputStream(filename));
+
+        return filename;
+    }
+
+    /**
+     * Gets the filename for the specified message.
+     *
+     * @param message the message to get the filename for
+     * @return the filename for the specified message
+     * @throws MessagingException if there is an error while parsing the email
+     */
+    public static String getFileName(final Message message) throws MessagingException {
         String[] info = {message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString()};
         String filename = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
-        message.writeTo(new FileOutputStream(filename));
+        // make sure windows doesnt freak out
+        filename = filename.replace(":", "-");
 
         return filename;
     }

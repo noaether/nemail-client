@@ -18,7 +18,11 @@ public class ConsoleUITest {
 
     ConsoleUI.clearScreen();
 
-    assertEquals("\033[H\033[2J", outContent.toString());
+    if (System.getProperty("os.name").contains("Windows")) {
+      assertEquals("", outContent.toString());
+    } else {
+      assertEquals("\033[H\033[2J", outContent.toString());
+    }
   }
 
   /**
@@ -41,7 +45,18 @@ public class ConsoleUITest {
 
     ConsoleUI.createTable(columnNames, data);
 
-    String expectedOutput = "-------------------\n"
+    if (System.getProperty("os.name").contains("Windows")) {
+          String expectedOutput = "-------------------\r\n"
+        + "| ID | Name | Age | \r\n"
+        + "-------------------\r\n"
+        + "| 1  | John | 25  | \r\n"
+        + "| 2  | Jane | 30  | \r\n"
+        + "| 3  | Bob  | 40  | \r\n"
+        + "-------------------\r\n";
+
+    assertEquals(expectedOutput, outContent.toString());
+    } else {
+      String expectedOutput = "-------------------\n"
         + "| ID | Name | Age | \n"
         + "-------------------\n"
         + "| 1  | John | 25  | \n"
@@ -49,6 +64,10 @@ public class ConsoleUITest {
         + "| 3  | Bob  | 40  | \n"
         + "-------------------\n";
 
-    assertEquals(expectedOutput, outContent.toString());
+      assertEquals(expectedOutput, outContent.toString());
+    }
+
+
+
   }
 }

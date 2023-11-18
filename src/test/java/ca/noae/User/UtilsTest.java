@@ -96,7 +96,16 @@ public class UtilsTest {
         // Call the method under test
         Utils.displayMessage(1, latestMessages);
 
-        // Verify output
+        if(System.getProperty("os.name").contains("Windows")) {
+        assertEquals(
+                "------------------------------------------------\r\n"
+                + "Message: 1\r\n"
+                + "Subject: Test Subject\r\n"
+                + "From: test@test.com\r\n"
+                + "Date: 2023-04-18\r\n"
+                + "Body: Hello World!\r\n"
+                + "------------------------------------------------\r\n", outContent.toString());
+        } else {
         assertEquals(
                 "------------------------------------------------\n"
                 + "Message: 1\n"
@@ -105,6 +114,7 @@ public class UtilsTest {
                 + "Date: 2023-04-18\n"
                 + "Body: Hello World!\n"
                 + "------------------------------------------------\n", outContent.toString());
+        }
     }
 
     /**

@@ -95,15 +95,15 @@ public final class EmailClient {
    */
   public static String getTextFromMimeMultipart(
       final MimeMultipart mimeMultipart) throws MessagingException, IOException {
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (int i = 0; i < mimeMultipart.getCount(); i++) {
       BodyPart bodyPart = mimeMultipart.getBodyPart(i);
       if (bodyPart.isMimeType("text/plain")) {
         return result + "\n" + bodyPart.getContent(); // without return, same text appears twice in my tests
       }
-      result += EmailClient.parseBodyPart(bodyPart);
+      result.append(EmailClient.parseBodyPart(bodyPart));
     }
-    return result;
+    return result.toString();
   }
 
   /**

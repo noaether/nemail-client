@@ -1,13 +1,14 @@
 package ca.noae.Connections;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.naming.TimeLimitExceededException;
 
 import ca.noae.Objects.CodeElements.Generated;
 
@@ -17,9 +18,26 @@ public final class EmailServerFinder {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
-  @Generated({"Utility class cannot be instantiated"})
+  @Generated({ "Utility class cannot be instantiated" })
   private EmailServerFinder() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  /**
+   * A mapping of email protocols to arrays of their associated capabilities.
+   */
+  private static final Map<String, String[]> CAPA_MAP = new HashMap<>();
+
+  static {
+    CAPA_MAP.put("IMAP", new String[] {
+        "IMAP4rev1", "IMAP4", "IMAP", "OK"
+    });
+    CAPA_MAP.put("SMTP", new String[] {
+        "250-STARTTLS", "250 STARTTLS", "220", "ESMTP MAIL"
+    });
+    CAPA_MAP.put("POP3", new String[] {
+        "STLS", "OK"
+    });
   }
 
   /**
@@ -72,11 +90,12 @@ public final class EmailServerFinder {
    * @param email the email address to check the servers for.
    * @return an array of string containing the SMTP server name, IMAP server name
    *         and POP3 server name (in this order).
-   * @throws UnknownHostException     if the SMTP or IMAP/POP3 servers are not
-   *                                  found for the given email address.
-   * @throws IllegalArgumentException if the email address is invalid.
+   * @throws IllegalArgumentException   if the email address is invalid.
+   * @throws IOException
+   * @throws TimeLimitExceededException
    */
-  public static String[] check(final String email) throws UnknownHostException, IllegalArgumentException {
+  public static String[] check(final String email)
+      throws IllegalArgumentException, TimeLimitExceededException, IOException {
     String[] respStrings = new String[3];
     String[] parts = email.split("@");
 
@@ -97,10 +116,15 @@ public final class EmailServerFinder {
       System.out.println("IMAP server: " + imapServer);
       System.out.println("POP3 server: " + pop3Server);
 
-      respStrings[0] = smtpServer;
-      respStrings[1] = imapServer;
-      respStrings[2] = pop3Server;
-      return respStrings;
+      return new String[] { smtpServer, imapServer, pop3Server };
+    } // from now on, servers[] has nothing inside - domain cannot be autodetected or
+      // doesnt exist
+
+    try {
+      InetAddress inetAddress = InetAddress.getByName(domain);
+      inetAddress.isReachable(2500);
+    } catch (IOException e) {
+      throw new TimeLimitExceededException("Domain is unreachable.");
     }
 
     // Guess hostnames
@@ -192,6 +216,7 @@ public final class EmailServerFinder {
    * @param protocol      the protocol to probe, e.g. "SMTP" or "IMAP"
    * @return the hostname of the first server that responds positively or null if
    *         none do
+   * @throws IOException
    */
   public static String probeCapabilities(
       final String[] possibleHosts, final String[] ports, final String protocol) {
@@ -252,16 +277,25 @@ public final class EmailServerFinder {
    *         the given protocol, {@code false} otherwise
    */
   private static boolean checkResponse(final String protocol, final String response) {
-    if (protocol.equals("IMAP")) {
-      return response.contains("IMAP4rev1") || response.contains("IMAP4")
-          || response.contains("IMAP") || response.contains("OK");
-    } else if (protocol.equals("SMTP")) {
-      return response.contains("250-STARTTLS")
-          || response.contains("250 STARTTLS") || response.contains("220")
-          || response.contains("ESMTP MAIL");
-    } else if (protocol.equals("POP3")) {
-      return response.contains("STLS") || response.contains("OK");
+
+    for (String capability : CAPA_MAP.get(protocol)) {
+      if (response.contains(capability)) {
+        return true;
+      }
     }
+
+    /*
+     * if (protocol.equals("IMAP")) {
+     * return response.contains("IMAP4rev1") || response.contains("IMAP4")
+     * || response.contains("IMAP") || response.contains("OK");
+     * } else if (protocol.equals("SMTP")) {
+     * return response.contains("250-STARTTLS")
+     * || response.contains("250 STARTTLS") || response.contains("220")
+     * || response.contains("ESMTP MAIL");
+     * } else if (protocol.equals("POP3")) {
+     * return response.contains("STLS") || response.contains("OK");
+     * }
+     */
     return false;
   }
 }

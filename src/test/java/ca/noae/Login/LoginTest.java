@@ -18,23 +18,19 @@ public class LoginTest {
     Scanner scanner = Mockito.mock(Scanner.class);
 
     assertDoesNotThrow(() -> {
-          ConfigManager.initConfigManager(scanner, "app.properties");
+      ConfigManager.initConfigManager(scanner, "app.properties");
     });
 
     Mockito.when(scanner.nextLine())
-        .thenReturn("test@outlook.com")
-        .thenReturn("password")
-        .thenReturn("1");
+        .thenReturn("test@outlook.com", "password", "1");
 
     assertDoesNotThrow(() -> {
-      Login.startAuthentication(scanner);
+      UserInfo userInfo = Login.startAuthentication(scanner);
+
+      assertEquals("test@outlook.com", userInfo.getEmailAddress());
+      assertEquals("password", userInfo.getPassword());
+      assertEquals("inbox", userInfo.getMailbox());
     });
-
-    UserInfo userInfo = Login.startAuthentication(scanner);
-
-        assertEquals("test@outlook.com", userInfo.getEmailAddress());
-    assertEquals("password", userInfo.getPassword());
-    assertEquals("inbox", userInfo.getMailbox());
     // Assert other properties
   }
 }

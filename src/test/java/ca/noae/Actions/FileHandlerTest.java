@@ -66,6 +66,30 @@ public final class FileHandlerTest {
     testFileName = FileHandler.getFileName(testMessage);
   }
 
+  // Existing test code...
+
+  /**
+   * The testGetFileName method tests the getFileName method of the FileHandler class
+   * by verifying that the generated file name is correct.
+   *
+   * @throws MessagingException if an error occurs while creating the MimeMessage object.
+   */
+  @Test
+  public void testGetFileName() throws MessagingException {
+    // Create a test message
+    Properties props = new Properties();
+    Message testMessage = new MimeMessage(Session.getDefaultInstance(props));
+    testMessage.setSubject("Test Subject");
+    testMessage.setFrom(new javax.mail.internet.InternetAddress("john@foo.bar"));
+    testMessage.setSentDate(new Date(1630072440000L));
+
+    // Call the getFileName method
+    String fileName = FileHandler.getFileName(testMessage);
+
+    // Verify the generated file name
+    Assertions.assertEquals("Test Subject john@foo.bar Fri Aug 27 09-54-00 EDT 2021.eml", fileName);
+  }
+
   /**
    *
    * The testSaveEmail method tests the saveEmail method of the FileHandler class

@@ -1,5 +1,6 @@
 package ca.noae.Objects;
 
+import java.io.IOException;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -35,6 +36,19 @@ public class CodeElements {
      * @param message the detail message
      */
     public InvalidLoginException(final String message) {
+      super(message);
+    }
+  }
+
+  public static class UnreacheableHostException extends IOException {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Constructs an UnreacheableServerException with the specified detail message.
+     *
+     * @param message the detail message
+     */
+    public UnreacheableHostException(final String message) {
       super(message);
     }
   }

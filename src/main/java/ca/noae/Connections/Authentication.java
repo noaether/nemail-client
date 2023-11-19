@@ -79,9 +79,14 @@ public final class Authentication {
    */
   public static Store getIMAPStore() throws MessagingException {
     Properties properties = new Properties();
-    properties.setProperty("mail.store.protocol", "imap");
-    properties.setProperty("mail.imap.host", user.getImapServerAddress());
-    properties.setProperty("mail.imap.port", user.getImapServerPort());
+    String [][] props = {
+      {"mail.store.protocol", "imap"},
+      {"mail.imap.host", user.getImapServerAddress()},
+      {"mail.imap.port", user.getImapServerPort()},
+    };
+    for (String[] prop : props) {
+      properties.setProperty(prop[0], prop[1]);
+    }
     try {
       properties.setProperty("mail.imap.ssl.enable", "true");
       Session session = Session.getInstance(properties);

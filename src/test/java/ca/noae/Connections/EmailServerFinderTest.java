@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+import java.io.IOException;
 
 @SuppressWarnings("checkstyle:nowhitespaceafter")
 public class EmailServerFinderTest {
@@ -48,44 +51,50 @@ public class EmailServerFinderTest {
     }
 
     /**
-     * Tests the {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
+     * Tests the
+     * {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
      * method with SMTP.
+     * 
+     * @throws IOException
      */
     @Test
-    public void testProbeCapabilitiesSMTP() {
+    public void testProbeCapabilitiesSMTP() throws IOException {
         String[] possibleHosts = { "smtp-mail.outlook.com" };
         String[] ports = { "25", "465", "587" };
         String protocol = "SMTP";
         String result = EmailServerFinder.probeCapabilities(possibleHosts, ports, protocol);
-        System.out.println(result);
         assertNotNull(result);
     }
 
     /**
-     * Tests the {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
+     * Tests the
+     * {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
      * method with IMAP.
+     * 
+     * @throws IOException
      */
     @Test
-    public void testProbeCapabilitiesIMAP() {
+    public void testProbeCapabilitiesIMAP() throws IOException {
         String[] possibleHosts = { "imap-mail.outlook.com" };
         String[] ports = { "143", "993" };
         String protocol = "IMAP";
         String result = EmailServerFinder.probeCapabilities(possibleHosts, ports, protocol);
-        System.out.println(result);
         assertNotNull(result);
     }
 
     /**
-     * Tests the {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
+     * Tests the
+     * {@link EmailServerFinder#probeCapabilities(String[], String[], String)}
      * method with POP3.
+     * 
+     * @throws IOException
      */
     @Test
-    public void testProbeCapabilitiesPOP3() {
+    public void testProbeCapabilitiesPOP3() throws IOException {
         String[] possibleHosts = { "pop-mail.outlook.com" };
         String[] ports = { "110", "995" };
         String protocol = "POP3";
         String result = EmailServerFinder.probeCapabilities(possibleHosts, ports, protocol);
-        System.out.println(result);
         assertNotNull(result);
     }
 }

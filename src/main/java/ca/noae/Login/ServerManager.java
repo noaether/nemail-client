@@ -1,8 +1,8 @@
 package ca.noae.Login;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+
+import javax.naming.TimeLimitExceededException;
 
 import ca.noae.Connections.EmailServerFinder;
 import ca.noae.Objects.CodeElements.Generated;
@@ -31,16 +31,8 @@ public final class ServerManager {
    *         and ports
    * @throws IOException
    */
-  public static String[] getServerArray(final String email) throws IOException {
+  public static String[] getServerArray(final String email) throws TimeLimitExceededException {
     String[] serverArray = new String[6];
-
-    try {
-      String domain = email.substring(email.indexOf("@") + 1);
-      InetAddress inetAddress = InetAddress.getByName(domain);
-      inetAddress.isReachable(2500);
-    } catch (UnknownHostException e) {
-      throw new UnknownHostException("Domain does not exist.");
-    }
 
     try {
       String[] foundServers = EmailServerFinder.check(email);
@@ -50,7 +42,7 @@ public final class ServerManager {
       serverArray[3] = "587"; // SMTP Port
       serverArray[4] = "995"; // POP Port
       serverArray[5] = "993"; // IMAP Port
-    } catch (UnknownHostException e) {
+    } catch (IOException e) {
       serverArray[0] = ConfigManager.getPropOrQuery("smtpServer", "Enter your SMTP server: ");
       serverArray[1] = ConfigManager.getPropOrQuery("popServer", "Enter your POP server: ");
       serverArray[2] = ConfigManager.getPropOrQuery("imapServer", "Enter your IMAP server:");

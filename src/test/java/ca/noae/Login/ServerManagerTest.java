@@ -8,23 +8,28 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.naming.TimeLimitExceededException;
+
 class ServerManagerTest {
 
   @Test
-  void testGetServerArrayWithValidEmail() throws UnknownHostException {
+  void testGetServerArrayWithValidEmail() throws IOException {
     String email = "example@gmail.com";
-    String[] serverArray = ServerManager.getServerArray(email);
-    assertNotNull(serverArray);
-    assertEquals("smtp.gmail.com", serverArray[0]);
-    assertEquals("imap.gmail.com", serverArray[1]);
-    assertEquals("pop.gmail.com", serverArray[2]);
-    assertEquals("587", serverArray[3]);
-    assertEquals("995", serverArray[4]);
-    assertEquals("993", serverArray[5]);
+    assertDoesNotThrow(() -> { // will not throw because gmail is a known host
+      String[] serverArray = ServerManager.getServerArray(email);
+      assertNotNull(serverArray);
+      assertEquals("smtp.gmail.com", serverArray[0]);
+      assertEquals("imap.gmail.com", serverArray[1]);
+      assertEquals("pop.gmail.com", serverArray[2]);
+      assertEquals("587", serverArray[3]);
+      assertEquals("995", serverArray[4]);
+      assertEquals("993", serverArray[5]);
+    });
   }
 
   @Test
@@ -36,13 +41,13 @@ class ServerManagerTest {
 
     // generate a 15char string random
     String generated = new Random().ints(97, 122 + 1)
-    .limit(15)
-    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-    .toString();
+        .limit(15)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
 
     String email = "example@" + generated + ".com";
 
-    assertThrows(UnknownHostException.class, () -> {
+    assertThrows(TimeLimitExceededException.class, () -> {
       ServerManager.getServerArray(email);
     });
   }

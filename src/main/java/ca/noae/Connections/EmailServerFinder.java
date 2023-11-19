@@ -1,6 +1,8 @@
 package ca.noae.Connections;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -83,6 +85,7 @@ public final class EmailServerFinder {
     }
 
     String domain = parts[1].toLowerCase();
+
     String[] servers = EMAIL_PROVIDERS.get(domain);
 
     if (servers != null) {
@@ -210,6 +213,7 @@ public final class EmailServerFinder {
             }
           }
         } catch (IOException ignored) {
+
         }
       }
     }

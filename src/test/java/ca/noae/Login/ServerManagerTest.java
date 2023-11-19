@@ -8,12 +8,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import java.net.UnknownHostException;
+import java.util.Random;
 import java.util.Scanner;
 
 class ServerManagerTest {
 
   @Test
-  void testGetServerArrayWithValidEmail() {
+  void testGetServerArrayWithValidEmail() throws UnknownHostException {
     String email = "example@gmail.com";
     String[] serverArray = ServerManager.getServerArray(email);
     assertNotNull(serverArray);
@@ -26,15 +28,23 @@ class ServerManagerTest {
   }
 
   @Test
-  void testGetServerArrayWithInvalidEmail() {
+  void testGetServerArrayWithInvalidEmail() throws UnknownHostException {
     Scanner scanner = Mockito.mock(Scanner.class);
     assertDoesNotThrow(() -> {
       ConfigManager.initConfigManager(scanner, "app.properties");
     });
-    String email = "example@non-existent-domain.com";
-    String[] serverArray = ServerManager.getServerArray(email);
 
-    assertNotNull(serverArray);
+    // generate a 15char string random
+    String generated = new Random().ints(97, 122 + 1)
+    .limit(15)
+    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+    .toString();
+
+    String email = "example@" + generated + ".com";
+
+    assertThrows(UnknownHostException.class, () -> {
+      ServerManager.getServerArray(email);
+    });
   }
 
   @Test

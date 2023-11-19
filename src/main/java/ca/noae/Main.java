@@ -78,6 +78,12 @@ public final class Main {
                         case 1 -> {
                             System.out.print("Enter the number of the message you want to read: ");
                             int readMessageOption = scanner.nextInt();
+
+                            if (readMessageOption == -1) {
+                                cleanQuit = -1;
+                                break;
+                            }
+
                             Utils.displayMessage(readMessageOption, latestMessages);
 
                             // Go back to list of emails, reply, or quit

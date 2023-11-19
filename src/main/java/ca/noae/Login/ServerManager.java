@@ -1,5 +1,7 @@
 package ca.noae.Login;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import ca.noae.Connections.EmailServerFinder;
@@ -27,9 +29,18 @@ public final class ServerManager {
    * @param email the email address to find server information for
    * @return an array of six strings containing the SMTP, POP, and IMAP servers
    *         and ports
+   * @throws IOException
    */
-  public static String[] getServerArray(final String email) {
+  public static String[] getServerArray(final String email) throws IOException {
     String[] serverArray = new String[6];
+
+    try {
+      String domain = email.substring(email.indexOf("@") + 1);
+      InetAddress inetAddress = InetAddress.getByName(domain);
+      inetAddress.isReachable(2500);
+    } catch (UnknownHostException e) {
+      throw new UnknownHostException("Domain does not exist.");
+    }
 
     try {
       String[] foundServers = EmailServerFinder.check(email);

@@ -1,5 +1,6 @@
 package ca.noae.Login;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import ca.noae.Objects.UserInfo;
@@ -24,8 +25,9 @@ public final class Login {
    * @param scanner the Scanner object to use for input
    * @return a UserInfo object containing the user's email, password, selected
    *         mailbox, and server information
+   * @throws IOException
    */
-  public static UserInfo startAuthentication(final Scanner scanner) {
+  public static UserInfo startAuthentication(final Scanner scanner) throws IOException {
     String email = ConfigManager.getPropOrQuery("email");
     String password = ConfigManager.getPropOrQuery("password");
     String mailboxInt = ConfigManager.getPropOrQuery("mailbox",

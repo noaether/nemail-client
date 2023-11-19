@@ -49,7 +49,7 @@ public final class FileHandler {
         String[] info = {message.getSubject(), message.getFrom()[0].toString(), message.getSentDate().toString()};
         String filename = new StringBuilder().append(info[0]).append(" ").append(info[1]).append(" ").append(info[2]).append(".eml").toString();
         // make sure windows doesnt freak out
-        filename = filename.replace(":", "-");
+        filename = filename.replaceAll("[\\\\/:*?\"<>|]", "-");
 
         return filename;
     }

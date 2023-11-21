@@ -65,11 +65,6 @@ public class EmailServerFinderTest {
         assertNotNull(result);
     }
 
-    @Test
-    public void testProbeSMTPServerNull() {
-        
-    }
-
     /**
      * Tests the
      * {@link EmailServerFinder#probeCapabilities(String[], String[], String)}

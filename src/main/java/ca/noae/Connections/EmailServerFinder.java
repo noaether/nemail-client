@@ -33,6 +33,11 @@ public final class EmailServerFinder {
    */
   private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
 
+  /**
+   *
+   * Initializes the CAPA_MAP and EMAIL_PROVIDERS maps.
+   *
+   */
   public static void initMaps() {
     CAPA_MAP.put("IMAP", new String[] {
         "IMAP4rev1", "IMAP4", "IMAP", "OK"

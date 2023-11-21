@@ -84,7 +84,7 @@ public final class FileHandlerTest {
   public void testGetFileName() throws MessagingException {
     // Create a test message
     Properties props = new Properties();
-    Message testMessage = new MimeMessage(Session.getDefaultInstance(props));
+    testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setSubject("Test Subject");
     testMessage.setFrom(new javax.mail.internet.InternetAddress("john@foo.bar"));
     testMessage.setSentDate(cal.getTime());
@@ -95,8 +95,8 @@ public final class FileHandlerTest {
     // Format should be "Test Subject john@foo.bar Fri Aug 27 09-54-00 EDT
     // 2021.eml", call methods to get info into string
     String expectedFileName =
-      subject + " " 
-      + testMessage.getFrom()[0].toString() 
+      subject + " "
+      + testMessage.getFrom()[0].toString()
       + " " + testMessage.getSentDate().toString().replace(":", "-")
       + ".eml";
 

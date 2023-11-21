@@ -7,22 +7,15 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 
-import java.io.IOException;
-import java.lang.Exception;
 import java.net.UnknownHostException;
 
 import javax.naming.TimeLimitExceededException;
@@ -53,7 +46,7 @@ public class EmailServerFinderTest {
   }
 
   @Nested
-  class testCheck {
+  class TestCheck {
     @Test
     public void testCheckAutodetect_inMap() {
       String email = "john.doe@gmail.com";
@@ -148,7 +141,7 @@ public class EmailServerFinderTest {
   }
 
   @Nested
-  class testCheckResponse {
+  class TestCheckResponse {
     @Test
     public void testCheckResponseSMTP() {
       String[] responses = new String[] {
@@ -188,7 +181,7 @@ public class EmailServerFinderTest {
   }
 
   @Nested
-  class testGetCommand {
+  class TestGetCommand {
     @Test
     public void testGetCommandSMTP() {
       assertEquals("EHLO localhost\r\n", EmailServerFinder.getCommand("SMTP"));
@@ -211,7 +204,7 @@ public class EmailServerFinderTest {
   }
 
   @Nested
-  class testProbePorts {
+  class TestProbePorts {
     @Test
     public void testProbeSMTPPorts() {
       String[] possibleHosts = new String[] {
@@ -259,7 +252,7 @@ public class EmailServerFinderTest {
   }
 
   @Nested
-  class testProbeCapabilities {
+  class TestProbeCapabilities {
     @Test
     public void testProbeCapabilitiesSMTP() {
       String[] possibleHosts = new String[] {

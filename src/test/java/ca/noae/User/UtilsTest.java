@@ -96,7 +96,7 @@ public class UtilsTest {
         // Call the method under test
         Utils.displayMessage(1, latestMessages);
 
-        if(System.getProperty("os.name").contains("Windows")) {
+        if (System.getProperty("os.name").contains("Windows")) {
         assertEquals(
                 "------------------------------------------------\r\n"
                 + "Message: 1\r\n"

@@ -136,7 +136,7 @@ public final class EmailServerFinder {
     String[] possiblePOP3Hosts = {
         "pop." + domain, "pop3." + domain };
 
-    if(domain.equals("localhost")) {
+    if (domain.equals("localhost")) {
       possibleSMTPHosts = new String[] { "localhost" };
       possibleIMAPHosts = new String[] { "localhost" };
       possiblePOP3Hosts = new String[] { "localhost" };

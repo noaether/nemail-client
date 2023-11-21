@@ -1,15 +1,19 @@
 package ca.noae.Connections;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -19,6 +23,7 @@ import com.icegreen.greenmail.util.ServerSetup;
 
 import java.io.IOException;
 import java.lang.Exception;
+import java.net.UnknownHostException;
 
 import javax.naming.TimeLimitExceededException;
 
@@ -26,8 +31,8 @@ public class EmailServerFinderTest {
 
   private static GreenMail greenMail;
 
-  @BeforeAll
-  static void setUp() {
+  @BeforeEach
+  void setUp() {
     EmailServerFinder.initMaps();
 
     int smtpPort = 9000;
@@ -42,21 +47,84 @@ public class EmailServerFinderTest {
     greenMail.start();
   }
 
-
-  @AfterAll
-  static void tearDown() {
+  @AfterEach
+  void tearDown() {
     greenMail.stop();
   }
 
   @Nested
   class testCheck {
     @Test
-    public void testCheckValidEmail() throws Exception {
+    public void testCheckAutodetect_inMap() {
       String email = "john.doe@gmail.com";
-      String[] servers = EmailServerFinder.check(email);
-      assertNotNull(servers[0]);
-      assertNotNull(servers[1]);
-      assertNotNull(servers[2]);
+      assertDoesNotThrow(() -> {
+        String[] servers = EmailServerFinder.check(email);
+        assertNotNull(servers[0]);
+        assertNotNull(servers[1]);
+        assertNotNull(servers[2]);
+      });
+    }
+
+    @Test
+    public void testCheckAutodetect_notInMap() {
+      String email = "john.doe@migadu.com";
+
+      assertDoesNotThrow(() -> {
+        String[] servers = EmailServerFinder.check(email);
+
+        assertEquals("smtp.migadu.com", servers[0]);
+        assertEquals("imap.migadu.com", servers[1]);
+        assertEquals("pop.migadu.com", servers[2]);
+      });
+    }
+
+    @Test
+    public void testCheckAutodetect_noSMTP() {
+      greenMail.getSmtp().stopService();
+
+      String email = "test@localhost";
+      assertThrows(UnknownHostException.class, () -> {
+        EmailServerFinder.check(email);
+      });
+    }
+
+    @Test
+    public void testCheckAutodetect_noPOP() {
+      greenMail.getPop3().stopService();
+
+      String email = "test@localhost";
+      assertDoesNotThrow(() -> {
+        String[] servers = EmailServerFinder.check(email);
+        String[] expected = new String[] {
+            "localhost", null, "localhost"
+        };
+        assertArrayEquals(expected, servers);
+      });
+    }
+
+    @Test
+    public void testCheckAutodetect_noIMAP() {
+      greenMail.getImap().stopService();
+
+      String email = "test@localhost";
+      assertDoesNotThrow(() -> {
+        String[] servers = EmailServerFinder.check(email);
+        String[] expected = new String[] {
+            "localhost", "localhost", null
+        };
+        assertArrayEquals(expected, servers);
+      });
+    }
+
+    @Test
+    public void testCheckAutodetect_noPOPnoIMAP() {
+      greenMail.getPop3().stopService();
+      greenMail.getImap().stopService();
+
+      String email = "test@localhost";
+      assertThrows(UnknownHostException.class, () -> {
+        EmailServerFinder.check(email);
+      });
     }
 
     /**
@@ -76,15 +144,6 @@ public class EmailServerFinderTest {
       assertThrows(TimeLimitExceededException.class, () -> {
         EmailServerFinder.check(email);
       });
-    }
-
-    @Test
-    public void testCheckAutodetect() throws TimeLimitExceededException, IllegalArgumentException, IOException {
-      String email = "john.doe@migadu.com";
-      String[] servers = EmailServerFinder.check(email);
-
-      assertEquals("smtp.migadu.com", servers[0]);
-      assertEquals("imap.migadu.com", servers[1]);
     }
   }
 

@@ -69,23 +69,28 @@ public final class EmailServerFinder {
         "noae.ca", new String[] {
             "smtp.migadu.com", "imap.migadu.com", "pop.migadu.com"
         });
+    EMAIL_PROVIDERS.put(
+        "example.com", new String[] {
+            "localhost", "localhost", "localhost"
+        });
   }
 
   /** The SMTP ports to check. */
   private static final String[] SMTP_PORTS = {
-      "25", "465", "587" };
+      "25", "465", "587", "9000" };
 
   /** The IMAP ports to check. */
   private static final String[] IMAP_PORTS = {
-      "143", "993" };
+      "143", "993", "10000" };
 
   /** The POP3 ports to check. */
   private static final String[] POP3_PORTS = {
-      "110", "995" };
+      "110", "995", "11000" };
 
   /**
    *
-   * Checks the email server connectivity and identifies the appropriate SMTP, IMAP or POP3 servers for a given email address.
+   * Checks the email server connectivity and identifies the appropriate SMTP,
+   * IMAP or POP3 servers for a given email address.
    *
    * @param email the email address to check the servers for.
    * @return an array of string containing the SMTP server name, IMAP server name
@@ -127,9 +132,15 @@ public final class EmailServerFinder {
     String[] possibleSMTPHosts = {
         "smtp." + domain, "mail." + domain };
     String[] possibleIMAPHosts = {
-        "imap." + domain, "mail." + domain};
+        "imap." + domain, "mail." + domain };
     String[] possiblePOP3Hosts = {
-        "pop." + domain, "pop3." + domain};
+        "pop." + domain, "pop3." + domain };
+
+    if(domain.equals("localhost")) {
+      possibleSMTPHosts = new String[] { "localhost" };
+      possibleIMAPHosts = new String[] { "localhost" };
+      possiblePOP3Hosts = new String[] { "localhost" };
+    }
 
     // Probe known ports
     String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS) == null
@@ -161,11 +172,12 @@ public final class EmailServerFinder {
       respStrings[2] = pop3Server;
     }
 
-    if (respStrings.length == 3) {
-      return respStrings;
+    // no need to check for smtp, since it would've thrown an error already
+    if (respStrings[1] == null && respStrings[2] == null) {
+      throw new UnknownHostException("IMAP and POP3 servers not found.");
     }
 
-    throw new UnknownHostException("IMAP and POP3 servers not found.");
+    return respStrings;
   }
 
   /**

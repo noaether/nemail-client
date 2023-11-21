@@ -52,7 +52,10 @@ public final class ConfigManager {
   public static String getPropOrQuery(final String prop) {
     if (props == null) {
       System.out.print("Enter your " + prop + ": ");
-      return scanner.nextLine();
+
+      String input = scanner.nextLine();
+
+      return input.isBlank() ? getPropOrQuery(prop) : input;
     } else {
       String configOrQuery = props.getProperty(prop);
       System.out.print(

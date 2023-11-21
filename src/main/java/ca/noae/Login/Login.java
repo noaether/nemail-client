@@ -32,9 +32,25 @@ public final class Login {
    */
   public static UserInfo startAuthentication(final Scanner scanner) throws IOException {
     String email = ConfigManager.getPropOrQuery("email");
+
+    while (!isValidEmail(email)) {
+      System.out.println("Invalid email address. Please check your information and try again.");
+      ConsoleUI.clearScreen();
+      email = ConfigManager.getPropOrQuery("email", "Invalid input. Enter your email: ");
+    }
+
     String password = ConfigManager.getPropOrQuery("password");
+
     String mailboxInt = ConfigManager.getPropOrQuery("mailbox",
         "Select a mailbox:\n1. Inbox\n2. Sent\n3. Trash\nEnter your selection: ");
+
+    while (!isValidOption(mailboxInt, new String[] { "1", "2", "3" })) {
+      System.out.println("Invalid option. Please check your information and try again.");
+      ConsoleUI.clearScreen();
+      mailboxInt = ConfigManager.getPropOrQuery("mailbox",
+          "Select a mailbox:\n1. Inbox\n2. Sent\n3. Trash\nEnter your selection: ");
+    }
+
     String mailbox = mailboxInt.equals("1") ? "inbox"
         : mailboxInt.equals("2") ? "sent" : mailboxInt.equals("3") ? "trash" : "inbox";
 
@@ -48,5 +64,31 @@ public final class Login {
       ConsoleUI.clearScreen();
       return startAuthentication(scanner);
     }
+  }
+
+  /**
+   * Checks if the given string is a valid email address.
+   *
+   * @param email the email address to check
+   * @return true if the email address is valid, false otherwise
+   */
+  public static boolean isValidEmail(final String email) {
+    return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+  }
+
+  /**
+   * Checks if the given string is a valid option.
+   *
+   * @param chosen  the option to check
+   * @param options the list of valid options
+   * @return true if the option is valid, false otherwise
+   */
+  public static boolean isValidOption(final String chosen, final String[] options) {
+    for (String option : options) {
+      if (chosen.equals(option)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

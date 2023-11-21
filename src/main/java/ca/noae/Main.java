@@ -25,7 +25,7 @@ public final class Main {
      * This is a utility class containing only static methods and cannot be
      * instantiated.
      */
-    @Generated({"Utility class cannot be instantiated"})
+    @Generated({ "Utility class cannot be instantiated" })
     private Main() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
@@ -44,6 +44,8 @@ public final class Main {
      */
     public static void main(final String[] args) throws IOException {
         try (Scanner scanner = new Scanner(System.in)) {
+            ConsoleUI.clearScreen();
+
             // Initialize
             ConfigManager.initConfigManager(scanner, "app.properties");
             UserInfo user = Login.startAuthentication(scanner);
@@ -122,7 +124,8 @@ public final class Main {
                                         forwardMessage = scanner.nextLine();
                                     } while (forwardMessage.isEmpty());
 
-                                    String filename = FileHandler.saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
+                                    String filename = FileHandler
+                                            .saveEmail(Mailbox.getMessages()[readMessageOption - 1]);
 
                                     // Send the email
                                     EmailClient.sendEmail(forwardAddress, user.getEmailAddress(),

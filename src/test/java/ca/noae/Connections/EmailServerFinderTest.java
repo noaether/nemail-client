@@ -20,8 +20,12 @@ import java.net.UnknownHostException;
 
 import javax.naming.TimeLimitExceededException;
 
+@SuppressWarnings("checkstyle:designforextension")
 public class EmailServerFinderTest {
 
+  /**
+   * The GreenMail object to be used in the tests.
+   */
   private static GreenMail greenMail;
 
   @BeforeEach
@@ -48,7 +52,7 @@ public class EmailServerFinderTest {
   @Nested
   class TestCheck {
     @Test
-    public void testCheckAutodetect_inMap() {
+    public void testCheckAutodetectInMap() {
       String email = "john.doe@gmail.com";
       assertDoesNotThrow(() -> {
         String[] servers = EmailServerFinder.check(email);
@@ -59,7 +63,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckAutodetect_notInMap() {
+    public void testCheckAutodetectNotInMap() {
       String email = "john.doe@migadu.com";
 
       assertDoesNotThrow(() -> {
@@ -72,7 +76,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckAutodetect_noSMTP() {
+    public void testCheckAutodetectNoSMTP() {
       greenMail.getSmtp().stopService();
 
       String email = "test@localhost";
@@ -82,7 +86,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckAutodetect_noPOP() {
+    public void testCheckAutodetectNoPOP() {
       greenMail.getPop3().stopService();
 
       String email = "test@localhost";
@@ -96,7 +100,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckAutodetect_noIMAP() {
+    public void testCheckAutodetectNoIMAP() {
       greenMail.getImap().stopService();
 
       String email = "test@localhost";
@@ -110,7 +114,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckAutodetect_noPOPnoIMAP() {
+    public void testCheckAutodetectNoPOPnoIMAP() {
       greenMail.getPop3().stopService();
       greenMail.getImap().stopService();
 
@@ -239,7 +243,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testProbePorts_NULL() {
+    public void testProbePortsNULL() {
       String[] possibleHosts = new String[] {
           "notahost.bullshit"
       };
@@ -296,7 +300,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testProbeCapabilities_NULL() {
+    public void testProbeCapabilitiesNULL() {
       String[] possibleHosts = new String[] {
           "notahost.bullshit"
       };

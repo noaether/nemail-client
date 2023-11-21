@@ -13,7 +13,7 @@ public final class ServerManager {
    * This is a utility class containing only static methods and cannot be
    * instantiated.
    */
-  @Generated({"Utility class cannot be instantiated"})
+  @Generated({ "Utility class cannot be instantiated" })
   private ServerManager() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
   }

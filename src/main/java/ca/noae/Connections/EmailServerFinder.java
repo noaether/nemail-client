@@ -28,7 +28,12 @@ public final class EmailServerFinder {
    */
   private static final Map<String, String[]> CAPA_MAP = new HashMap<>();
 
-  static {
+  /**
+   * A mapping of email domains to arrays of their associated servers.
+   */
+  private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
+
+  public static void initMaps() {
     CAPA_MAP.put("IMAP", new String[] {
         "IMAP4rev1", "IMAP4", "IMAP", "OK"
     });
@@ -38,16 +43,7 @@ public final class EmailServerFinder {
     CAPA_MAP.put("POP3", new String[] {
         "STLS", "OK"
     });
-  }
 
-  /**
-   *
-   * A mapping of email provider names to arrays of their associated email server
-   * hosts and ports.
-   */
-  private static final Map<String, String[]> EMAIL_PROVIDERS = new HashMap<>();
-
-  static {
     EMAIL_PROVIDERS.put(
         "gmail.com", new String[] {
             "smtp.gmail.com", "imap.gmail.com", "pop.gmail.com"
@@ -84,8 +80,7 @@ public final class EmailServerFinder {
 
   /**
    *
-   * Checks the email server connectivity and identifies the appropriate SMTP and
-   * IMAP servers for a given email address.
+   * Checks the email server connectivity and identifies the appropriate SMTP, IMAP or POP3 servers for a given email address.
    *
    * @param email the email address to check the servers for.
    * @return an array of string containing the SMTP server name, IMAP server name
@@ -112,10 +107,6 @@ public final class EmailServerFinder {
       String imapServer = servers[1];
       String pop3Server = servers[2];
 
-      System.out.println("SMTP server: " + smtpServer);
-      System.out.println("IMAP server: " + imapServer);
-      System.out.println("POP3 server: " + pop3Server);
-
       return new String[] { smtpServer, imapServer, pop3Server };
     } // from now on, servers[] has nothing inside - domain cannot be autodetected or
       // doesnt exist
@@ -131,27 +122,22 @@ public final class EmailServerFinder {
     String[] possibleSMTPHosts = {
         "smtp." + domain, "mail." + domain };
     String[] possibleIMAPHosts = {
-        "imap." + domain, "mail." + domain, "pop." + domain, "pop3." + domain };
+        "imap." + domain, "mail." + domain};
     String[] possiblePOP3Hosts = {
-        "pop." + domain, "pop3." + domain, "imap." + domain, "mail." + domain };
+        "pop." + domain, "pop3." + domain};
 
     // Probe known ports
-    String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS);
-    String imapServer = probePorts(possibleIMAPHosts, IMAP_PORTS);
-    String pop3Server = probePorts(possiblePOP3Hosts, POP3_PORTS);
+    String smtpServer = probePorts(possibleSMTPHosts, SMTP_PORTS) == null
+        ? probeCapabilities(possibleSMTPHosts, SMTP_PORTS, "SMTP")
+        : probePorts(possibleSMTPHosts, SMTP_PORTS);
 
-    // Try to open connections and check capabilities
-    if (smtpServer == null) {
-      smtpServer = probeCapabilities(possibleSMTPHosts, SMTP_PORTS, "SMTP");
-    }
+    String imapServer = probePorts(possibleIMAPHosts, IMAP_PORTS) == null
+        ? probeCapabilities(possibleIMAPHosts, IMAP_PORTS, "IMAP")
+        : probePorts(possibleIMAPHosts, IMAP_PORTS);
 
-    if (imapServer == null) {
-      imapServer = probeCapabilities(possibleIMAPHosts, IMAP_PORTS, "IMAP");
-    }
-
-    if (pop3Server == null) {
-      pop3Server = probeCapabilities(possiblePOP3Hosts, POP3_PORTS, "POP3");
-    }
+    String pop3Server = probePorts(possiblePOP3Hosts, POP3_PORTS) == null
+        ? probeCapabilities(possiblePOP3Hosts, POP3_PORTS, "POP3")
+        : probePorts(possiblePOP3Hosts, POP3_PORTS);
 
     if (smtpServer != null) {
       System.out.println("SMTP server: " + smtpServer);
@@ -165,9 +151,7 @@ public final class EmailServerFinder {
       respStrings[1] = imapServer;
       respStrings[2] = imapServer;
       return respStrings;
-    }
-
-    if (pop3Server != null) {
+    } else if (pop3Server != null) {
       System.out.println("POP3 server: " + pop3Server);
       respStrings[1] = pop3Server;
       respStrings[2] = pop3Server;
@@ -254,7 +238,7 @@ public final class EmailServerFinder {
    * @return the command to be sent over the socket, or null if protocol is
    *         invalid
    */
-  private static String getCommand(final String protocol) {
+  public static String getCommand(final String protocol) {
     if (protocol.equals("IMAP")) {
       return "a001 CAPABILITY\r\n";
     } else if (protocol.equals("SMTP")) {
@@ -276,7 +260,7 @@ public final class EmailServerFinder {
    * @return {@code true} if the response contains the expected capabilities for
    *         the given protocol, {@code false} otherwise
    */
-  private static boolean checkResponse(final String protocol, final String response) {
+  public static boolean checkResponse(final String protocol, final String response) {
 
     for (String capability : CAPA_MAP.get(protocol)) {
       if (response.contains(capability)) {
@@ -284,18 +268,6 @@ public final class EmailServerFinder {
       }
     }
 
-    /*
-     * if (protocol.equals("IMAP")) {
-     * return response.contains("IMAP4rev1") || response.contains("IMAP4")
-     * || response.contains("IMAP") || response.contains("OK");
-     * } else if (protocol.equals("SMTP")) {
-     * return response.contains("250-STARTTLS")
-     * || response.contains("250 STARTTLS") || response.contains("220")
-     * || response.contains("ESMTP MAIL");
-     * } else if (protocol.equals("POP3")) {
-     * return response.contains("STLS") || response.contains("OK");
-     * }
-     */
     return false;
   }
 }

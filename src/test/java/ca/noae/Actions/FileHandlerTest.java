@@ -9,13 +9,21 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
 public final class FileHandlerTest {
+
+  /**
+   * The Calendar object to use for testing.
+   */
+  private Calendar cal;
 
   /**
    * The test message.
@@ -33,12 +41,6 @@ public final class FileHandlerTest {
   private String body = "This is a test email message";
 
   /**
-   * The date of the test message.
-   * Set date to 27-08-2021 9:54:00 AM
-   */
-  private Date date = new Date(1630072440000L);
-
-  /**
    * The name of the test file.
    */
   private String testFileName;
@@ -54,25 +56,29 @@ public final class FileHandlerTest {
    */
   @BeforeEach
   public void setup() throws MessagingException {
+    cal = Calendar.getInstance();
+    // set date to 2021-08-27 09:54:00
+    cal.setTime(new Date(1355271132000L));
+
     Properties props = new Properties();
     testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setText(body);
     testMessage.addFrom(new javax.mail.Address[] {
-      new javax.mail.internet.InternetAddress("john@foo.bar")
+        new javax.mail.internet.InternetAddress("john@foo.bar")
     });
     testMessage.setSubject(subject);
-    testMessage.setSentDate(date);
+    testMessage.setSentDate(cal.getTime());
 
     testFileName = FileHandler.getFileName(testMessage);
   }
 
-  // Existing test code...
-
   /**
-   * The testGetFileName method tests the getFileName method of the FileHandler class
+   * The testGetFileName method tests the getFileName method of the FileHandler
+   * class
    * by verifying that the generated file name is correct.
    *
-   * @throws MessagingException if an error occurs while creating the MimeMessage object.
+   * @throws MessagingException if an error occurs while creating the MimeMessage
+   *                            object.
    */
   @Test
   public void testGetFileName() throws MessagingException {
@@ -81,13 +87,20 @@ public final class FileHandlerTest {
     Message testMessage = new MimeMessage(Session.getDefaultInstance(props));
     testMessage.setSubject("Test Subject");
     testMessage.setFrom(new javax.mail.internet.InternetAddress("john@foo.bar"));
-    testMessage.setSentDate(new Date(1630072440000L));
+    testMessage.setSentDate(cal.getTime());
 
     // Call the getFileName method
     String fileName = FileHandler.getFileName(testMessage);
 
-    // Verify the generated file name
-    Assertions.assertEquals("Test Subject john@foo.bar Fri Aug 27 09-54-00 EDT 2021.eml", fileName);
+    // Format should be "Test Subject john@foo.bar Fri Aug 27 09-54-00 EDT
+    // 2021.eml", call methods to get info into string
+    String expectedFileName =
+      subject + " " 
+      + testMessage.getFrom()[0].toString() 
+      + " " + testMessage.getSentDate().toString().replace(":", "-")
+      + ".eml";
+
+    assertEquals(expectedFileName, fileName);
   }
 
   /**

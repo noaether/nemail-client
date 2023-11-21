@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.IOException;
 
@@ -64,6 +63,11 @@ public class EmailServerFinderTest {
         String protocol = "SMTP";
         String result = EmailServerFinder.probeCapabilities(possibleHosts, ports, protocol);
         assertNotNull(result);
+    }
+
+    @Test
+    public void testProbeSMTPServerNull() {
+        
     }
 
     /**

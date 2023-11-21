@@ -154,12 +154,14 @@ public final class EmailServerFinder {
     if (imapServer != null) {
       System.out.println("IMAP server: " + imapServer);
       respStrings[1] = imapServer;
-      respStrings[2] = imapServer;
-      return respStrings;
-    } else if (pop3Server != null) {
+    }
+
+    if (pop3Server != null) {
       System.out.println("POP3 server: " + pop3Server);
-      respStrings[1] = pop3Server;
       respStrings[2] = pop3Server;
+    }
+
+    if (respStrings.length == 3) {
       return respStrings;
     }
 

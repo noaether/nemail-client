@@ -177,7 +177,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testCheckResponse_NULL() {
+    public void testCheckResponseNULL() {
       assertThrows(NullPointerException.class, () -> {
         EmailServerFinder.checkResponse("NULL", "NULL");
       });
@@ -202,7 +202,7 @@ public class EmailServerFinderTest {
     }
 
     @Test
-    public void testGetCommand_NULL() {
+    public void testGetCommandNULL() {
       assertNull(EmailServerFinder.getCommand("NULL"));
     }
   }
